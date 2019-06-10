@@ -12,7 +12,7 @@ rm -fr ~/.vim/pack/${username}/start/*
 cp vimrc ~/.vimrc
 cp -fr plugins/* ~/.vim/pack/${username}/start/
 cp -fr after/* ~/.vim/after/
-cp -fr autload ~/.vim/autoload/
+cp -fr autoload ~/.vim/autoload/
 
 # Custom code for packages
 cd ~/.vim/pack/so/start/LanguageClient-neovim/
