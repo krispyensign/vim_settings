@@ -43,9 +43,6 @@
 [submodule "plugins/vim-autoformat"]
 	path = plugins/vim-autoformat
 	url = https://github.com/Chiel92/vim-autoformat
-[submodule "plugins/vim-colorschemes"]
-	path = plugins/vim-colorschemes
-	url = https://github.com/flazz/vim-colorschemes
 [submodule "plugins/vim-fugitive"]
 	path = plugins/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
@@ -64,3 +61,21 @@
 [submodule "plugins/vimf90"]
 	path = plugins/vimf90
 	url = https://github.com/rudrab/vimf90
+[submodule "plugins/deoplete-jedi"]
+	path = plugins/deoplete-jedi
+	url = https://github.com/deoplete-plugins/deoplete-jedi
+[submodule "plugins/deoplete-rust"]
+	path = plugins/deoplete-rust
+	url = https://github.com/sebastianmarkow/deoplete-rust
+[submodule "plugins/rainbow"]
+	path = plugins/rainbow
+	url = https://github.com/luochen1990/rainbow
+[submodule "plugins/vim-cmake"]
+	path = plugins/vim-cmake
+	url = https://github.com/vhdirk/vim-cmake
+[submodule "plugins/vim-cmake-syntax"]
+	path = plugins/vim-cmake-syntax
+	url = https://github.com/nickhutchinson/vim-cmake-syntax
+[submodule "plugins/gruvbox"]
+	path = plugins/gruvbox
+	url = https://github.com/morhetz/gruvbox

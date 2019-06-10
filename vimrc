@@ -1,11 +1,9 @@
 set nocompatible              " be iMproved, required
-
 syntax on
-
-set encoding=utf8
-set t_ut=
 set t_Co=256
 set background=dark
+set encoding=utf8
+set t_ut=
 set nowrap
 set tabstop=2
 set shiftwidth=2
@@ -16,26 +14,26 @@ set foldnestmax=10
 set nofoldenable
 set foldlevel=2
 set signcolumn=yes
+set hidden
+set backspace=indent,eol,start
+set guioptions-=T,e,r,L
 set ttyfast
 set showmatch
 set cmdheight=2
-set hidden
-set guioptions-=T
 set noshowmode
 set switchbuf+=usetab,newtab
 set guifont=SourceCodeProForPowerline-Bold:h14
-
 colorscheme gruvbox              " set color scheme
-
 filetype plugin indent on
-
-autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 " Set color column to light grey
 if (exists('+colorcolumn'))
   set colorcolumn=120
   highlight ColorColumn ctermbg=9
 endif
+
+" Enable control - w to open a new buffer in quickfix
+autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
@@ -71,6 +69,8 @@ let g:echodoc#type = "virtual"
 " Highlight settings
 let java_highlight_all = 1
 let java_highlight_functions = 1
+let python_highlight_all = 1
+let rust_highlight_all = 1
 
 " FZF settings
 set rtp+=/usr/local/opt/fzf
@@ -86,6 +86,14 @@ if 'VIRTUAL_ENV' in os.environ:
         exec(f.read(), {'__file__': activate_this})
 EOF
 
+"Additional enhanced cpp highlighting settings
+let cpp_highlight_all = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_scope_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+let g:cpp_concepts_highlight = 1
+
 " Rainbow settings
 let g:rainbow_active = 1
 let g:rainbow_conf = { 'ctermfgs': [27, 142, 'magenta', 'cyan'] }
@@ -99,17 +107,27 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " Deoplete configurations
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_delay = 100
+let g:deoplete#auto_refresh_delay = 100
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+set completeopt+=preview
 
 " Tagbar settings
 let g:tagbar_map_showproto = 'P'
 
 " Language client settings
+let g:LanguageClient_loggingLevel = 'DEBUG'
+let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
+let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 let g:LanguageClient_serverCommands = {
     \ 'java': ['~/bin/java-lsp.sh']
+    \ 'python': ['pyls'],
+    \ 'cpp': ['clangd-7'],
     \ }
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 let g:LanguageClient_rootMarkers = {
     \ 'java': ['gradlew'],
+    \ 'cpp': ['compile_commands.json'],
     \ }
 
 " Syntastic settings
@@ -121,7 +139,10 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_python_checkers = ['pylint', 'pycodestyle', 'mypy']
+let g:syntastic_python_mypy_args = ['--ignore-missing-import']
+let g:syntastic_rust_checkers = ['cargo']
 let g:syntastic_cpp_checkers = [' ']
 let g:syntastic_java_checkers = [' ']
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
