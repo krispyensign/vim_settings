@@ -28,7 +28,7 @@ set switchbuf+=usetab,newtab
 if has('macunix')
   set guifont=SourceCodeProForPowerline-Bold:h14
 elseif has('unix')
-  set guifont=Hack\ Bold\ 12
+  set guifont=Source\ Code\ Pro\ for\ Powerline\ Bold\ 9
 endif
 
 colorscheme gruvbox              " set color scheme
@@ -72,10 +72,9 @@ let g:echodoc_enable_at_startup = 1
 let g:echodoc#type = "virtual"
 
 " Highlight settings
-" let java_highlight_all = 1
-" let java_highlight_functions = 1
 let python_highlight_all = 1
 let rust_highlight_all = 1
+let cpp_highlight_all = 1
 
 " FZF settings
 set rtp+=/usr/local/opt/fzf
@@ -90,14 +89,6 @@ if 'VIRTUAL_ENV' in os.environ:
     with open(activate_this) as f:
         exec(f.read(), {'__file__': activate_this})
 EOF
-
-"Additional enhanced cpp highlighting settings
-let g:cpp_highlight_all = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_scope_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-let g:cpp_concepts_highlight = 1
 
 "TagHL settings
 if ! exists('g:TagHighlightSettings')
@@ -115,7 +106,7 @@ let g:airline_theme = 'badwolf'
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#show_buffers = 0
 
 " Deoplete configurations
 let g:deoplete#enable_at_startup = 1
