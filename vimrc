@@ -25,7 +25,12 @@ set showmatch
 set cmdheight=2
 set noshowmode
 set switchbuf+=usetab,newtab
-set guifont=Hack\ Bold\ 10
+if has('macunix')
+  set guifont=SourceCodeProForPowerline-Bold:h14
+elseif has('unix')
+  set guifont=Hack\ Bold\ 12
+endif
+
 colorscheme gruvbox              " set color scheme
 filetype plugin indent on
 
@@ -34,9 +39,6 @@ if (exists('+colorcolumn'))
   set colorcolumn=120
   highlight ColorColumn ctermbg=9
 endif
-
-" Enable control - w to open a new buffer in quickfix
-autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
@@ -70,8 +72,8 @@ let g:echodoc_enable_at_startup = 1
 let g:echodoc#type = "virtual"
 
 " Highlight settings
-let java_highlight_all = 1
-let java_highlight_functions = 1
+" let java_highlight_all = 1
+" let java_highlight_functions = 1
 let python_highlight_all = 1
 let rust_highlight_all = 1
 
@@ -90,7 +92,7 @@ if 'VIRTUAL_ENV' in os.environ:
 EOF
 
 "Additional enhanced cpp highlighting settings
-let cpp_highlight_all = 1
+let g:cpp_highlight_all = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_scope_highlight = 1
 let g:cpp_class_decl_highlight = 1
@@ -113,11 +115,12 @@ let g:airline_theme = 'badwolf'
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#show_buffers = 1
 
 " Deoplete configurations
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_delay = 100
-let g:deoplete#auto_refresh_delay = 100
+let g:deoplete#auto_complete_delay = 1000
+let g:deoplete#auto_refresh_delay = 1000
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 set completeopt+=preview
 
