@@ -30,7 +30,7 @@ if has('macunix')
   " FZF settings
   set rtp+=/usr/local/opt/fzf
 elseif has('unix')
-  set guifont=Source\ Code\ Pro\ for\ Powerline\ Bold\ 10
+  set guifont=Cousine\ for\ Powerline\ Bold\ 10
   " FZF settings
   set rtp+=~/.fzf
 endif
@@ -139,7 +139,7 @@ let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.l
 let g:LanguageClient_serverCommands = {
     \ 'java': ['~/bin/java-lsp.sh'],
     \ 'python': ['pyls'],
-    \ 'cpp': ['ccls'],
+    \ 'cpp': ['clangd-7'],
     \ }
 let g:LanguageClient_rootMarkers = {
     \ 'java': ['gradlew'],
