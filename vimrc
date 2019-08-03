@@ -67,6 +67,19 @@ function! AutoHighlightToggle()
  endif
 endfunction
 
+" Vim Go settings
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+
 " Rust racer settings
 let g:racer_cmd = "~/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
@@ -148,6 +161,7 @@ let g:syntastic_python_mypy_args = ['--ignore-missing-import']
 let g:syntastic_rust_checkers = ['cargo']
 let g:syntastic_cpp_checkers = [' ']
 let g:syntastic_java_checkers = [' ']
+let g:syntastic_go_checkers = [' ']
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 " Autoformat settings

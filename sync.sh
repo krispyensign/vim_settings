@@ -18,6 +18,4 @@ cp -fr autoload ~/.vim/autoload/
 
 # Custom code for packages
 cd ~/.vim/pack/${username}/start/LanguageClient-neovim/
-./install.sh
-
-
+make
