@@ -13,9 +13,6 @@
 [submodule "plugins/nerdtree-git-plugin"]
 	path = plugins/nerdtree-git-plugin
 	url = https://github.com/Xuyuanp/nerdtree-git-plugin
-[submodule "plugins/syntastic"]
-	path = plugins/syntastic
-	url = https://github.com/vim-syntastic/syntastic
 [submodule "plugins/tagbar"]
 	path = plugins/tagbar
 	url = https://github.com/majutsushi/tagbar
