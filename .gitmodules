@@ -1,12 +1,6 @@
 [submodule "plugins/LanguageClient-neovim"]
 	path = plugins/LanguageClient-neovim
 	url = https://github.com/autozimu/LanguageClient-neovim
-[submodule "plugins/cql-vim"]
-	path = plugins/cql-vim
-	url = https://github.com/elubow/cql-vim
-[submodule "plugins/deoplete.nvim"]
-	path = plugins/deoplete.nvim
-	url = https://github.com/Shougo/deoplete.nvim
 [submodule "plugins/fzf"]
 	path = plugins/fzf
 	url = https://github.com/junegunn/fzf
@@ -19,63 +13,33 @@
 [submodule "plugins/nerdtree-git-plugin"]
 	path = plugins/nerdtree-git-plugin
 	url = https://github.com/Xuyuanp/nerdtree-git-plugin
-[submodule "plugins/nvim-yarp"]
-	path = plugins/nvim-yarp
-	url = https://github.com/roxma/nvim-yarp
-[submodule "plugins/rust.vim"]
-	path = plugins/rust.vim
-	url = https://github.com/rust-lang/rust.vim
 [submodule "plugins/syntastic"]
 	path = plugins/syntastic
 	url = https://github.com/vim-syntastic/syntastic
 [submodule "plugins/tagbar"]
 	path = plugins/tagbar
 	url = https://github.com/majutsushi/tagbar
-[submodule "plugins/taghighlight-automirror"]
-	path = plugins/taghighlight-automirror
-	url = https://github.com/abudden/taghighlight-automirror
 [submodule "plugins/vim-airline"]
 	path = plugins/vim-airline
 	url = https://github.com/vim-airline/vim-airline
 [submodule "plugins/vim-airline-themes"]
 	path = plugins/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes
-[submodule "plugins/vim-autoformat"]
-	path = plugins/vim-autoformat
-	url = https://github.com/Chiel92/vim-autoformat
+[submodule "plugins/vim-colorschemes"]
+	path = plugins/vim-colorschemes
+	url = https://github.com/flazz/vim-colorschemes
 [submodule "plugins/vim-fugitive"]
 	path = plugins/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
 [submodule "plugins/vim-gitgutter"]
 	path = plugins/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
-[submodule "plugins/vim-hug-neovim-rpc"]
-	path = plugins/vim-hug-neovim-rpc
-	url = https://github.com/roxma/vim-hug-neovim-rpc
-[submodule "plugins/vim-racer"]
-	path = plugins/vim-racer
-	url = https://github.com/racer-rust/vim-racer
 [submodule "plugins/vim-virtualenv"]
 	path = plugins/vim-virtualenv
 	url = https://github.com/plytophogy/vim-virtualenv
-[submodule "plugins/vimf90"]
-	path = plugins/vimf90
-	url = https://github.com/rudrab/vimf90
-[submodule "plugins/deoplete-rust"]
-	path = plugins/deoplete-rust
-	url = https://github.com/sebastianmarkow/deoplete-rust
 [submodule "plugins/rainbow"]
 	path = plugins/rainbow
 	url = https://github.com/luochen1990/rainbow
-[submodule "plugins/vim-cmake"]
-	path = plugins/vim-cmake
-	url = https://github.com/vhdirk/vim-cmake
-[submodule "plugins/vim-cmake-syntax"]
-	path = plugins/vim-cmake-syntax
-	url = https://github.com/nickhutchinson/vim-cmake-syntax
 [submodule "plugins/gruvbox"]
 	path = plugins/gruvbox
 	url = https://github.com/morhetz/gruvbox
-[submodule "plugins/vim-go"]
-	path = plugins/vim-go
-	url = https://github.com/fatih/vim-go

@@ -16,8 +16,8 @@ if [[ $JAVA_VER == '8' ]]; then
     -Dlog.level=ALL\
     -noverify\
     -Xmx1G\
-    -jar ~/Workshop/eclipse.jdt.ls-8/org.eclipse.jdt.ls.product/target/repository/plugins/org.eclipse.equinox.launcher_1.5.400.v20190515-0925.jar\
-    -configuration ~/Workshop/eclipse.jdt.ls-8/org.eclipse.jdt.ls.product/target/repository/config_mac\
+    -jar ~/.local/share/eclipse.jdt.ls-8/org.eclipse.jdt.ls.product/target/repository/plugins/org.eclipse.equinox.launcher_1.5.400.v20190515-0925.jar\
+    -configuration ~/.local/share/eclipse.jdt.ls-8/org.eclipse.jdt.ls.product/target/repository/config_mac\
     -data ~/.java8-lsp/
 else
   java\
@@ -27,10 +27,11 @@ else
     -Dlog.level=ALL\
     -noverify\
     -Xmx1G\
-    -jar ~/Workshop/eclipse.jdt.ls-8/org.eclipse.jdt.ls.product/target/repository/plugins/org.eclipse.equinox.launcher_1.5.400.v20190515-0925.jar\
-    -configuration ~/Workshop/eclipse.jdt.ls-8/org.eclipse.jdt.ls.product/target/repository/config_mac\
+    -jar ~/.local/share/eclipse.jdt.ls-8/org.eclipse.jdt.ls.product/target/repository/plugins/org.eclipse.equinox.launcher_1.5.400.v20190515-0925.jar\
+    -configuration ~/.local/share/eclipse.jdt.ls-8/org.eclipse.jdt.ls.product/target/repository/config_mac\
     -data ~/.java-lsp/\
     --add-modules=ALL-SYSTEM\
     --add-opens java.base/java.util=ALL-UNNAMED\
     --add-opens java.base/java.lang=ALL-UNNAMED
 fi
+
