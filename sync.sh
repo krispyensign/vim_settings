@@ -15,7 +15,7 @@ mkdir -p ~/${VIM_DIR}/pack/${username}/start/
 mkdir -p ~/${VIM_DIR}/after
 mkdir -p ~/${VIM_DIR}/autoload
 mkdir -p ~/.local/share/nvim/
-mkdir -p ~/.local/bin/
+mkdir -p ~/.local/vim_scripts/
 
 # Purge any files in the start folder
 rm -fr ~/${VIM_DIR}/pack/${username}/start/*

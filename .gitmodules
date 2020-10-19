@@ -31,12 +31,15 @@
 [submodule "plugins/vim-gitgutter"]
 	path = plugins/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
-[submodule "plugins/vim-virtualenv"]
-	path = plugins/vim-virtualenv
-	url = https://github.com/plytophogy/vim-virtualenv
 [submodule "plugins/rainbow"]
 	path = plugins/rainbow
 	url = https://github.com/luochen1990/rainbow
 [submodule "plugins/gruvbox"]
 	path = plugins/gruvbox
 	url = https://github.com/morhetz/gruvbox
+[submodule "plugins/slimv"]
+	path = plugins/slimv
+	url = https://github.com/kovisoft/slimv
+[submodule "plugins/r7rs-swank"]
+	path = plugins/r7rs-swank
+	url = https://github.com/ecraven/r7rs-swank
