@@ -1,37 +1,30 @@
-set nocompatible              " be iMproved, required
-syntax on
+set nocompatible                    " be iMproved, required
+syntax on                           " enable syntax highlighting
 
-set t_Co=256
-set background=dark
-set encoding=utf8
-set t_ut=
-set nowrap
-set tabstop=2
-set shiftwidth=2
-set expandtab
-set number
-set foldmethod=indent
-set foldnestmax=10
-set nofoldenable
-set foldlevel=2
-set signcolumn=yes
-set hidden
-set backspace=indent,eol,start
-set guioptions-=T
-set guioptions-=e
-set guioptions-=r
-set guioptions-=L
-set clipboard^=unnamed,unnamedplus
-set ttyfast
-set showmatch
-set cmdheight=2
-set noshowmode
-set switchbuf+=usetab,newtab
-set mouse=a
-set ttymouse=sgr
+set t_Co=256                        " enable 256 colors
+set background=dark                 " dark mode
+set encoding=utf8                   " default encoding
+set t_ut=                           " use current background color
+set nowrap                          " no text wrap
+set expandtab                       " use spaces not tabs
+set number                          " turn on numbering
+set foldenable                      " start with all folds closed
+set signcolumn=yes                  " gutter enabled
+set backspace=indent,eol,start      " enable backspace key
+set guioptions=gm                   " enable menu only
+set clipboard^=unnamed,unnamedplus  " setup clipboard to be more integrated
+set ttyfast                         " speed things up with tty
+set showmatch                       " show matches on /
+set cmdheight=2                     " command line bar is 2 chars high
+set noshowmode                      " managed by airline instead
+set switchbuf+=usetab,newtab        " default commands to start a new tab
+set mouse=a                         " enable mouse integrations for tty
+set ttymouse=sgr                    " more tty integrations for mouse
+set cursorline                      " enable visual line for for cursor
+filetype plugin indent on           " allow filetype to be completely managed by vim
 
-colorscheme gruvbox             " set color scheme
-filetype plugin indent on
+" colors
+colorscheme PaperColor
 
 " My leader mappings
 let mapleader = ' '
@@ -49,20 +42,18 @@ nnoremap <silent> <leader>c :cope<CR>
 if has('macunix')
   set guifont=SourceCodeProForPowerline-Bold:h14
   set rtp+=/usr/local/opt/fzf
-  let g:slimv_swank_cmd = 
-        \ '!start "/usr/local/bin/csi" -l "$HOME/.vim/pack/$USER/r7rs-swank/chicken-swank.sld"'
+  let g:slimv_swank_cmd = '!$HOME/.vim/pack/$USER/start/r7rs-swank/chicken.sh &'
 
 elseif has('unix')
   set guifont=Cousine\ for\ Powerline\ Bold\ 10
   set rtp+=~/.fzf
-  let g:slimv_swank_cmd = 
-        \ '!start "csi" -l "$HOME/.vim/pack/$USER/r7rs-swank/chicken-swank.sld"'
+  let g:slimv_swank_cmd = '!PATH=/usr/local/bin:$PATH $HOME/.vim/pack/$USER/start/r7rs-swank/chicken.sh &'
 
 elseif has('win32')
   let &pythonthreedll = 'C:\python38\python38.dll'
   set guifont=Source_Code_Pro_for_Powerline:h10:b
-  let g:slimv_swank_cmd = 
-        \ '!start "csi.exe" -l "$HOME/vimfiles/pack/$USER/r7rs-swank/chicken-swank.sld"'
+  set shell='C:/Program\ Files/Git/bin/bash.exe'
+  let g:slimv_swank_cmd = '!$HOME/.vim/pack/$USER/start/r7rs-swank/chicken.sh &'
 
 endif
 
@@ -101,6 +92,7 @@ let rust_highlight_all = 1
 let cpp_highlight_all = 1
 let typescript_highlight_all = 1
 let javascript_highlight_all = 1
+let scheme_highlight_all = 1
 
 " Enable virtual environments for python 3
 py3 << EOF
@@ -128,9 +120,6 @@ let g:airline_powerline_fonts = 0
 
 " Tagbar settings
 let g:tagbar_map_showproto = 'P'
-
-" Scheme settings
-let g:scheme_executable = "gsi"
 
 " Language client settings
 let g:LanguageClient_loggingLevel = 'DEBUG'
