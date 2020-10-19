@@ -8,9 +8,9 @@ plugins=$(cat plugins_list.txt)
 mkdir -p plugins/
 cd plugins/
 
-for submodule in $plugins; do
-   if [[ $submodule != \#* ]]; then
-     git clone $submodule
+for plugin in $plugins; do
+   if [[ $plugin != \#* ]]; then
+     git clone $plugin
    fi
 done
 
