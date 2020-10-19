@@ -42,18 +42,15 @@ nnoremap <silent> <leader>c :cope<CR>
 if has('macunix')
   set guifont=SourceCodeProForPowerline-Bold:h14
   set rtp+=/usr/local/opt/fzf
-  let g:slimv_swank_cmd = '!$HOME/.vim/pack/$USER/start/r7rs-swank/chicken.sh &'
 
 elseif has('unix')
   set guifont=Cousine\ for\ Powerline\ Bold\ 10
   set rtp+=~/.fzf
-  let g:slimv_swank_cmd = '!PATH=/usr/local/bin:$PATH $HOME/.local/vim_scripts/chicken.sh &'
 
 elseif has('win32')
   let &pythonthreedll = 'C:\python38\python38.dll'
   set guifont=Source_Code_Pro_for_Powerline:h10:b
   set shell='C:/Program\ Files/Git/bin/bash.exe'
-  let g:slimv_swank_cmd = '!$HOME/.vim/pack/$USER/start/r7rs-swank/chicken.sh &'
 
 endif
 
