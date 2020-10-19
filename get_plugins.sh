@@ -1,21 +1,16 @@
 #!/bin/bash
 set -ex
 
-submodules=$(cat plugins_list.txt)
-plugin_paths=$(ls plugins/)
-for plugin in $plugin_paths; do
-  git submodule deinit -f plugins/$plugin
-#  git add --all
-#  git rm -fr plugins/$plugin
-#  rm -fr plugins/$plugin
-#  rm -fr .git/modules/plugins/$plugin
+rm -rf plugins/
+
+plugins=$(cat plugins_list.txt)
+
+mkdir -p plugins/
+cd plugins/
+
+for submodule in $plugins; do
+   if [[ $submodule != \#* ]]; then
+     git clone $submodule
+   fi
 done
-
-cd plugins
-
-# for submodule in $submodules; do
-#   if [[ $submodule != \#* ]]; then
-#     git submodule add -f $submodule
-#   fi
-# done
 
