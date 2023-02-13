@@ -10,19 +10,11 @@ fi
 # Get the username to deploy the pack files to
 username=$(whoami)
 
-# configure language client
-pushd $(pwd)
-cd ~/${VIM_DIR}/pack/${username}/start/LanguageClient-neovim/
-if [[ "msys" == $OSTYPE ]]; then
-  powershell -File install.ps1
-else
-  ./install.sh
-fi
-popd
-
 # configure rainbow
 pushd $(pwd)
 cd ~/${VIM_DIR}/pack/${username}/start/rainbow
+mkdir -p ~/${VIM_DIR}/plugin ~/${VIM_DIR}/autoload || true
 cp plugin/* ~/${VIM_DIR}/plugin
 cp autoload/* ~/${VIM_DIR}/autoload
 popd
+
