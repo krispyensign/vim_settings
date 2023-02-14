@@ -1,6 +1,6 @@
 # language plugins
 https://github.com/rust-lang/rust.vim
-https://github.com/neoclide/coc.nvim
+https://github.com/ycm-core/YouCompleteMe
 https://github.com/majutsushi/tagbar
 # navigation plugins
 https://github.com/scrooloose/nerdtree
