@@ -20,10 +20,7 @@ set switchbuf+=usetab,newtab        " default commands to start a new tab
 set mouse=a                         " enable mouse integrations for tty
 set ttymouse=sgr                    " more tty integrations for mouse
 set cursorline                      " enable visual line for for cursor
-set nobackup  		            " Some servers have issues with backup files
-set nowritebackup
-set updatetime=300
-
+set updatetime=300                  " improve latency
 
 silent! helptags ALL                " load all help tags after everything else
 filetype plugin indent on           " allow filetype to be completely managed by vim
