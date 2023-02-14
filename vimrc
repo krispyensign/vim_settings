@@ -127,3 +127,22 @@ let g:tagbar_map_showproto = 'P'
 
 " YCM settings
 let g:ycm_enable_semantic_highlighting=1
+
+" Syntastic settings
+" disable checkers that YCM handles
+let g:syntastic_python_checkers = []
+let g:syntastic_rust_checkers = []
+let g:syntastic_javascript_checkers = []
+let g:syntastic_go_checkers = []
+let g:syntastic_typescript_checkers = []
+
+" Syntastic settings for all other files that don't have LSPs installed yet
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
