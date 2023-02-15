@@ -7,9 +7,8 @@ if [[ "msys" == $OSTYPE ]]; then
   VIM_DIR="vimfiles"
 fi  
 
-# Get the username to deploy the pack files to
+# Get the username and plugins
 username=$(whoami)
-
 plugins=$(cat plugins_list.txt)
 plugin_names=$(cat plugins_list.txt | cut -d'/' -f5)
 
@@ -26,5 +25,5 @@ done
 
 # sync plugins directory
 mkdir -p ~/${VIM_DIR}/pack/${username}/start/
-sudo rm -fr ~/${VIM_DIR}/pack/${username}/start/*
+rm -fr ~/${VIM_DIR}/pack/${username}/start/*
 cp -fr * ~/${VIM_DIR}/pack/${username}/start/
