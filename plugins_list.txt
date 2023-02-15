@@ -10,6 +10,7 @@ https://github.com/Xuyuanp/nerdtree-git-plugin
 https://github.com/vim-airline/vim-airline
 https://github.com/tpope/vim-fugitive
 https://github.com/airblade/vim-gitgutter
+https://github.com/junegunn/fzf.vim
 # color scheme and cross language plugins
 https://github.com/luochen1990/rainbow
 https://github.com/vim-airline/vim-airline-themes
