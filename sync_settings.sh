@@ -11,12 +11,16 @@ fi
 username=$(whoami)
 
 # create the directory structure
-mkdir -p ~/${VIM_DIR}/after ~/${VIM_DIR}/autoload
+mkdir -p ~/${VIM_DIR}/after ~/${VIM_DIR}/autoload ~/${VIM_DIR}/plugin
 
-# create helper folders
-mkdir -p ~/.local/share/nvim/
+# deploy rainbow
+pushd $(pwd)
+cd ~/${VIM_DIR}/pack/${username}/start/rainbow
+cp plugin/* ~/${VIM_DIR}/plugin
+cp autoload/* ~/${VIM_DIR}/autoload
+popd
 
-# deploy addons
+# deploy other addons
 cp -fr after/* ~/${VIM_DIR}/after/
 cp -fr autoload/* ~/${VIM_DIR}/autoload/
 
