@@ -109,10 +109,12 @@ let g:syntastic_aggregate_errors = 1
 
 " YCM settings
 nnoremap <silent> <leader>l :lopen<CR>
-nnoremap <silent> <leader>yh <Plug>(YCMToggleInlayHints)
-nnoremap <silent> <leader>ye <Plug>(YCMDiags)
-nnoremap <silent> <leader>ys <Plug>(YCMToggleSignatureHelp)
-nnoremap <silent> <leader>yg <Plug>(YCMCompleter GoTo)
+nnoremap <silent> <leader>yh :YCMToggleInlayHints<CR>
+nnoremap <silent> <leader>ye :YCMDiags<CR>
+nnoremap <silent> <leader>ys :YCMToggleSignatureHelp<CR>
+nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
+nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
+nnoremap <silent> <leader>yi :YcmCompleter GoToImplementationElseDeclaration<CR>
 let g:ycm_enable_semantic_highlighting=1
 let g:syntastic_python_checkers = []
 let g:syntastic_rust_checkers = []
