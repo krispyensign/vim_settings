@@ -32,6 +32,16 @@ filetype plugin indent on           " allow filetype to be completely managed by
 " colors
 colorscheme badwolf
 
+" My leader mappings
+let mapleader = ' '
+nnoremap <silent> <leader><Up> :wincmd k<CR>
+nnoremap <silent> <leader><Down> :wincmd j<CR>
+nnoremap <silent> <leader><Left> :wincmd h<CR>
+nnoremap <silent> <leader><Right> :wincmd l<CR>
+nnoremap <silent> <leader>[ :vertical resize +5<CR>
+nnoremap <silent> <leader>] :vertical resize -5<CR>
+nnoremap <silent> <leader>T :bel term<CR>
+
 " Set color column to light grey
 if (exists('+colorcolumn'))
   set colorcolumn=100
@@ -51,7 +61,7 @@ elseif has('win32')
   set shell='C:/Program\ Files/Git/bin/bash.exe'
 endif
 
-" Highlight settings
+" Highlighting 
 let python_highlight_all = 1
 let rust_highlight_all = 1
 let cpp_highlight_all = 1
@@ -59,10 +69,24 @@ let typescript_highlight_all = 1
 let javascript_highlight_all = 1
 let java_highlight_all = 1
 
-" Rainbow settings
+" Netrw
+nnoremap <silent> <leader>ne :Lexplore<CR>
+nnoremap <silent> <leader>nt :Ntree<CR>
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+autocmd VimEnter * :Vexplore
+autocmd TabNew * call feedkeys(":Vexplore\<CR>", 'n')
+
+" Merginal
+nnoremap <silent> <leader>mt :MerginalToggle<CR>
+
+" Rainbow
 let g:rainbow_active = 1
 
-" Airline settings
+" Airline
 let g:airline_theme = 'badwolf'
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -72,22 +96,12 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 0
 
-" Tagbar settings
+" Tagbar
+nnoremap <silent> <leader>tt :TagbarToggle<CR>
 let g:tagbar_map_showproto = 'P'
 
-" YCM settings
-let g:ycm_enable_semantic_highlighting=1
-
-" disable syntastic checkers that YCM is configured to handle
-let g:syntastic_python_checkers = []
-let g:syntastic_rust_checkers = []
-let g:syntastic_javascript_checkers = []
-let g:syntastic_go_checkers = []
-let g:syntastic_typescript_checkers = []
-let g:syntastic_java_checkers = []
-let g:syntastic_csharp_checkers = []
-
-" syntastic settings for all other files that don't have LSPs installed yet
+" Syntastic
+nnoremap <silent> <leader>c :cope<CR>
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -97,33 +111,19 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
 
-" My leader mappings
-let mapleader = ' '
-nnoremap <silent> <leader><Up> :wincmd k<CR>
-nnoremap <silent> <leader><Down> :wincmd j<CR>
-nnoremap <silent> <leader><Left> :wincmd h<CR>
-nnoremap <silent> <leader><Right> :wincmd l<CR>
-nnoremap <silent> <leader>[ :vertical resize +5<CR>
-nnoremap <silent> <leader>] :vertical resize -5<CR>
-nnoremap <silent> <leader>T :bel term<CR>
-
-" Merginal mappings
-nnoremap <silent> <leader>mt :MerginalToggle<CR>
-
-" NerdTree mappings
-nnoremap <silent> <leader>n :NERDTreeToggle<CR>
-
-" Tagbar mappings
-nnoremap <silent> <leader>t :TagbarToggle<CR>
-
-" Diagnostic mappings
-nnoremap <silent> <leader>c :cope<CR>
+" YCM settings
 nnoremap <silent> <leader>l :lopen<CR>
-
-" YCM leader mappings
 nnoremap <silent> <leader>yh <Plug>(YCMToggleInlayHints)
 nnoremap <silent> <leader>yd <Plug>(YCMDiags)
 nnoremap <silent> <leader>ys <Plug>(YCMToggleSignatureHelp)
+let g:ycm_enable_semantic_highlighting=1
+let g:syntastic_python_checkers = []
+let g:syntastic_rust_checkers = []
+let g:syntastic_javascript_checkers = []
+let g:syntastic_go_checkers = []
+let g:syntastic_typescript_checkers = []
+let g:syntastic_java_checkers = []
+let g:syntastic_csharp_checkers = []
 
 " Rg search commands
 command! -bang -nargs=* Rggo

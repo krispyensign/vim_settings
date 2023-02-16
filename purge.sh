@@ -9,5 +9,6 @@ fi
 
 # Get the username and plugins
 username=$(whoami)
+chmod -R 777 ~/${VIM_DIR}/pack/*
 rm -fr ~/${VIM_DIR}/pack/*
 rm -fr ./plugins
