@@ -70,15 +70,12 @@ let javascript_highlight_all = 1
 let java_highlight_all = 1
 
 " Netrw
-nnoremap <silent> <leader>ne :Lexplore<CR>
+nnoremap <silent> <leader>nl :25Lexplore<CR>
 nnoremap <silent> <leader>nt :Ntree<CR>
+autocmd TabNew * call feedkeys(":25Lexplore\<CR>", 'n')
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-autocmd VimEnter * :Vexplore
-autocmd TabNew * call feedkeys(":Vexplore\<CR>", 'n')
+let g:netrw_mousemaps= 0
 
 " Merginal
 nnoremap <silent> <leader>mt :MerginalToggle<CR>
