@@ -1,10 +1,8 @@
 # language plugins
 
-https://github.com/rust-lang/rust.vim
 https://github.com/vim-syntastic/syntastic
 https://github.com/ycm-core/YouCompleteMe
 https://github.com/majutsushi/tagbar
-https://github.com/darrikonn/vim-gofmt.git
 https://github.com/hashivim/vim-terraform
 
 # navigation plugins
