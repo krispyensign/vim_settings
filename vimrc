@@ -39,8 +39,20 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
+
 nnoremap <silent> <leader>l :lopen<CR>
 nnoremap <silent> <leader>c :cope<CR>
+
+nnoremap <silent> <leader>nt :Ntree<CR>
+nnoremap <silent> <leader>n :100wincmd h<CR>:15Lexplore<CR>
+
+nnoremap <silent> <leader>G :100wincmd h<CR>:abo Git<CR>
+
+nnoremap <silent> <leader>mt :MerginalToggle<CR>
+
+nnoremap <silent> <leader>tt :TagbarToggle<CR>
+
+nnoremap <silent> <leader>RR :source %<CR>
 
 " Set color column to light grey
 if (exists('+colorcolumn'))
@@ -70,15 +82,10 @@ let javascript_highlight_all = 1
 let java_highlight_all = 1
 
 " Netrw
-nnoremap <silent> <leader>nl :15Lexplore<CR>
-nnoremap <silent> <leader>nt :Ntree<CR>
 autocmd TabNew * call feedkeys(":15Lexplore\<CR>", 'n')
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_mousemaps= 0
-
-" Merginal
-nnoremap <silent> <leader>mt :MerginalToggle<CR>
 
 " Rainbow
 let g:rainbow_active = 1
@@ -94,7 +101,6 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 0
 
 " Tagbar
-nnoremap <silent> <leader>tt :TagbarToggle<CR>
 let g:tagbar_map_showproto = 'P'
 
 " Syntastic
