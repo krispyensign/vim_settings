@@ -40,25 +40,27 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
-" location map
 nnoremap <silent> <leader>l :lopen<CR>
-nnoremap <silent> <leader>c :cope<CR>
+nnoremap <silent> <leader>co :cope<CR>
+nnoremap <silent> <leader>pc :pclose<CR>
 " debug vimrc map
 nnoremap <silent> <leader>RR :source %<CR>
 " custom function map
 nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-nnoremap <silent> <leader>gs :call ToggleGstatus()<CR>
+nnoremap <silent> <leader>g :call ToggleGstatus()<CR>
 " netwr
-nnoremap <silent> <leader>nt :Ntree<CR>
 nnoremap <silent> <leader>n :100wincmd h<CR>:15Lexplore<CR>
 " tagbar
-nnoremap <silent> <leader>tt :TagbarToggle<CR>
+nnoremap <silent> <leader>t :TagbarToggle<CR>
 " ycm
 nnoremap <silent> <leader>yh :YCMToggleInlayHints<CR>
 nnoremap <silent> <leader>yd :YCMDiags<CR>
 nnoremap <silent> <leader>ys :YCMToggleSignatureHelp<CR>
 nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
+"fugitive
+nnoremap <silent> <leader>gh :G! push<CR>
+nnoremap <silent> <leader>gl :G! pull<CR>
 
 " set color column to light grey
 if (exists('+colorcolumn'))
