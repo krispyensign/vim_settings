@@ -10,15 +10,15 @@ https://github.com/krispyensign/vimux-golang
 
 https://github.com/vim-airline/vim-airline
 https://github.com/junegunn/fzf.vim
+https://github.com/luochen1990/rainbow
 
 # git plugins
 
 https://github.com/tpope/vim-fugitive
 https://github.com/airblade/vim-gitgutter
 
-# color plugins
+# theme plugins
 
-https://github.com/luochen1990/rainbow
 https://github.com/joshdick/onedark.vim
 https://github.com/morhetz/gruvbox
 https://github.com/sjl/badwolf
