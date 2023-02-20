@@ -52,11 +52,12 @@ nnoremap <silent> <leader>g :call ToggleGstatus()<CR>
 " netwr
 nnoremap <silent> <leader>n :100wincmd h<CR>:15Lexplore<CR>
 " tagbar
-nnoremap <silent> <leader>t :TagbarToggle<CR>
+nnoremap <silent> <leader>t <Plug>(TagbarToggle)
 " ycm
 nnoremap <silent> <leader>yh <Plug>(YCMToggleInlayHints)
 nnoremap <silent> <leader>yd <Plug>(YCMDiags)
 nnoremap <silent> <leader>ys <Plug>(YCMToggleSignatureHelp)
+nnoremap <silent> <leader>yf :YcmCompleter Format<CR>
 nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
 "fugitive
