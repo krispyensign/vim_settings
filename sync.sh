@@ -12,13 +12,13 @@ plugins=$(cat plugins_list.txt)
 
 echo "=creating directory structure="
 rm -fr \
-	~/${VIM_DIR}/after 						\
+	~/${VIM_DIR}/after 					\
 	~/${VIM_DIR}/plugin 					\
 	~/${VIM_DIR}/autoload 					\
 	~/${VIM_DIR}/pack/${username}/start/
-mkdir -p 									\
-	plugins/ 								\
-	~/${VIM_DIR}/after 						\
+mkdir -p 							\
+	plugins/ 						\
+	~/${VIM_DIR}/after 					\
 	~/${VIM_DIR}/plugin 					\
 	~/${VIM_DIR}/autoload 					\
 	~/${VIM_DIR}/pack/${username}/start/
