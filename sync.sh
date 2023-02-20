@@ -1,14 +1,13 @@
 #!/bin/bash -e
 
-# select vim dir based on OS
+# setup variables
 VIM_DIR=".vim"
 if [[ "msys" == $OSTYPE ]]; then
   VIM_DIR="vimfiles"
 fi  
-
-# Get the username and plugins
 username=$(whoami)
-plugins=$(cat plugins_list.txt)
+plugins=$(grep '^http.*$' plugins_list.txt)
+plugin_names=$(echo "${plugins}" | cut -d'/' -f5)
 
 echo "=creating directory structure="
 mkdir -p plugins
@@ -19,19 +18,15 @@ pushd $(pwd)
 	mkdir -p after plugin autoload pack/${username}/start/
 popd
 
+echo "=processing plugins="
 pushd $(pwd)
-	echo "=processing plugins="
 	cd plugins/
 	while IFS= read -r plugin; do
-		if [[ ${plugin} =~ ^#.*$|^[[:blank:]]*$ ]]; then
-			continue
-		fi
-
 		plugin_name=$(echo ${plugin} | cut -d'/' -f5)
 		echo "=processing ${plugin_name}="
 		if [[ -d "${plugin_name}" ]]; then
 			pushd $(pwd)
-			echo "=${plugin_name} already cloned. updating...="
+			echo "=pulling latest ${plugin_name}="
 			cd ${plugin_name}
 			git pull || echo "something was not happy pulling"
 			popd
@@ -42,14 +37,12 @@ pushd $(pwd)
 		git clone ${plugin} || echo "something was not happy cloning"
 	done < ../plugins_list.txt
 
-	# sync plugins directory
 	echo "=deploying plugins directory="
 	cp -fr * ~/${VIM_DIR}/pack/${username}/start/
 popd
 
-# deploy rainbow
+echo "=deploying rainbow="
 pushd $(pwd)
-	echo "=configuring rainbow="
 	cd ~/${VIM_DIR}/pack/${username}/start/rainbow
 	cp -fr plugin/ autoload/ ~/${VIM_DIR}/
 popd
