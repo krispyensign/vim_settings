@@ -77,3 +77,5 @@ echo "=deploying vimrc="
 touch ~/.vimrc
 cp ~/.vimrc ~/.vimrc.bak
 cp vimrc ~/.vimrc
+
+echo "use <leader>RR to load new settings without restarting vim :)"
