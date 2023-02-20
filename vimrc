@@ -54,9 +54,9 @@ nnoremap <silent> <leader>n :100wincmd h<CR>:15Lexplore<CR>
 " tagbar
 nnoremap <silent> <leader>t :TagbarToggle<CR>
 " ycm
-nnoremap <silent> <leader>yh :YCMToggleInlayHints<CR>
-nnoremap <silent> <leader>yd :YCMDiags<CR>
-nnoremap <silent> <leader>ys :YCMToggleSignatureHelp<CR>
+nnoremap <silent> <leader>yh <Plug>(YCMToggleInlayHints)
+nnoremap <silent> <leader>yd <Plug>(YCMDiags)
+nnoremap <silent> <leader>ys <Plug>(YCMToggleSignatureHelp)
 nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
 "fugitive
