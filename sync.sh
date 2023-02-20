@@ -8,22 +8,24 @@ fi
 username=$(whoami)
 plugins=$(grep '^http.*$' plugins_list.txt)
 plugin_names=$(echo "${plugins}" | cut -d'/' -f5)
+echo "=syncing the following plugins="
+echo "${plugin_names}"
 
 echo "=creating directory structure="
-mkdir -p plugins
-pushd $(pwd)
+mkdir -p plugins ~/${VIM_DIR} 
+pushd $(pwd) > /dev/null
 	cd ~/${VIM_DIR}/
-	chmod -R 777 pack/
+	chmod -R 777 pack/ || true
 	rm -fr after plugin autoload pack/
-	mkdir -p after plugin autoload pack/
-popd
+	mkdir -p after plugin autoload pack/ ~/${VIM_DIR}/pack/${username}/start/
+popd > /dev/null
 
 echo "=cleanup stale plugins="
-pushd $(pwd)
+pushd $(pwd) > /dev/null
 	cd plugins/
 	for oldplugin in $(ls); do
 		found="0"
-		for truthplugin in "${plugin_names[@]}"); do
+		for truthplugin in ${plugin_names[@]}; do
 			if [[ ${oldplugin} == ${truthplugin} ]]; then
 				echo "*found ${oldplugin}"
 				found="1"
@@ -35,36 +37,36 @@ pushd $(pwd)
 			rm -fr ${oldplugin}
 		fi
 	done
-popd
+popd > /dev/null
 
 echo "=processing plugins="
-pushd $(pwd)
+pushd $(pwd) > /dev/null
 	cd plugins/
-	while IFS= read -r plugin; do
+	for plugin in ${plugins[@]}; do
 		plugin_name=$(echo ${plugin} | cut -d'/' -f5)
 		echo "*processing ${plugin_name}"
 		if [[ -d "${plugin_name}" ]]; then
-			pushd $(pwd)
+			pushd $(pwd) > /dev/null
 			echo "*pulling latest ${plugin_name}"
 			cd ${plugin_name}
 			git pull || echo "something was not happy pulling"
-			popd
+			popd > /dev/null
 			continue
 		fi
 
 		echo "*cloning ${plugin_name}"
 		git clone ${plugin} || echo "something was not happy cloning"
-	done < ../plugins_list.txt
+	done 
 
 	echo "*deploying plugins directory"
 	cp -fr * ~/${VIM_DIR}/pack/${username}/start/
-popd
+popd > /dev/null
 
 echo "=deploying rainbow="
-pushd $(pwd)
+pushd $(pwd) > /dev/null
 	cd ~/${VIM_DIR}/pack/${username}/start/rainbow
 	cp -fr plugin/ autoload/ ~/${VIM_DIR}/
-popd
+popd > /dev/null
 
 # deploy other addons
 echo "=deploying other addons="
