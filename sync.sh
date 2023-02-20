@@ -1,5 +1,22 @@
 #!/bin/bash -e
 
+
+function printh() {
+	printf "${GREEN}= $1 =${NC}\n"
+} 
+
+function prints() {
+	printf "${YELLOW}*  $1 ${NC}\n"
+}
+
+function printe() {
+	printf "${RED}**** $1 ****${NC}"
+}
+
+function bluey() {
+	printf "${BLUE}"
+}
+
 # setup variables
 VIM_DIR=".vim"
 if [[ "msys" == $OSTYPE ]]; then
@@ -8,10 +25,15 @@ fi
 username=$(whoami)
 plugins=$(grep '^http.*$' plugins_list.txt)
 plugin_names=$(echo "${plugins}" | cut -d'/' -f5)
-echo "=syncing the following plugins="
-echo "${plugin_names}"
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+printh "syncing the following plugins"
+printf "${YELLOW}${plugin_names}"
 
-echo "=creating directory structure="
+printh "creating directory structure"
 mkdir -p plugins ~/${VIM_DIR} 
 pushd $(pwd) > /dev/null
 	cd ~/${VIM_DIR}/
@@ -20,62 +42,64 @@ pushd $(pwd) > /dev/null
 	mkdir -p after plugin autoload pack/ ~/${VIM_DIR}/pack/${username}/start/
 popd > /dev/null
 
-echo "=cleanup stale plugins="
+printh "cleanup stale plugins"
 pushd $(pwd) > /dev/null
 	cd plugins/
 	for oldplugin in $(ls); do
 		found="0"
 		for truthplugin in ${plugin_names[@]}; do
 			if [[ ${oldplugin} == ${truthplugin} ]]; then
-				echo "*found ${oldplugin}"
+				prints "found ${oldplugin}"
 				found="1"
 			fi
 		done
 
 		if [[ ${found} == 0 ]]; then
-			echo "*purging ${oldplugin}="
+			prints "purging ${oldplugin}="
 			rm -fr ${oldplugin}
 		fi
 	done
 popd > /dev/null
 
-echo "=processing plugins="
+printh "processing plugins"
 pushd $(pwd) > /dev/null
 	cd plugins/
 	for plugin in ${plugins[@]}; do
 		plugin_name=$(echo ${plugin} | cut -d'/' -f5)
-		echo "*processing ${plugin_name}"
+		prints "processing ${plugin_name}"
 		if [[ -d "${plugin_name}" ]]; then
 			pushd $(pwd) > /dev/null
-			echo "*pulling latest ${plugin_name}"
+			prints "pulling latest ${plugin_name}"
 			cd ${plugin_name}
-			git pull || echo "something was not happy pulling"
+			bluey
+			git pull || printe "something was not happy pulling"
 			popd > /dev/null
 			continue
 		fi
 
-		echo "*cloning ${plugin_name}"
-		git clone ${plugin} || echo "something was not happy cloning"
+		prints "cloning ${plugin_name}"
+		bluey
+		git clone ${plugin} || printe "something was not happy cloning"
 	done 
 
-	echo "*deploying plugins directory"
+	prints "deploying plugins directory"
 	cp -fr * ~/${VIM_DIR}/pack/${username}/start/
 popd > /dev/null
 
-echo "=deploying rainbow="
+printh "deploying rainbow"
 pushd $(pwd) > /dev/null
 	cd ~/${VIM_DIR}/pack/${username}/start/rainbow
 	cp -fr plugin/ autoload/ ~/${VIM_DIR}/
 popd > /dev/null
 
 # deploy other addons
-echo "=deploying other addons="
+printh "deploying other addons"
 cp -fr after/ ~/${VIM_DIR}/after/
 
 # deploy the new vimrc file
-echo "=deploying vimrc="
+printh "deploying vimrc"
 touch ~/.vimrc
 cp ~/.vimrc ~/.vimrc.bak
 cp vimrc ~/.vimrc
 
-echo "use <leader>RR to load new settings without restarting vim :)"
+printh "Done! Use <leader>RR to load new settings without restarting vim :)"
