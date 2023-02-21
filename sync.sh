@@ -48,7 +48,7 @@ printh "syncing the following plugins"
 printf "${YELLOW}${plugin_names}\n"
 
 # make a vim folder if there isn't one already
-mkdir -p ${vim_dir}
+mkdir -p ${user_pack_folder}
 
 printh "cleanup stale plugins"
 for oldplugin in $(ls ./${pack_folder}); do
