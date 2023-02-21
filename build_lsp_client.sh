@@ -9,7 +9,7 @@ git submodule update --init --recursive
 printh "building"
 ./install.py --all --verbose
 printh "correcting permissions"
-chmod -R u+rw ./${pack_folder}/YouCompleteMe
+chmod -R u+rw ./${pack_folder}YouCompleteMe
 popd
 
 prints "deploying plugins directory"
