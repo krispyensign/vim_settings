@@ -3,13 +3,13 @@
 source ./common.sh
 
 pushd $(pwd) > /dev/null
-cd ./${pack_folder}/YouCompleteMe
+cd ./${pack_folder}YouCompleteMe
 printh "updating modules"
 git submodule update --init --recursive
 printh "building"
 ./install.py --all --verbose
 printh "correcting permissions"
-chmod -R u+rw ./${pack_folder}YouCompleteMe
+chmod -R u+rw *
 popd
 
 prints "deploying plugins directory"
