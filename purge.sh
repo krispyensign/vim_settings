@@ -1,20 +1,12 @@
-#!/bin/bash
-set -ex
+#!/bin/bash -e
 
-# select vim dir based on OS
-VIM_DIR=".vim"
-if [[ "msys" == $OSTYPE ]]; then
-  VIM_DIR="vimfiles"
-fi  
-username=$(whoami)
-pack_folder=pack/${username}/start/
-user_pack_folder=${vim_dir}${pack_folder}
+source common.sh
 
 # Get the username and plugins
-echo "Resetting permissions..."
+printh "Resetting permissions..."
 chmod -R 777 ${user_pack_folder}
-echo "Purging plugins in home..."
+printh "Purging plugins in home..."
 rm -fr ${user_pack_folder}
-echo "Purging plugins in project..."
-rm -fr ./plugins
-echo "Done!"
+printh "Purging plugins in project..."
+rm -fr ${pack_folder}
+printh "Done!"
