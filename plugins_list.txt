@@ -24,6 +24,7 @@ https://github.com/joshdick/onedark.vim
 https://github.com/morhetz/gruvbox
 https://github.com/sjl/badwolf
 https://github.com/srcery-colors/srcery-vim
+https://github.com/vim-airline/vim-airline-themes
 https://github.com/NLKNguyen/papercolor-theme
 https://github.com/nanotech/jellybeans.vim
 https://github.com/kyoh86/momiji
