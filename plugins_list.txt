@@ -19,7 +19,6 @@ https://github.com/airblade/vim-gitgutter
 
 # theme plugins
 
-https://github.com/felixhummel/setcolors.vim
 https://github.com/joshdick/onedark.vim
 https://github.com/morhetz/gruvbox
 https://github.com/sjl/badwolf

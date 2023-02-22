@@ -8,6 +8,8 @@ printf "${YELLOW}${plugin_names}\n"
 # make a vim folders
 mkdir -p ${pack_folder} ${user_pack_folder}
 
+./sync_settings.sh
+
 printh "cleanup stale plugins"
 for oldplugin in $(ls ./${pack_folder}); do
 	found="0"

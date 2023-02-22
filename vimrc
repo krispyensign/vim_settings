@@ -1,7 +1,7 @@
 set nocompatible                    " be iMproved, required
 syntax on                           " enable syntax highlighting
 
-set t_Co=256                        " enable 256 colors
+set termguicolors
 set background=dark                 " dark mode
 set encoding=utf8                   " default encoding
 set t_ut=                           " use current background color
@@ -29,7 +29,7 @@ set shiftwidth=4                    " shifts should also display as 4
 filetype plugin indent on           " allow filetype to be completely managed by vim
 
 " colors
-colorscheme gruvbox
+colorscheme Atelier_SavannaDark
 
 " leader remap for ergonomic
 let mapleader = ' '
@@ -124,9 +124,10 @@ let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
 
 " ycm 
-let g:ycm_enable_semantic_highlighting=1
+let g:ycm_enable_semantic_highlighting = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_always_populate_location_list = 1
 let g:syntastic_python_checkers = []
 let g:syntastic_rust_checkers = []
 let g:syntastic_javascript_checkers = []
