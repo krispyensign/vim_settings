@@ -28,8 +28,56 @@ set shiftwidth=4                    " shifts should also display as 4
 
 filetype plugin indent on           " allow filetype to be completely managed by vim
 
+function! BuildYCM(info)
+  " info is a dictionary with 3 fields
+  " - name:   name of the plugin
+  " - status: 'installed', 'updated', or 'unchanged'
+  " - force:  set on PlugInstall! or PlugUpdate!
+  if a:info.status == 'installed' || a:info.force
+    !git submodule update --init --recursive
+    !./install.py --all --verbose
+  endif
+endfunction
+
+call plug#begin('~/.vim/plugged')
+
+" language plugins
+Plug 'vim-syntastic/syntastic'
+Plug 'ycm-core/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'majutsushi/tagbar'
+Plug 'hashivim/vim-terraform'
+Plug 'krispyensign/vimux-golang'
+
+" navigation plugins
+Plug 'vim-airline/vim-airline'
+Plug 'junegunn/fzf.vim'
+Plug 'luochen1990/rainbow'
+
+" git plugins
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" theme plugins
+Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
+Plug 'sjl/badwolf'
+Plug 'srcery-colors/srcery-vim'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'nanotech/jellybeans.vim'
+Plug 'kyoh86/momiji'
+Plug 'Everblush/everblush.vim'
+Plug 'embark-theme/vim'
+Plug 'juanedi/predawn.vim'
+Plug 'erizocosmico/vim-firewatch'
+Plug 'AlessandroYorba/Alduin'
+Plug 'atelierbram/vim-colors_atelier-schemes' 
+
+call plug#end()
+
 " colors
-colorscheme Atelier_SavannaDark
+colorscheme PaperColor
+
 
 " leader remap for ergonomic
 let mapleader = ' '
