@@ -9,7 +9,7 @@ set nowrap                          " no text wrap
 set number                          " turn on numbering
 set foldenable                      " turn on folding
 set foldmethod=syntax               " make folds based per syntax
-set foldlevel=2                     " start with 1 fold open
+set foldlevel=2                     " start with 2 folds open
 set signcolumn=yes                  " gutter enabled
 set backspace=indent,eol,start      " enable backspace key
 set guioptions=gm                   " enable menu only
@@ -76,7 +76,7 @@ Plug 'atelierbram/vim-colors_atelier-schemes'
 call plug#end()
 
 " colors
-colorscheme PaperColor
+colorscheme srcery
 
 
 " leader remap for ergonomic
@@ -149,7 +149,7 @@ let g:netrw_mousemaps= 0
 let g:rainbow_active = 1
 
 " airline
-let g:airline_theme = 'badwolf'
+let g:airline_theme = 'srcery'
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
