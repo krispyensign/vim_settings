@@ -98,11 +98,13 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
-nnoremap <silent> <leader>c :call Toggle_Quickfix()<CR>
-nnoremap <silent> <leader>p :call Toggle_Location()<CR>
+
+nnoremap <leader>c :call Toggle_Quickfix()<CR>
+nnoremap <leader>l :call Toggle_Location()<CR>
+nnoremap <leader>p :pclose<CR>
 " debug vimrc map
-nnoremap <silent> <leader>RS :source %<CR>
-nnoremap <silent> <leader>RR :source $MYVIMRC<CR>
+nnoremap <leader>RS :source %<CR>
+nnoremap <leader>RR :source $MYVIMRC<CR>
 " custom function map
 nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 " netwr
@@ -110,18 +112,18 @@ nnoremap <silent> <leader>n :100wincmd h<CR>:15Lexplore<CR>
 " tagbar
 nnoremap <silent> <leader>tt <Plug>(TagbarToggle)
 " ycm
-nnoremap <silent> <leader>yh <Plug>(YCMToggleInlayHints)
-nnoremap <silent> <leader>yd <Plug>(YCMDiags)
-nnoremap <silent> <leader>ys <Plug>(YCMToggleSignatureHelp)
-nnoremap <silent> <leader>yf :YcmCompleter Format<CR>
-nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
-nnoremap <silent> <leader>yt :YcmCompleter GoToReferences<CR>
-nnoremap <silent> <leader>yt :YcmCompleter FixIt<CR>
+nnoremap <leader>yh <Plug>(YCMToggleInlayHints)
+nnoremap <leader>yd <Plug>(YCMDiags)
+nnoremap <leader>ys <Plug>(YCMToggleSignatureHelp)
+nnoremap <leader>yf :YcmCompleter Format<CR>
+nnoremap <leader>yg :YcmCompleter GoTo<CR>
+nnoremap <leader>yt :YcmCompleter GoToReferences<CR>
+nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 "fugitive
-nnoremap <silent> <leader>gs :call ToggleGstatus()<CR>
-nnoremap <silent> <leader>gh :G! push<CR>
-nnoremap <silent> <leader>gl :G! pull<CR>
+nnoremap <leader>gs :call ToggleGstatus()<CR>
+nnoremap <leader>gh :G! push<CR>
+nnoremap <leader>gl :G! pull<CR>
 " }}}
 
 " Standard Language Settings {{{
