@@ -45,6 +45,7 @@ Plug 'ycm-core/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'majutsushi/tagbar'
 Plug 'hashivim/vim-terraform'
 Plug 'krispyensign/vimux-golang'
+Plug 'puremourning/vimspector'
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -190,6 +191,9 @@ let g:syntastic_go_checkers = []
 let g:syntastic_typescript_checkers = []
 let g:syntastic_java_checkers = []
 let g:syntastic_csharp_checkers = []
+
+" vimspector
+let g:vimspector_enable_mappings = 'HUMAN'
 
 " rg search commands
 command! -bang -nargs=* Rggo
