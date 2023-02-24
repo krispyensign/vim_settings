@@ -117,7 +117,7 @@ Plug 'rust-lang/rust/vim'
 Plug 'majutsushi/tagbar'
 Plug 'hashivim/vim-terraform'
 Plug 'krispyensign/vimux-golang'
-Plug 'puremourning/vimspector'
+Plug 'puremourning/vimspector', { 'do': ':VimspectorInstall --verbose --all' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
