@@ -31,8 +31,9 @@ function bluey() {
 function check_command() {
 	if ! type "$1" > /dev/null; then
 		echo "cannot find $1"
-		exit -1
+		return -1
 	fi
+	return 0
 }
 
 check_command git
