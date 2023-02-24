@@ -29,85 +29,6 @@ filetype plugin indent on           " allow filetype to be completely managed by
 autocmd FileType vim,txt setlocal foldmethod=marker
 " }}}
 
-" Custom Functions {{{
-function! GetActiveBufferName()
-	redir => buffname
-	sil exe "ls! %"
-	redir END
-python3 << EOF
-import re
-b=vim.eval('buffname')
-result = re.search('\"([^\"]*)\"',b).group(1)
-vim.command('let l:s="%s"'%result)
-EOF
-	return l:s
-endfunction 
-
-function! Toggle_Quickfix()
-python3 << EOF
-current_buffer_name=vim.eval('GetActiveBufferName()')
-if current_buffer_name=='[Quickfix List]':
-    vim.command('q')
-else:
-    vim.command('copen')
-EOF
-endfunction
-
-function! Toggle_Location()
-python3 << EOF
-current_buffer_name=vim.eval('GetActiveBufferName()')
-if current_buffer_name=='[Location List]':
-    vim.command('q')
-else:
-	try:
-		vim.command('lopen')
-	except:
-		print("nothing to open")
-EOF
-endfunction
-
-" highlight all instances of word under cursor, when idle. useful when studying strange source code.
-function! AutoHighlightToggle()
-   let @/ = ''
-   if exists('#auto_highlight')
-     au! auto_highlight
-     augroup! auto_highlight
-     setl updatetime=4000
-     echo 'Highlight current word: off'
-     return 0
-  else
-    augroup auto_highlight
-    au!
-    au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=500
-    echo 'Highlight current word: ON'
-  return 1
- endif
-endfunction
-
-" fugitive
-function! ToggleGstatus() abort
-  for l:winnr in range(1, winnr('$'))
-    if !empty(getwinvar(l:winnr, 'fugitive_status'))
-      exe l:winnr 'close'
-      return
-    endif
-  endfor
-  keepalt :abo Git
-endfunction
-
-" enable virtual environments for python 3
-py3 << EOF
-import os, sys
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    with open(activate_this) as f:
-        exec(f.read(), {'__file__': activate_this})
-EOF
-" }}}
-
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
 " language plugins
@@ -155,15 +76,6 @@ call plug#end()
 " }}}
 
 " Colors {{{
-colorscheme everforest
-let g:airline_theme = 'badwolf'
-
-" set color column to light grey
-if (exists('+colorcolumn'))
-  set colorcolumn=100
-  highlight ColorColumn ctermbg=9
-endif
-
 " various theme settings
 let g:alduin_Shout_Dragon_Aspect = 1
 let g:everforest_background = 'hard' 
@@ -172,6 +84,16 @@ let g:material_theme_style = 'darker'
 let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
 let g:tokyonight_cursor = "red"
+
+" set color column to light grey
+if (exists('+colorcolumn'))
+  set colorcolumn=100
+  highlight ColorColumn ctermbg=9
+endif
+
+" turn on the colors
+colorscheme everforest
+let g:airline_theme = 'everforest'
 " }}}
 
 " Custom Shortcuts {{{
@@ -305,3 +227,81 @@ command! -bang -nargs=* Rgcs
 \		1, fzf#vim#with_preview(), <bang>0)
 " }}}
 
+" Custom Functions {{{
+function! GetActiveBufferName()
+	redir => buffname
+	sil exe "ls! %"
+	redir END
+python3 << EOF
+import re
+b=vim.eval('buffname')
+result = re.search('\"([^\"]*)\"',b).group(1)
+vim.command('let l:s="%s"'%result)
+EOF
+	return l:s
+endfunction 
+
+function! Toggle_Quickfix()
+python3 << EOF
+current_buffer_name=vim.eval('GetActiveBufferName()')
+if current_buffer_name=='[Quickfix List]':
+    vim.command('q')
+else:
+    vim.command('copen')
+EOF
+endfunction
+
+function! Toggle_Location()
+python3 << EOF
+current_buffer_name=vim.eval('GetActiveBufferName()')
+if current_buffer_name=='[Location List]':
+    vim.command('q')
+else:
+	try:
+		vim.command('lopen')
+	except:
+		print("nothing to open")
+EOF
+endfunction
+
+" highlight all instances of word under cursor, when idle. useful when studying strange source code.
+function! AutoHighlightToggle()
+   let @/ = ''
+   if exists('#auto_highlight')
+     au! auto_highlight
+     augroup! auto_highlight
+     setl updatetime=4000
+     echo 'Highlight current word: off'
+     return 0
+  else
+    augroup auto_highlight
+    au!
+    au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+  return 1
+ endif
+endfunction
+
+" fugitive
+function! ToggleGstatus() abort
+  for l:winnr in range(1, winnr('$'))
+    if !empty(getwinvar(l:winnr, 'fugitive_status'))
+      exe l:winnr 'close'
+      return
+    endif
+  endfor
+  keepalt :abo Git
+endfunction
+
+" enable virtual environments for python 3
+py3 << EOF
+import os, sys
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    with open(activate_this) as f:
+        exec(f.read(), {'__file__': activate_this})
+EOF
+" }}}
