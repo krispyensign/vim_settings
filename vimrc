@@ -113,6 +113,7 @@ call plug#begin('~/.vim/plugged')
 " language plugins
 Plug 'vim-syntastic/syntastic'
 Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --all --verbose && chmod -R u+rw ./' }
+Plug 'rust-lang/rust/vim'
 Plug 'majutsushi/tagbar'
 Plug 'hashivim/vim-terraform'
 Plug 'krispyensign/vimux-golang'
