@@ -124,7 +124,7 @@ nnoremap <leader>yd <Plug>(YCMDiags)
 nnoremap <leader>ys <Plug>(YCMToggleSignatureHelp)
 nnoremap <leader>yf :YcmCompleter Format<CR>
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
-nnoremap <leader>yt :YcmCompleter GoToReferences<CR>
+nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 "fugitive
