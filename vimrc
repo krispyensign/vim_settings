@@ -115,7 +115,7 @@ nnoremap <leader>RR :source $MYVIMRC<CR>
 " custom function map
 nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 " netwr
-nnoremap <silent> <leader>n :100wincmd h<CR>:15Lexplore<CR>
+nnoremap <silent> <leader>n :15Lexplore<CR>
 " tagbar
 nnoremap <silent> <leader>tt <Plug>(TagbarToggle)
 " ycm
@@ -143,7 +143,8 @@ let java_highlight_all = 1
 " }}}
 
 " NetRW {{{
-autocmd TabNew * call feedkeys(":15Lexplore\<CR>", 'n')
+let g:netrw_list_hide= '.*\.swp$,\.git/'
+let g:netrw_hide=1
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_mousemaps= 0
@@ -296,7 +297,7 @@ function! ToggleGstatus() abort
 endfunction
 
 " enable virtual environments for python 3
-py3 << EOF
+python3 << EOF
 import os, sys
 if 'VIRTUAL_ENV' in os.environ:
     project_base_dir = os.environ['VIRTUAL_ENV']
