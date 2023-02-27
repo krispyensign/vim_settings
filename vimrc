@@ -167,6 +167,7 @@ let g:airline_powerline_fonts = 0
 
 " Tagbar {{{
 let g:tagbar_map_showproto = 'P'
+let g:tagbar_autoclose_netrw = 1
 " }}}
 
 " Syntastic {{{
