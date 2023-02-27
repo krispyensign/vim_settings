@@ -41,7 +41,6 @@ check_command javac
 check_command cmake
 check_command python
 check_command pip
-check_command fzf
 check_command go
 check_command dlv || true
 
