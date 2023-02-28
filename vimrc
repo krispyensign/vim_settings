@@ -40,7 +40,6 @@ Plug 'puremourning/vimspector', { 'do': ':VimspectorInstall --verbose --all' }
 "Language specific plugins
 Plug 'aklt/plantuml-syntax'
 Plug 'hashivim/vim-terraform'
-Plug 'krispyensign/vimux-golang'
 Plug 'rust-lang/rust/vim'
 
 " navigation plugins
@@ -178,7 +177,7 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
