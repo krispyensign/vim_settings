@@ -108,8 +108,9 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
-nnoremap <leader>c :call Toggle_Quickfix()<CR>
-nnoremap <leader>l :call Toggle_Location()<CR>
+nnoremap <leader>c :call ToggleQuickfix()<CR>
+nnoremap <leader>l :call ToggleLocation()<CR>
+nnoremap <leader>s :call ToggleGstatus()<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
 " debug vimrc map
@@ -131,8 +132,6 @@ nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 "fugitive
-nnoremap <leader>gs :call ToggleGstatus()<CR>
-nnoremap <leader>gh :G! push<CR>
 nnoremap <leader>gl :G! pull<CR>
 " }}}
 
@@ -196,7 +195,14 @@ let g:ycm_always_populate_location_list = 1
 let g:vimspector_enable_mappings = 'HUMAN'
 " }}}
 
-" FZF Rg search commands {{{
+" FZF {{{
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ 'ctrl-q': 'fill_quickfix'}
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+
 command! -bang -nargs=* Rggo
 \	call fzf#vim#grep(
 \		"rg --column --line-number --no-heading --color=always --smart-case --type go -- ".shellescape(<q-args>),
@@ -242,7 +248,7 @@ EOF
 	return l:s
 endfunction 
 
-function! Toggle_Quickfix()
+function! ToggleQuickfix()
 python3 << EOF
 current_buffer_name=vim.eval('GetActiveBufferName()')
 if current_buffer_name=='[Quickfix List]':
@@ -252,7 +258,7 @@ else:
 EOF
 endfunction
 
-function! Toggle_Location()
+function! ToggleLocation()
 python3 << EOF
 current_buffer_name=vim.eval('GetActiveBufferName()')
 if current_buffer_name=='[Location List]':
