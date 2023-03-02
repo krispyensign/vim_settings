@@ -134,7 +134,7 @@ nnoremap <leader>yf :YcmCompleter Format<CR>
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
-nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
+nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 "fugitive
 nnoremap <leader>gl :G! pull<CR>
 " }}}
@@ -244,6 +244,12 @@ function! MakeSession()
 	  let b:nr = bufnr('NetrwTreeListing')
 	  exec b:nr . 'bd'
   endif
+  exe 'tabdo pclose'
+  exe 'tabdo lclose'
+  exe 'tabdo helpclose'
+  exe 'tabdo cclose'
+  exe 'tabdo TagbarClose'
+  CloseGstatus() 
   let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
   if (filewritable(b:sessiondir) != 2)
     exe 'silent !mkdir -p ' b:sessiondir
@@ -258,9 +264,11 @@ function! LoadSession()
   let b:sessionfile = b:sessiondir . "/session.vim"
   if (filereadable(b:sessionfile))
     exe 'source ' b:sessionfile
+	exe 'tabdo 15Lexplore'
   else
-    echo "No session loaded."
+    echo "No session loaded." 
   endif
+  exe 'redraw!'
 endfunction
 
 au VimLeave * :call MakeSession()
@@ -344,6 +352,16 @@ function! ToggleGstatus() abort
   endfor
   keepalt :abo Git
 endfunction
+
+function! CloseGstatus() about
+  for l:winnr in range(1, winnr('$'))
+    if !empty(getwinvar(l:winnr, 'fugitive_status'))
+      exe l:winnr 'close'
+      return
+    endif
+  endfor
+endfunction
+
 
 " enable virtual environments for python 3
 python3 << EOF
