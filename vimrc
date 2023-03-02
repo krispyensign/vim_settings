@@ -240,40 +240,42 @@ command! -bang -nargs=* Rgcs
 
 " Custom Functions {{{
 function! MakeSession()
-  if (bufexists('NetrwTreeListing'))
-	  let b:nr = bufnr('NetrwTreeListing')
-	  exec b:nr . 'bd'
-  endif
-  exe 'tabdo pclose'
-  exe 'tabdo lclose'
-  exe 'tabdo helpclose'
-  exe 'tabdo cclose'
-  exe 'tabdo TagbarClose'
-  CloseGstatus() 
-  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-  if (filewritable(b:sessiondir) != 2)
-    exe 'silent !mkdir -p ' b:sessiondir
-    redraw!
-  endif
-  let b:filename = b:sessiondir . '/session.vim'
-  exe "mksession! " . b:filename
+	if (bufexists('NetrwTreeListing'))
+		let b:nr = bufnr('NetrwTreeListing')
+		exe b:nr . 'bd'
+	endif
+	exe 'tabdo pclose'
+	exe 'tabdo lclose'
+	exe 'tabdo helpclose'
+	exe 'tabdo cclose'
+	exe 'tabdo TagbarClose'
+	exe 'tabdo call CloseGstatus()'
+	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+	if (filewritable(b:sessiondir) != 2)
+		exe 'silent !mkdir -p ' b:sessiondir
+		redraw!
+	endif
+	let b:filename = b:sessiondir . '/session.vim'
+	exe "mksession! " . b:filename
 endfunction
 
 function! LoadSession()
-  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-  let b:sessionfile = b:sessiondir . "/session.vim"
-  if (filereadable(b:sessionfile))
-    exe 'source ' b:sessionfile
-	exe 'tabdo 15Lexplore'
-  else
-    echo "No session loaded." 
-  endif
-  exe 'redraw!'
+	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+	let b:sessionfile = b:sessiondir . "/session.vim"
+	if (filereadable(b:sessionfile))
+		exe 'source ' b:sessionfile
+		exe '2buffer'
+		exe 'tabdo 15Lexplore'
+		exe 'redraw!'
+		exe 'tabdo TagbarOpen'
+	else
+		echo "No session loaded." 
+	endif
 endfunction
 
 au VimLeave * :call MakeSession()
 if(argc() == 0)
-  au VimEnter * nested :call LoadSession()
+	au VimEnter * nested :call LoadSession()
 endif
 
 function! GetActiveBufferName()
@@ -324,44 +326,43 @@ endfunction
 
 " highlight all instances of word under cursor, when idle. useful when studying strange source code.
 function! AutoHighlightToggle()
-   let @/ = ''
-   if exists('#auto_highlight')
-     au! auto_highlight
-     augroup! auto_highlight
-     setl updatetime=4000
-     echo 'Highlight current word: off'
-     return 0
-  else
-    augroup auto_highlight
-    au!
-    au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=500
-    echo 'Highlight current word: ON'
-  return 1
- endif
+    let @/ = ''
+    if exists('#auto_highlight')
+        au! auto_highlight
+        augroup! auto_highlight
+        setl updatetime=4000
+        echo 'Highlight current word: off'
+        return 0
+    else
+		augroup auto_highlight
+		au!
+		au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+		augroup end
+		setl updatetime=500
+		echo 'Highlight current word: ON'
+	    return 1
+	endif
 endfunction
 
 " fugitive
 function! ToggleGstatus() abort
-  for l:winnr in range(1, winnr('$'))
-    if !empty(getwinvar(l:winnr, 'fugitive_status'))
-      exe l:winnr 'close'
-      return
-    endif
-  endfor
-  keepalt :abo Git
+    for l:winnr in range(1, winnr('$'))
+        if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			exe l:winnr 'close'
+			return
+        endif
+    endfor
+    keepalt :abo Git
 endfunction
 
-function! CloseGstatus() about
-  for l:winnr in range(1, winnr('$'))
-    if !empty(getwinvar(l:winnr, 'fugitive_status'))
-      exe l:winnr 'close'
-      return
-    endif
-  endfor
+function! CloseGstatus() abort
+    for l:winnr in range(1, winnr('$'))
+        if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			exe l:winnr 'close'
+			return
+        endif
+    endfor
 endfunction
-
 
 " enable virtual environments for python 3
 python3 << EOF
