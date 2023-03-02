@@ -4,30 +4,30 @@ syntax on							" enable syntax highlighting
 set termguicolors 					" enable 24 bit
 set background=dark 				" dark mode
 set encoding=utf8 					" default encoding
-set t_ut= 							" use current background color
-set nowrap 							" no text wrap
-set number 							" turn on numbering
-set foldenable 						" turn on folding
-set foldmethod=syntax 				" make folds based per syntax
-set foldlevel=2                     " start with 2 folds open
-set signcolumn=yes                  " gutter enabled
-set backspace=indent,eol,start      " enable backspace key
-set guioptions=gm                   " enable menu only
-set clipboard^=unnamed,unnamedplus  " setup clipboard to be more integrated
-set ttyfast                         " speed things up with tty
-set showmatch                       " show matches on /
-set cmdheight=2                     " command line bar is 2 chars high
-set noshowmode                      " managed by airline instead
-set switchbuf+=usetab,newtab        " default commands to start a new tab
-set mouse=a                         " enable mouse integrations for tty
-set ttymouse=sgr                    " more tty integrations for mouse
-set cursorline                      " enable visual line for for cursor
-set updatetime=300                  " improve latency
-set tabstop=4                       " make sure if tabs are used it displays 4 and not 8
-set shiftwidth=4                    " shifts should also display as 4
-set ssop-=options                   " do not store global and local values in a session
-set ssop-=folds                     " do not store folds
-set hlsearch                        " enable highlighting during search
+set t_ut=							" use current background color
+set nowrap							" no text wrap
+set number							" turn on numbering
+set foldenable						" turn on folding
+set foldmethod=syntax				" make folds based per syntax
+set foldlevel=2						" start with 2 folds open
+set signcolumn=yes					" gutter enabled
+set backspace=indent,eol,start		" enable backspace key
+set guioptions=gm					" enable menu only
+set clipboard^=unnamed,unnamedplus	" setup clipboard to be more integrated
+set ttyfast							" speed things up with tty
+set showmatch						" show matches on /
+set cmdheight=2						" command line bar is 2 chars high
+set noshowmode						" managed by airline instead
+set switchbuf+=usetab,newtab		" default commands to start a new tab
+set mouse=a							" enable mouse integrations for tty
+set ttymouse=sgr					" more tty integrations for mouse
+set cursorline						" enable visual line for for cursor
+set updatetime=300					" improve latency
+set tabstop=4						" make sure if tabs are used it displays 4 and not 8
+set shiftwidth=4					" shifts should also display as 4
+set ssop-=options					" do not store global and local values in a session
+set ssop-=folds						" do not store folds
+set hlsearch						" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 " }}}
 
@@ -35,9 +35,9 @@ set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 call plug#begin('~/.vim/plugged')
 " general language plugins
 Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --all --verbose && chmod -R u+rw ./' }
 Plug 'majutsushi/tagbar'
-Plug 'puremourning/vimspector', { 'do': function('BuildVimspector') }
+Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./' }
 Plug 'vim-test/vim-test'
 
 " language specific plugins
@@ -95,8 +95,8 @@ let g:tokyonight_cursor = "red"
 
 " set color column to light grey
 if (exists('+colorcolumn'))
-  set colorcolumn=100
-  highlight ColorColumn ctermbg=9
+	set colorcolumn=100
+	highlight ColorColumn ctermbg=9
 endif
 
 " turn on the colors
@@ -146,7 +146,7 @@ nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 " }}}
 
 " Language Settings {{{
-filetype plugin indent on           " allow filetype to be completely managed by vim
+filetype plugin indent on " allow filetype to be completely managed by vim
 autocmd FileType vim,txt setlocal foldmethod=marker
 
 let python_highlight_all = 1
@@ -211,10 +211,10 @@ let g:vimspector_enable_mappings = 'HUMAN'
 
 " FZF {{{
 let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit',
-  \ 'ctrl-q': 'fill_quickfix'}
+\	'ctrl-t': 'tab split',
+\	'ctrl-x': 'split',
+\	'ctrl-v': 'vsplit',
+\	'ctrl-q': 'fill_quickfix'}
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
 command! -bang -nargs=* Rggo
@@ -249,30 +249,30 @@ command! -bang -nargs=* Rgcs
 " }}}
 
 " Custom Functions {{{
-fun! BuildYCM(info)
-  " info is a dictionary with 3 fields
-  " - name:   name of the plugin
-  " - status: 'installed', 'updated', or 'unchanged'
-  " - force:  set on PlugInstall! or PlugUpdate!
-  if a:info.status == 'installed' || a:info.force
-    term++shell ./install.py --all --verbose && chmod -R u+rw ./
-  endif
-endfun
+func! BuildYCM(info)
+	" info is a dictionary with 3 fields
+	" - name:   name of the plugin
+	" - status: 'installed', 'updated', or 'unchanged'
+	" - force:  set on PlugInstall! or PlugUpdate!
+	if a:info.status == 'installed' || a:info.force
+		term++shell ./install.py --all --verbose && chmod -R u+rw ./
+	endif
+endfunc
 
 fun! BuildVimspector(info)
-  if a:info.status == 'installed' || a:info.force
-	term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./
-  endif
-endfun
+	if a:info.status == 'installed' || a:info.force
+		term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./
+	endif
+endfunc
 
-fun! CloseBufferByName(name)
+func! CloseBufferByName(name)
 	if (bufexists(a:name))
 		let b:nr = bufnr(a:name)
 		exe b:nr . 'bd'
 	endif
-endfun
+endfunc
 
-fun! MakeSession()
+func! MakeSession()
 	call CloseBufferByName('NetrwTreeListing')
 	tabdo pclose
 	tabdo lclose
@@ -287,9 +287,9 @@ fun! MakeSession()
 	endif
 	let b:filename = b:sessiondir . '/session.vim'
 	exe "mksession! " . b:filename
-endfun
+endfunc
 
-fun! LoadSession()
+func! LoadSession()
 	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
 	let b:sessionfile = b:sessiondir . "/session.vim"
 	if (filereadable(b:sessionfile))
@@ -301,14 +301,14 @@ fun! LoadSession()
 	else
 		echo "No session loaded."
 	endif
-endfun
+endfunc
 
 au VimLeave * :call MakeSession()
 if(argc() == 0)
 	au VimEnter * nested :call LoadSession()
 endif
 
-fun! GetActiveBufferName()
+func! GetActiveBufferName()
 	redir => buffname
 	sil exe "ls! %"
 	redir END
@@ -319,53 +319,53 @@ result = re.search('\"([^\"]*)\"',b).group(1)
 vim.command('let l:s="%s"'%result)
 EOF
 	return l:s
-endfun
-		
+endfunc
+
 " TODO: write tagbar toggle to open tagbar below netrw
 
-fun! ToggleQuickfix()
+func! ToggleQuickfix()
 python3 << EOF
 current_buffer_name=vim.eval('GetActiveBufferName()')
 if current_buffer_name=='[Quickfix List]':
-    vim.command('q')
+	vim.command('q')
 else:
-    vim.command('bel copen10')
+	vim.command('bel copen10')
 EOF
-endfun
+endfunc
 
-fun! ToggleNetrw()
+func! ToggleNetrw()
 python3 << EOF
 current_buffer_name=vim.eval('GetActiveBufferName()')
 if current_buffer_name=='NetrwTreeListing':
-    vim.command('q')
+	vim.command('q')
 else:
-    vim.command('15Lexplore')
+	vim.command('15Lexplore')
 EOF
-endfun
+endfunc
 
-fun! ToggleLocation()
+func! ToggleLocation()
 python3 << EOF
 current_buffer_name=vim.eval('GetActiveBufferName()')
 if current_buffer_name=='[Location List]':
-    vim.command('q')
+	vim.command('q')
 else:
 	try:
 		vim.command('bel lopen10')
 	except:
 		print("nothing to open")
 EOF
-endfun
+endfunc
 
 " highlight all instances of word under cursor, when idle. useful when studying strange source code.
-fun! AutoHighlightToggle()
-    let @/ = ''
-    if exists('#auto_highlight')
-        au! auto_highlight
-        augroup! auto_highlight
-        setl updatetime=4000
-        echo 'Highlight current word: off'
-        return 0
-    else
+func! AutoHighlightToggle()
+	let @/ = ''
+	if exists('#auto_highlight')
+		au! auto_highlight
+		augroup! auto_highlight
+		setl updatetime=4000
+		echo 'Highlight current word: off'
+		return 0
+	else
 		augroup auto_highlight
 		au!
 		au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
@@ -374,10 +374,10 @@ fun! AutoHighlightToggle()
 		echo 'Highlight current word: ON'
 		return 1
 	endif
-endfun
+endfunc
 
 " fugitive
-fun! ToggleGstatus() abort
+func! ToggleGstatus() abort
 	for l:winnr in range(1, winnr('$'))
 		if !empty(getwinvar(l:winnr, 'fugitive_status'))
 			exe l:winnr 'close'
@@ -387,14 +387,14 @@ fun! ToggleGstatus() abort
 	keepalt :abo Git
 endfun
 
-fun! CloseGstatus() abort
+func! CloseGstatus() abort
 	for l:winnr in range(1, winnr('$'))
 		if !empty(getwinvar(l:winnr, 'fugitive_status'))
 			exe l:winnr 'close'
 			return
-        endif
-    endfor
-endfun
+		endif
+	endfor
+endfunc
 
 " deprecated with virtualenv plugin?
 " enable virtual environments for python 3
