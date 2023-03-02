@@ -46,9 +46,7 @@ Plug 'hashivim/vim-terraform'
 Plug 'rust-lang/rust/vim'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'aklt/plantuml-syntax'
-Plug 'weirongxu/plantuml-previewer.vim'
-Plug 'tyru/open-browser.vim'
+Plug 'preservim/vim-markdown'
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -203,6 +201,7 @@ let g:syntastic_mode_map = {
 let g:ycm_enable_semantic_highlighting = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
 " }}}
 
 " Vimspector {{{
