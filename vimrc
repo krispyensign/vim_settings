@@ -257,7 +257,7 @@ command! -bang -nargs=* Rgcs
 " }}}
 
 " Custom Functions {{{
-function! GoFmt()
+func! GoFmt()
   let saved_view = winsaveview()
   silent %!gofmt
   if v:shell_error > 0
@@ -266,7 +266,7 @@ function! GoFmt()
     cwindow
   endif
   call winrestview(saved_view)
-endfunction
+endfunc
 
 func! BuildYCM(info)
 	" info is a dictionary with 3 fields
