@@ -32,6 +32,49 @@ set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 " }}}
 
 " Sessions {{{
+func! CloseBufferByName(name)
+	if bufexists(a:name)
+		let b:nr = bufnr(a:name)
+		exe b:nr . 'bd'
+	endif
+endfunc
+
+func! CloseGstatus() abort
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			exe l:winnr 'close'
+			return
+		endif
+	endfor
+endfunc
+
+func! MakeSession()
+	tabdo call CloseBufferByName('NetrwTreeListing')
+	tabdo call CloseGstatus()
+	tabdo TagbarClose
+	tabdo pclose | lclose | cclose | helpclose
+	" TODO: figure out how to keep these all open correctly
+	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+	if (filewritable(b:sessiondir) != 2)
+		exe 'silent !mkdir -p ' b:sessiondir
+		redraw!
+	endif
+	let b:filename = b:sessiondir . '/session.vim'
+	exe "mksession! " . b:filename
+endfunc
+
+func! LoadSession()
+	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+	let b:sessionfile = b:sessiondir . "/session.vim"
+	if (filereadable(b:sessionfile))
+		exe 'source ' b:sessionfile
+		redraw!
+	" TODO: change tagbar to open below netrw ??
+	else
+		echo "No session loaded."
+	endif
+endfunc
+
 au VimLeave * :call MakeSession()
 if(argc() == 0)
 	au VimEnter * nested :call LoadSession()
@@ -154,8 +197,13 @@ nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
+
+" go commands
+nnoremap <leader>gt :call GoTestifyRun()<CR>
+nnoremap <leader>gf :call GoFmt()<CR>
 " }}}
-" Language Settings {{{
+
+" General Language Settings {{{
 filetype plugin indent on " allow filetype to be completely managed by vim
 au FileType vim,txt setlocal foldmethod=marker
 au FileType go setlocal makeprg=$HOME/go/bin/golangci-lint\ run\ --config\ $HOME/.golang-lint.yml
@@ -260,19 +308,6 @@ command! -bang -nargs=* Rgcs
 \		1, fzf#vim#with_preview(), <bang>0)
 " }}}
 
-" Custom Language Functions {{{
-func! GoFmt()
-	let saved_view = winsaveview()
-	silent %!gofmt
-	if v:shell_error > 0
-		cexpr getline(1, '$')->map({ idx, val -> val->substitute('<standard input>', expand('%'), '') })
-		silent undo
-		cwindow
-	endif
-	call winrestview(saved_view)
-endfunc
-" }}}
-
 " Toggle Functions {{{
 func! ToggleGstatus() abort
 	for l:winnr in range(1, winnr('$'))
@@ -285,48 +320,53 @@ func! ToggleGstatus() abort
 endfun
 " }}}
 
-" Sessions Functions {{{
-func! CloseBufferByName(name)
-	if bufexists(a:name)
-		let b:nr = bufnr(a:name)
-		exe b:nr . 'bd'
+" Go Language Functions {{{
+func! GoFmt()
+	let saved_view = winsaveview()
+	silent %!gofmt
+	if v:shell_error > 0
+		cexpr getline(1, '$')->map({ idx, val -> val->substitute('<standard input>', expand('%'), '') })
+		silent undo
+		cwindow
 	endif
+	call winrestview(saved_view)
 endfunc
 
-func! CloseGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			exe l:winnr 'close'
-			return
-		endif
-	endfor
+func! GoGetTestName() abort
+  " search flags legend (used only)
+  " 'b' search backward instead of forward
+  " 'c' accept a match at the cursor position
+  " 'n' do Not move the cursor
+  " 'W' don't wrap around the end of the file
+  "
+  " for the full list
+  " :help search
+  let l:funcline = search('func \(Test\|Example\)', "bcnW")
+  let l:methline = search(') \(Test\|Example\)', 'bcnW')
+
+  if l:funcline == 0
+    return ''
+  endif
+
+  if l:methline > 0
+     let l:funcdecl = getline(l:funcline)
+     let l:methdecl = getline(l:methline)
+     let l:funcname = split(split(l:funcdecl, " ")[1], "(")[0]
+     let l:methname = split(split(l:methdecl, " ")[3], "(")[0]
+     return join([l:funcname, l:methname], '/')
+  endif
+
+  let l:funcname = getline(l:funcline)
+  return split(split(l:funcname, " ")[1], "(")[0]
 endfunc
 
-func! MakeSession()
-	tabdo call CloseBufferByName('NetrwTreeListing')
-	tabdo call CloseGstatus()
-	tabdo TagbarClose
-	tabdo pclose | lclose | cclose | helpclose
-	" TODO: figure out how to keep these all open correctly
-	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-	if (filewritable(b:sessiondir) != 2)
-		exe 'silent !mkdir -p ' b:sessiondir
-		redraw!
-	endif
-	let b:filename = b:sessiondir . '/session.vim'
-	exe "mksession! " . b:filename
+func! GoTestifyRun() abort
+	let l:fulltestname = GoGetTestName()
+	let l:suitename = split(l:fulltestname, '/')[0]
+	let l:testname = split(l:fulltestname, '/')[1]
+	let l:relpackage = expand("%:h")
+	"TODO: add coloring that shows test passed or failed
+	exec 'term++shell go test -v ./' .. l:relpackage .. '/... -run ^' .. l:suitename .. '$ -testify.m ^' .. l:testname .. '$'
 endfunc
 
-func! LoadSession()
-	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-	let b:sessionfile = b:sessiondir . "/session.vim"
-	if (filereadable(b:sessionfile))
-		exe 'source ' b:sessionfile
-		redraw!
-	" TODO: change tagbar to open below netrw ??
-	else
-		echo "No session loaded."
-	endif
-endfunc
 " }}}
-
