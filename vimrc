@@ -151,7 +151,7 @@ nnoremap <leader>yd :YcmCompleter GetDoc<CR>
 nnoremap <leader>yf :YcmCompleter Format<CR>
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
-nnoremap <leader>yR :YcmCompleter RefactorRename <word> 
+nnoremap <leader>yR :YcmCompleter RefactorRename <word>
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 " }}}
@@ -286,7 +286,7 @@ func! ToggleGstatus() abort
 endfun
 " }}}
 
-" Sessions Functions {{{ 
+" Sessions Functions {{{
 func! CloseBufferByName(name)
 	if bufexists(a:name)
 		let b:nr = bufnr(a:name)
