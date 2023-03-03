@@ -112,6 +112,13 @@ let g:airline_theme = 'everforest'
 " }}}
 
 " Custom Shortcuts {{{
+" Cheatsheet for randos
+" C-w N terminal Normal mode
+" * search for whole word under cursor
+" # search for partial word under cursor
+" TODO: add more cheatsheet things and also add mapping for double clicking
+" mouse to highlight
+
 " leader remap for ergonomic
 let mapleader = ' '
 " navigation maps
@@ -257,7 +264,7 @@ command! -bang -nargs=* Rgcs
 \		1, fzf#vim#with_preview(), <bang>0)
 " }}}
 
-" Custom Functions {{{
+" Custom Language Functions {{{
 func! GoFmt()
 	let saved_view = winsaveview()
 	silent %!gofmt
@@ -268,23 +275,57 @@ func! GoFmt()
 	endif
 	call winrestview(saved_view)
 endfunc
+" }}}
 
-func! BuildYCM(info)
-	" info is a dictionary with 3 fields
-	" - name:   name of the plugin
-	" - status: 'installed', 'updated', or 'unchanged'
-	" - force:  set on PlugInstall! or PlugUpdate!
-	if a:info.status == 'installed' || a:info.force
-		term++shell ./install.py --all --verbose && chmod -R u+rw ./
+" Toggle Functions {{{
+" TODO: write tagbar toggle to open tagbar below netrw
+
+func! ToggleQuickfix()
+	if call buffname() == '[Quickfix List]'
+		q
+	else
+		bel copen10
 	endif
 endfunc
 
-func! BuildVimspector(info)
-	if a:info.status == 'installed' || a:info.force
-		term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./
+func! ToggleNetrw()
+	if call buffname() == 'NetrwTreeListing'
+		q
+	else
+		bel copen10
 	endif
 endfunc
 
+func! ToggleLocation()
+	if call buffname() == '[Location List]'
+		q
+	else
+		bel copen10
+	endif
+endfunc
+
+" fugitive
+func! ToggleGstatus() abort
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			exe l:winnr 'close'
+			return
+		endif
+	endfor
+	keepalt :abo Git
+endfun
+
+func! CloseGstatus() abort
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			exe l:winnr 'close'
+			return
+		endif
+	endfor
+endfunc
+" }}}
+
+" Sessions Functions {{{ 
 func! CloseBufferByName(name)
 	if (bufexists(a:name) && buflisted(a:name))
 		let b:nr = bufnr(a:name)
@@ -321,92 +362,5 @@ func! LoadSession()
 		echo "No session loaded."
 	endif
 endfunc
-
-func! GetActiveBufferName()
-	redir => buffname
-	sil exe "ls! %"
-	redir END
-python3 << EOF
-import re
-b=vim.eval('buffname')
-result = re.search('\"([^\"]*)\"',b).group(1)
-vim.command('let l:s="%s"'%result)
-EOF
-	return l:s
-endfunc
-
-" TODO: write tagbar toggle to open tagbar below netrw
-
-func! ToggleQuickfix()
-python3 << EOF
-current_buffer_name=vim.eval('GetActiveBufferName()')
-if current_buffer_name=='[Quickfix List]':
-	vim.command('q')
-else:
-	vim.command('bel copen10')
-EOF
-endfunc
-
-func! ToggleNetrw()
-python3 << EOF
-current_buffer_name=vim.eval('GetActiveBufferName()')
-if current_buffer_name=='NetrwTreeListing':
-	vim.command('q')
-else:
-	vim.command('15Lexplore')
-EOF
-endfunc
-
-func! ToggleLocation()
-python3 << EOF
-current_buffer_name=vim.eval('GetActiveBufferName()')
-if current_buffer_name=='[Location List]':
-	vim.command('q')
-else:
-	try:
-		vim.command('bel lopen10')
-	except:
-		print("nothing to open")
-EOF
-endfunc
-
-" highlight all instances of word under cursor, when idle. useful when studying strange source code.
-func! AutoHighlightToggle()
-	let @/ = ''
-	if exists('#auto_highlight')
-		au! auto_highlight
-		augroup! auto_highlight
-		setl updatetime=4000
-		echo 'Highlight current word: off'
-		return 0
-	else
-		augroup auto_highlight
-		au!
-		au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-		augroup end
-		setl updatetime=500
-		echo 'Highlight current word: ON'
-		return 1
-	endif
-endfunc
-
-" fugitive
-func! ToggleGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			exe l:winnr 'close'
-			return
-		endif
-	endfor
-	keepalt :abo Git
-endfun
-
-func! CloseGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			exe l:winnr 'close'
-			return
-		endif
-	endfor
-endfunc
 " }}}
+
