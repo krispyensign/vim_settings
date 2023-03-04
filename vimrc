@@ -1,9 +1,9 @@
 " Settings {{{
 set nocompatible					" be iMproved, required
 syntax on							" enable syntax highlighting
-set termguicolors 					" enable 24 bit
-set background=dark 				" dark mode
-set encoding=utf8 					" default encoding
+set termguicolors					" enable 24 bit
+set background=dark					" dark mode
+set encoding=utf8					" default encoding
 set t_ut=							" use current background color
 set nowrap							" no text wrap
 set number							" turn on numbering
@@ -29,6 +29,57 @@ set ssop-=options					" do not store global and local values in a session
 set ssop-=folds						" do not store folds
 set hlsearch						" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
+" }}}
+
+" Plugins {{{
+call plug#begin('~/.vim/plugged')
+" general language plugins
+Plug 'vim-syntastic/syntastic'
+Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --all --verbose && chmod -R u+rw ./' }
+Plug 'majutsushi/tagbar'
+Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./' }
+Plug 'vim-test/vim-test'
+
+" language specific plugins
+Plug 'hashivim/vim-terraform'
+Plug 'rust-lang/rust/vim'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'preservim/vim-markdown'
+
+" navigation plugins
+Plug 'vim-airline/vim-airline'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" git plugins
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" supplemental theme plugins
+Plug 'vim-airline/vim-airline-themes'
+Plug 'luochen1990/rainbow'
+
+" theme plugins
+Plug 'rafalbromirski/vim-aurora'
+Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
+Plug 'sjl/badwolf'
+Plug 'srcery-colors/srcery-vim'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'nanotech/jellybeans.vim'
+Plug 'embark-theme/vim'
+Plug 'erizocosmico/vim-firewatch'
+Plug 'AlessandroYorba/Alduin'
+Plug 'atelierbram/vim-colors_atelier-schemes'
+Plug 'sainnhe/everforest'
+Plug 'kaicataldo/material.vim'
+Plug 'connorholyday/vim-snazzy'
+Plug 'jacoborus/tender'
+Plug 'mhinz/vim-janah'
+Plug 'AhmedAbdulrahman/vim-aylin'
+Plug 'ghifarit53/tokyonight-vim'
+call plug#end()
 " }}}
 
 " Sessions {{{
@@ -79,58 +130,6 @@ au VimLeave * :call MakeSession()
 if(argc() == 0)
 	au VimEnter * nested :call LoadSession()
 endif
-" }}}
-
-" Plugins {{{
-call plug#begin('~/.vim/plugged')
-" general language plugins
-Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --all --verbose && chmod -R u+rw ./' }
-Plug 'majutsushi/tagbar'
-Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./' }
-Plug 'vim-test/vim-test'
-
-" language specific plugins
-Plug 'aklt/plantuml-syntax'
-Plug 'hashivim/vim-terraform'
-Plug 'rust-lang/rust/vim'
-Plug 'jmcantrell/vim-virtualenv'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'preservim/vim-markdown'
-
-" navigation plugins
-Plug 'vim-airline/vim-airline'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-" git plugins
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-
-" supplemental theme plugins
-Plug 'vim-airline/vim-airline-themes'
-Plug 'luochen1990/rainbow'
-
-" theme plugins
-Plug 'rafalbromirski/vim-aurora'
-Plug 'joshdick/onedark.vim'
-Plug 'morhetz/gruvbox'
-Plug 'sjl/badwolf'
-Plug 'srcery-colors/srcery-vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'nanotech/jellybeans.vim'
-Plug 'embark-theme/vim'
-Plug 'erizocosmico/vim-firewatch'
-Plug 'AlessandroYorba/Alduin'
-Plug 'atelierbram/vim-colors_atelier-schemes'
-Plug 'sainnhe/everforest'
-Plug 'kaicataldo/material.vim'
-Plug 'connorholyday/vim-snazzy'
-Plug 'jacoborus/tender'
-Plug 'mhinz/vim-janah'
-Plug 'AhmedAbdulrahman/vim-aylin'
-Plug 'ghifarit53/tokyonight-vim'
-call plug#end()
 " }}}
 
 " Colors {{{
@@ -198,16 +197,20 @@ nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 
-" go commands
-nnoremap <leader>gt :call GoTestifyRun()<CR>
-nnoremap <leader>gf :call GoFmt()<CR>
+func! ToggleGstatus() abort
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			exe l:winnr 'close'
+			return
+		endif
+	endfor
+	keepalt :abo Git
+endfun
 " }}}
 
 " General Language Settings {{{
 filetype plugin indent on " allow filetype to be completely managed by vim
 au FileType vim,txt setlocal foldmethod=marker
-au FileType go setlocal makeprg=$HOME/go/bin/golangci-lint\ run\ --config\ $HOME/.golang-lint.yml
-au BufWritePost *.go call GoFmt()
 
 let python_highlight_all = 1
 let rust_highlight_all = 1
@@ -215,14 +218,6 @@ let cpp_highlight_all = 1
 let typescript_highlight_all = 1
 let javascript_highlight_all = 1
 let java_highlight_all = 1
-" }}}
-
-" NetRW {{{
-let g:netrw_list_hide = '.*\.swp$,\.git/'
-let g:netrw_hide = 1
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_mousemaps = 0
 " }}}
 
 " Rainbow {{{
@@ -271,102 +266,15 @@ let g:vimspector_enable_mappings = 'HUMAN'
 
 " FZF {{{
 let g:fzf_action = {
-\	'ctrl-t': 'tab split',
-\	'ctrl-x': 'split',
-\	'ctrl-v': 'vsplit',
-\	'ctrl-q': 'fill_quickfix'}
+	\ 'ctrl-t': 'tab split',
+	\ 'ctrl-x': 'split',
+	\ 'ctrl-v': 'vsplit',
+	\ 'ctrl-q': 'fill_quickfix'}
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
-command! -bang -nargs=* Rggo
-\	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --type go -- ".shellescape(<q-args>),
-\		1, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=* Rgrs
-\	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --type rust -- ".shellescape(<q-args>),
-\		1, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=* Rgjs
-\	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --type javascript -- ".shellescape(<q-args>),
-\		1, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=* Rgts
-\	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --type typescript -- ".shellescape(<q-args>),
-\		1, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=* Rgjava
-\	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --type java -- ".shellescape(<q-args>),
-\		1, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=* Rgcs
-\	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --type csharp -- ".shellescape(<q-args>),
-\		1, fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=* Rgl
+	\ call fzf#vim#grep(
+	\	"rg --column --line-number --no-heading --color=always --smart-case --type " .. &filetype .." -- " .. shellescape(<q-args>),
+	\	1, fzf#vim#with_preview(), <bang>0)
 " }}}
 
-" Toggle Functions {{{
-func! ToggleGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			exe l:winnr 'close'
-			return
-		endif
-	endfor
-	keepalt :abo Git
-endfun
-" }}}
-
-" Go Language Functions {{{
-func! GoFmt()
-	let saved_view = winsaveview()
-	silent %!gofmt
-	if v:shell_error > 0
-		cexpr getline(1, '$')->map({ idx, val -> val->substitute('<standard input>', expand('%'), '') })
-		silent undo
-		cwindow
-	endif
-	call winrestview(saved_view)
-endfunc
-
-func! GoGetTestName() abort
-  " search flags legend (used only)
-  " 'b' search backward instead of forward
-  " 'c' accept a match at the cursor position
-  " 'n' do Not move the cursor
-  " 'W' don't wrap around the end of the file
-  "
-  " for the full list
-  " :help search
-  let l:funcline = search('func \(Test\|Example\)', "bcnW")
-  let l:methline = search(') \(Test\|Example\)', 'bcnW')
-
-  if l:funcline == 0
-    return ''
-  endif
-
-  if l:methline > 0
-     let l:funcdecl = getline(l:funcline)
-     let l:methdecl = getline(l:methline)
-     let l:funcname = split(split(l:funcdecl, " ")[1], "(")[0]
-     let l:methname = split(split(l:methdecl, " ")[3], "(")[0]
-     return join([l:funcname, l:methname], '/')
-  endif
-
-  let l:funcname = getline(l:funcline)
-  return split(split(l:funcname, " ")[1], "(")[0]
-endfunc
-
-func! GoTestifyRun() abort
-	let l:fulltestname = GoGetTestName()
-	let l:suitename = split(l:fulltestname, '/')[0]
-	let l:testname = split(l:fulltestname, '/')[1]
-	let l:relpackage = expand("%:h")
-	"TODO: add coloring that shows test passed or failed
-	exec 'term++shell go test -v ./' .. l:relpackage .. '/... -run ^' .. l:suitename .. '$ -testify.m ^' .. l:testname .. '$'
-endfunc
-
-" }}}
