@@ -56,6 +56,7 @@ Plug 'airblade/vim-gitgutter'
 
 " supplemental theme plugins
 Plug 'vim-airline/vim-airline-themes'
+Plug 'luochen1990/rainbow'
 
 " theme plugins
 Plug 'rafalbromirski/vim-aurora'
