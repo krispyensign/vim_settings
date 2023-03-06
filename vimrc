@@ -8,7 +8,7 @@ set t_ut=							" use current background color
 set nowrap							" no text wrap
 set number							" turn on numbering
 set foldenable						" turn on folding
-set foldmethod=syntax				" make folds based per syntax
+set foldmethod=indent				" make folds based per syntax
 set signcolumn=yes					" gutter enabled
 set backspace=indent,eol,start		" enable backspace key
 set guioptions=gm					" enable menu only
@@ -41,9 +41,9 @@ Plug 'vim-test/vim-test'
 " language specific plugins
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
 Plug 'rust-lang/rust/vim', { 'for' : 'rust' }
-Plug 'jmcantrell/vim-virtualenv'
+Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'preservim/vim-markdown', { 'for' : 'markdown' }
+Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -174,6 +174,7 @@ nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
 nnoremap <leader>m :call MakeSession()<CR>
 nnoremap <leader>i :set invlist<CR>
+nnoremap <leader>8 :call ToggleHlSearch()<CR>
 
 " debug vimrc map
 nnoremap <leader>RS :source %<CR>
@@ -200,11 +201,20 @@ func! ToggleGstatus() abort
 	endfor
 	keepalt :abo Git
 endfun
+
+func! ToggleHlSearch() abort
+	if &hls == 1
+		nohls
+	else
+		*
+	endif
+endfunc
 " }}}
 
 " General Language Settings {{{
 filetype plugin indent on " allow filetype to be completely managed by vim
 au FileType vim,txt setlocal foldmethod=marker
+command! PU PlugUpdate | PlugUpgrade
 
 let python_highlight_all = 1
 let rust_highlight_all = 1
