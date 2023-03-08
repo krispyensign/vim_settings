@@ -5,7 +5,7 @@
 nnoremap <leader>gt :call GoRunTest()<CR>
 
 au FileType go setlocal makeprg=$HOME/go/bin/golangci-lint\ run\ --config\ $HOME/.golang-lint.yml
-au BufWritePre *.go !YcmCompleter Format
+au BufWritePre *.go silent :YcmCompleter Format
 " }}}
 
 " Settings {{{

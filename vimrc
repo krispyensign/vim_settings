@@ -33,7 +33,7 @@ set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 call plug#begin('~/.vim/plugged')
 " general language plugins
 Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --all --verbose && chmod -R u+rw ./' }
+Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --all --verbose && chmod -R u+rw ./' }
 Plug 'majutsushi/tagbar'
 Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all --enable-go && chmod -R u+rw ./' }
 Plug 'vim-test/vim-test'
