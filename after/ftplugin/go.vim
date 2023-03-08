@@ -1,12 +1,11 @@
-" my homemade go plugin for vim. requires vim-test, vimspector, delve, and
+" my homemade go plugin for vim. requires YCM, vim-test, vimspector, delve, and
 " goimports
 
-
 " Commands {{{
-nnoremap <leader>gt :call GoTestifyRun()<CR>
-nnoremap <leader>gf :call GoFmt()<CR>
+nnoremap <leader>gt :call GoRunTest()<CR>
 
 au FileType go setlocal makeprg=$HOME/go/bin/golangci-lint\ run\ --config\ $HOME/.golang-lint.yml
+au BufWritePre *.go !YcmCompleter Format
 " }}}
 
 " Settings {{{
@@ -35,3 +34,4 @@ func! GoRunTest() abort
 	exec 'Delve ' .. l:relplackage .. ' -- -test.run ' .. l:testname
 endfunc
 " }}}
+
