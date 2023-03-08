@@ -50,6 +50,7 @@ Plug 'johejo/gomod.vim', { 'for' : 'gomod' }
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'}
 
 " git plugins
 Plug 'tpope/vim-fugitive'
@@ -58,6 +59,7 @@ Plug 'airblade/vim-gitgutter'
 " supplemental theme plugins
 Plug 'vim-airline/vim-airline-themes'
 Plug 'luochen1990/rainbow'
+Plug 'ntpeters/vim-better-whitespace'
 
 " theme plugins
 Plug 'rafalbromirski/vim-aurora'
@@ -78,6 +80,10 @@ Plug 'jacoborus/tender'
 Plug 'mhinz/vim-janah'
 Plug 'AhmedAbdulrahman/vim-aylin'
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'jacoborus/tender.vim'
+Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'jonathanfilip/vim-lucius'
 call plug#end()
 " }}}
 
@@ -137,6 +143,7 @@ let g:material_theme_style = 'darker'
 let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
 let g:tokyonight_cursor = "red"
+let macvim_skip_colorscheme = 1 " fix for tender.vim
 
 " set color column to light grey
 if (exists('+colorcolumn'))
@@ -270,6 +277,12 @@ let g:ycm_min_num_of_chars_for_completion = 5
 
 " Vimspector {{{
 let g:vimspector_enable_mappings = 'HUMAN'
+" }}}
+
+" Minimap {{{
+let g:minimap_width = 10
+let g:minimap_auto_start = 1
+let g:minimap_auto_start_win_enter = 1
 " }}}
 
 " FZF {{{
