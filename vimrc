@@ -30,7 +30,7 @@ if has('macunix')
   " FZF settings
   set rtp+=/usr/local/opt/fzf
 elseif has('unix')
-  set guifont=Source\ Code\ Pro\ for\ Powerline\ Bold\ 9
+  set guifont=Source\ Code\ Pro\ for\ Powerline\ Bold\ 10
   " FZF settings
   set rtp+=~/.fzf
 endif
@@ -40,7 +40,7 @@ filetype plugin indent on
 
 " Set color column to light grey
 if (exists('+colorcolumn'))
-  set colorcolumn=120
+  set colorcolumn=100
   highlight ColorColumn ctermbg=9
 endif
 
@@ -127,6 +127,7 @@ let g:LanguageClient_serverCommands = {
     \ 'java': ['~/bin/java-lsp.sh'],
     \ 'python': ['pyls'],
     \ 'cpp': ['ccls'],
+    \ 'go': ['~/go/bin/go-langserver'],
     \ }
 let g:LanguageClient_rootMarkers = {
     \ 'java': ['gradlew'],
@@ -148,6 +149,7 @@ let g:syntastic_python_mypy_args = ['--ignore-missing-import']
 let g:syntastic_rust_checkers = ['cargo']
 let g:syntastic_cpp_checkers = [' ']
 let g:syntastic_java_checkers = [' ']
+let g:syntastic_go_checkers = [' ']
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 " Autoformat settings
