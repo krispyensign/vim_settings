@@ -49,7 +49,8 @@ check_command python
 check_command pip
 check_command go
 check_command goimports
-check_command dlv warn || true
+check_command mono warn 
+check_command dlv warn
 
 prints "deploying configs"
 mkdir -p ${vim_dir}/autoload ${vim_dir}/after/
