@@ -23,9 +23,11 @@ rm -fr ~/${VIM_DIR}/pack/${username}/start/*
 # deploy the plugins and addons
 cp -fr plugins/* ~/${VIM_DIR}/pack/${username}/start/
 cp -fr after/* ~/${VIM_DIR}/after/
-cp -fr autoload ~/${VIM_DIR}/autoload/
-cp -fr scripts/* ~/.local/bin
-chmod +x ~/.local/bin/*
+cp -fr autoload/* ~/${VIM_DIR}/autoload/
+cp -fr scripts/* ~/.local/vim_scripts/
+
+# make scripts executable
+chmod +x ~/.local/vim_scripts/*
 
 # deploy the new vimrc file
 cp ~/.vimrc ~/.vimrc.bak
