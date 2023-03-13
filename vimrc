@@ -318,9 +318,9 @@ func! LoadSession()
 	if (filereadable(b:sessionfile))
 		exe 'source ' b:sessionfile
 		redraw!
+		tabdo TagbarOpen
 		tabdo 15Lexplore
 		" TODO: change tagbar to open below netrw
-		tabdo TagbarOpen
 	else
 		echo "No session loaded."
 	endif
