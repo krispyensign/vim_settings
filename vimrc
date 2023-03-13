@@ -119,17 +119,17 @@ if (exists('+colorcolumn'))
 endif
 
 " per OS settings
-if has('macunix')
-  set guifont=SourceCodeProForPowerline-Bold:h14
-  set rtp+=/usr/local/opt/fzf
-elseif has('unix')
-  set guifont=Cousine\ for\ Powerline\ Bold\ 10
-  set rtp+=~/.fzf
-elseif has('win32')
-  let &pythonthreedll = 'C:\python38\python38.dll'
-  set guifont=Source_Code_Pro_for_Powerline:h10:b
-  set shell='C:/Program\ Files/Git/bin/bash.exe'
-endif
+"  if has('macunix')
+"    set guifont=SourceCodeProForPowerline-Bold:h14
+"    set rtp+=/usr/local/opt/fzf
+"  elseif has('unix')
+"    set guifont=Cousine\ for\ Powerline\ Bold\ 10
+"    set rtp+=~/.fzf
+"  elseif has('win32')
+"    let &pythonthreedll = 'C:\python38\python38.dll'
+"    set guifont=Source_Code_Pro_for_Powerline:h10:b
+"    set shell='C:/Program\ Files/Git/bin/bash.exe'
+"  endif
 
 " highlighting 
 let python_highlight_all = 1
