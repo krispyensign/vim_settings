@@ -117,7 +117,7 @@ nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 " netwr
 nnoremap <silent> <leader>n :15Lexplore<CR>
 " tagbar
-nnoremap <silent> <leader>tt <Plug>(TagbarToggle)
+nnoremap <silent> <leader>tt :TagbarToggle
 " ycm
 nnoremap <leader>yh <Plug>(YCMToggleInlayHints)
 nnoremap <leader>yd <Plug>(YCMDiags)
