@@ -46,4 +46,5 @@ done
 prints "deploying plugins directory"
 set -x
 rsync -pEr ./${pack_folder} ${user_pack_folder}
-ls -lah ${user_pack_folder}
+printh "deployed"
+ls ${user_pack_folder}
