@@ -16,12 +16,24 @@ function bluey() {
 	printf "${BLUE}"
 }
 
+function check_command() {
+	if ! type "$1" > /dev/null; then
+		echo "cannot find $1"
+		exit -1
+	fi
+}
+
+check_command rsync
+check_command git
+
 # setup variables
-VIM_DIR=".vim"
+vim_dir="${HOME}/.vim/"
 if [[ "msys" == $OSTYPE ]]; then
-	VIM_DIR="vimfiles"
+	vim_dir="${HOME}/vimfiles/"
 fi
 username=$(whoami)
+pack_folder=pack/${username}/start/
+user_pack_folder=${vim_dir}${pack_folder}
 plugins=$(grep '^http.*$' plugins_list.txt)
 plugin_names=$(echo "${plugins}" | cut -d'/' -f5)
 RED='\033[0;31m'
@@ -29,76 +41,61 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
+
+printh "detected vim pack folder ${user_pack_folder}"
+
 printh "syncing the following plugins"
 printf "${YELLOW}${plugin_names}\n"
 
-printh "removing and creating new directory structure"
-mkdir -p plugins ~/${VIM_DIR} 
-pushd $(pwd) > /dev/null
-	cd ~/${VIM_DIR}/
-	chmod -R 777 pack/
-	rm -fr after plugin autoload pack/ & progress -mp $!
-	mkdir -p after plugin autoload pack/ ~/${VIM_DIR}/pack/${username}/start/
-popd > /dev/null
+# make a vim folder if there isn't one already
+mkdir -p ${vim_dir}
 
 printh "cleanup stale plugins"
-pushd $(pwd) > /dev/null
-	cd plugins/
-	for oldplugin in $(ls); do
-		found="0"
-		for truthplugin in ${plugin_names[@]}; do
-			if [[ ${oldplugin} == ${truthplugin} ]]; then
-				prints "found ${oldplugin}"
-				found="1"
-			fi
-		done
-
-		if [[ ${found} == 0 ]]; then
-			prints "purging ${oldplugin}="
-			rm -fr ${oldplugin}
+for oldplugin in $(ls ./${pack_folder}); do
+	found="0"
+	for truthplugin in ${plugin_names[@]}; do
+		if [[ ${oldplugin} == ${truthplugin} ]]; then
+			prints "found ${oldplugin}"
+			found="1"
 		fi
 	done
-popd > /dev/null
+
+	if [[ ${found} == 0 ]]; then
+		prints "purging ${oldplugin}="
+		rm -fr ./${pack_folder}${oldplugin}
+	fi
+done
 
 printh "processing plugins"
-pushd $(pwd) > /dev/null
-	cd plugins/
-	for plugin in ${plugins[@]}; do
-		plugin_name=$(echo ${plugin} | cut -d'/' -f5)
-		prints "processing ${plugin_name}"
-		if [[ -d "${plugin_name}" ]]; then
-			pushd $(pwd) > /dev/null
-				prints "pulling latest ${plugin_name}"
-				cd ${plugin_name}
-				bluey
-				git pull || printe "failed pulling ${plugin_name}"
-				popd > /dev/null
-			continue
-		fi
-
-		prints "cloning ${plugin_name}"
+for plugin in ${plugins[@]}; do
+	plugin_name=$(echo ${plugin} | cut -d'/' -f5)
+	prints "processing ${plugin_name}"
+	if [[ -d "${pack_folder}${plugin_name}" ]]; then
+		prints "pulling latest ${plugin_name}"
 		bluey
-		git clone ${plugin} || printe "failed cloning ${plugin_name}"
-	done 
+		pushd $(pwd) > /dev/null
+			cd ${pack_folder}${plugin_name}
+			git pull || printe "failed pulling ${plugin_name}"
+		popd > /dev/null
+		continue
+	fi
 
-	prints "deploying plugins directory"
-	cp -fr * ~/${VIM_DIR}/pack/${username}/start/ & progress -mp $!
-popd > /dev/null
+	prints "cloning ${plugin_name}"
+	bluey
+	git clone ${plugin} ${pack_folder}${plugin_name} || printe "failed cloning ${plugin_name}"
+done 
 
-printh "deploying rainbow"
-pushd $(pwd) > /dev/null
-	cd ~/${VIM_DIR}/pack/${username}/start/rainbow
-	cp -fr plugin/ autoload/ ~/${VIM_DIR}/
-popd > /dev/null
+prints "deploying plugins directory"
+rsync -pE ./${pack_folder} ${user_pack_folder}
 
 # deploy other addons
 printh "deploying other addons"
-cp -fr after/ ~/${VIM_DIR}/after/
+cp -fr after/ ${vim_dir}/after/
 
 # deploy the new vimrc file
 printh "deploying vimrc"
-touch ~/.vimrc
-cp ~/.vimrc ~/.vimrc.bak
-cp vimrc ~/.vimrc
+touch ${HOME}/.vimrc
+cp ${HOME}/.vimrc ${HOME}/.vimrc.bak
+cp vimrc ${HOME}/.vimrc
 
 printh "Done! Use <leader>RR to load new settings without restarting vim :)"
