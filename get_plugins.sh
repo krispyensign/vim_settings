@@ -6,6 +6,7 @@ plugin_paths=$(ls plugins/)
 for plugin in $plugin_paths; do
   git submodule deinit -f plugins/$plugin
   git rm -fr plugins/$plugin
+  rm -fr plugins/$plugin
   rm -fr .git/modules/plugins/$plugin
 done
 
@@ -13,7 +14,11 @@ cd plugins
 
 for submodule in $submodules; do
   if [[ $submodule != \#* ]]; then
-    git submodule add $submodule
+    git submodule add -f $submodule
   fi
 done
+
+# Custom code for packages
+cd ~/.vim/pack/so/start/LanguageClient-neovim/
+./install.sh
 
