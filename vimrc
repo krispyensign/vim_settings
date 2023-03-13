@@ -29,7 +29,7 @@ set shiftwidth=4                    " shifts should also display as 4
 filetype plugin indent on           " allow filetype to be completely managed by vim
 
 " colors
-colorscheme badwolf
+colorscheme onedark
 
 " leader remap for ergonomic
 let mapleader = ' '
@@ -47,21 +47,26 @@ nnoremap <silent> <leader>c :cope<CR>
 nnoremap <silent> <leader>RR :source %<CR>
 " custom function map
 nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+nnoremap <silent> <leader>gs :call ToggleGstatus()<CR>
 " netwr
 nnoremap <silent> <leader>nt :Ntree<CR>
 nnoremap <silent> <leader>n :100wincmd h<CR>:15Lexplore<CR>
-" git
-nnoremap <silent> <leader>G :100wincmd h<CR>:abo Git<CR>
 " tagbar
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
+" ycm
+nnoremap <silent> <leader>yh :YCMToggleInlayHints<CR>
+nnoremap <silent> <leader>yd :YCMDiags<CR>
+nnoremap <silent> <leader>ys :YCMToggleSignatureHelp<CR>
+nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
+nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
 
-" Set color column to light grey
+" set color column to light grey
 if (exists('+colorcolumn'))
   set colorcolumn=100
   highlight ColorColumn ctermbg=9
 endif
 
-" Per OS settings
+" per OS settings
 if has('macunix')
   set guifont=SourceCodeProForPowerline-Bold:h14
   set rtp+=/usr/local/opt/fzf
@@ -74,7 +79,7 @@ elseif has('win32')
   set shell='C:/Program\ Files/Git/bin/bash.exe'
 endif
 
-" Highlighting 
+" highlighting 
 let python_highlight_all = 1
 let rust_highlight_all = 1
 let cpp_highlight_all = 1
@@ -82,16 +87,16 @@ let typescript_highlight_all = 1
 let javascript_highlight_all = 1
 let java_highlight_all = 1
 
-" Netrw
+" netrw
 autocmd TabNew * call feedkeys(":15Lexplore\<CR>", 'n')
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_mousemaps= 0
 
-" Rainbow
+" rainbow
 let g:rainbow_active = 1
 
-" Airline
+" airline
 let g:airline_theme = 'badwolf'
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -101,10 +106,10 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 0
 
-" Tagbar
+" tagbar
 let g:tagbar_map_showproto = 'P'
 
-" Syntastic
+" syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -114,12 +119,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
 
-" YCM settings
-nnoremap <silent> <leader>yh :YCMToggleInlayHints<CR>
-nnoremap <silent> <leader>yd :YCMDiags<CR>
-nnoremap <silent> <leader>ys :YCMToggleSignatureHelp<CR>
-nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
-nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
+" ycm 
 let g:ycm_enable_semantic_highlighting=1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -131,7 +131,7 @@ let g:syntastic_typescript_checkers = []
 let g:syntastic_java_checkers = []
 let g:syntastic_csharp_checkers = []
 
-" Rg search commands
+" rg search commands
 command! -bang -nargs=* Rggo
 \	call fzf#vim#grep(
 \		"rg --column --line-number --no-heading --color=always --smart-case --type go -- ".shellescape(<q-args>),
@@ -162,8 +162,8 @@ command! -bang -nargs=* Rgcs
 \		"rg --column --line-number --no-heading --color=always --smart-case --type csharp -- ".shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
 
-" Highlight all instances of word under cursor, when idle. Useful when studying strange source code.
-" Type z/ to toggle highlighting on/off.
+" highlight all instances of word under cursor, when idle. useful when studying strange source code.
+" type z/ to toggle highlighting on/off.
 function! AutoHighlightToggle()
    let @/ = ''
    if exists('#auto_highlight')
@@ -183,7 +183,19 @@ function! AutoHighlightToggle()
  endif
 endfunction
 
-" Enable virtual environments for python 3
+" fugitive
+nnoremap gs :call ToggleGstatus()<CR>
+function! ToggleGstatus() abort
+  for l:winnr in range(1, winnr('$'))
+    if !empty(getwinvar(l:winnr, 'fugitive_status'))
+      exe l:winnr 'close'
+      return
+    endif
+  endfor
+  keepalt :abo Git
+endfunction
+
+" enable virtual environments for python 3
 py3 << EOF
 import os
 import sys
