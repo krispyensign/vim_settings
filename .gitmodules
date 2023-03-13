@@ -61,9 +61,6 @@
 [submodule "plugins/vimf90"]
 	path = plugins/vimf90
 	url = https://github.com/rudrab/vimf90
-[submodule "plugins/deoplete-jedi"]
-	path = plugins/deoplete-jedi
-	url = https://github.com/deoplete-plugins/deoplete-jedi
 [submodule "plugins/deoplete-rust"]
 	path = plugins/deoplete-rust
 	url = https://github.com/sebastianmarkow/deoplete-rust
@@ -79,3 +76,6 @@
 [submodule "plugins/gruvbox"]
 	path = plugins/gruvbox
 	url = https://github.com/morhetz/gruvbox
+[submodule "plugins/vim-go"]
+	path = plugins/vim-go
+	url = https://github.com/fatih/vim-go
