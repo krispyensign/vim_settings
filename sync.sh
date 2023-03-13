@@ -23,15 +23,16 @@ pushd $(pwd)
 	cd plugins/
 	for oldplugin in $(ls); do
 		found="0"
-		for truthplugin in $(echo "${plugin_names}"); do
-			if [[ oldplugin == truthplugin ]]; then
+		for truthplugin in "${plugin_names[@]}"); do
+			if [[ ${oldplugin} == ${truthplugin} ]]; then
 				echo "*found ${oldplugin}"
 				found="1"
 			fi
 		done
+
 		if [[ ${found} == 0 ]]; then
 			echo "*purging ${oldplugin}="
-			rm -fr $oldplugin
+			rm -fr ${oldplugin}
 		fi
 	done
 popd
