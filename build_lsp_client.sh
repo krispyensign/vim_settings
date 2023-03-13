@@ -2,7 +2,7 @@
 
 source ./common.sh
 
-pushd > /dev/null
+pushd $(pwd) > /dev/null
 cd ./plugins/YouCompleteMe
 printh "updating modules"
 git submodule update --init --recursive
