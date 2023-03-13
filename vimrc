@@ -1,6 +1,6 @@
+" Settings {{{
 set nocompatible                    " be iMproved, required
 syntax on                           " enable syntax highlighting
-
 set termguicolors
 set background=dark                 " dark mode
 set encoding=utf8                   " default encoding
@@ -25,9 +25,11 @@ set cursorline                      " enable visual line for for cursor
 set updatetime=300                  " improve latency
 set tabstop=4                       " make sure if tabs are used it displays 4 and not 8
 set shiftwidth=4                    " shifts should also display as 4
-
 filetype plugin indent on           " allow filetype to be completely managed by vim
+autocmd FileType vim,txt setlocal foldmethod=marker
+" }}}
 
+" Plugins {{{
 function! BuildYCM(info)
   " info is a dictionary with 3 fields
   " - name:   name of the plugin
@@ -83,11 +85,20 @@ Plug 'AhmedAbdulrahman/vim-aylin'
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'ghifarit53/tokyonight-vim'
 call plug#end()
+" }}}
 
-" colors
+" Colors {{{
 colorscheme badwolf
 let g:airline_theme = 'badwolf'
 
+" set color column to light grey
+if (exists('+colorcolumn'))
+  set colorcolumn=100
+  highlight ColorColumn ctermbg=9
+endif
+" }}}
+
+" Custom Shortcuts {{{
 " leader remap for ergonomic
 let mapleader = ' '
 " navigation maps
@@ -100,6 +111,7 @@ nnoremap <silent> <leader>] :vertical resize -5<CR>
 nnoremap <silent> <leader>l :lopen<CR>
 nnoremap <silent> <leader>co :cope<CR>
 nnoremap <silent> <leader>pc :pclose<CR>
+nnoremap <silent> <leader>f @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 " debug vimrc map
 nnoremap <silent> <leader>RS :source %<CR>
 nnoremap <silent> <leader>RR :source $MYVIMRC<CR>
@@ -117,47 +129,33 @@ nnoremap <silent> <leader>ys <Plug>(YCMToggleSignatureHelp)
 nnoremap <silent> <leader>yf :YcmCompleter Format<CR>
 nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
+nnoremap <silent> <leader>yx :YcmCompleter FixIt<CR>
 "fugitive
 nnoremap <silent> <leader>gh :G! push<CR>
 nnoremap <silent> <leader>gl :G! pull<CR>
+" }}}
 
-" set color column to light grey
-if (exists('+colorcolumn'))
-  set colorcolumn=100
-  highlight ColorColumn ctermbg=9
-endif
-
-" per OS settings
-"  if has('macunix')
-"    set guifont=SourceCodeProForPowerline-Bold:h14
-"    set rtp+=/usr/local/opt/fzf
-"  elseif has('unix')
-"    set guifont=Cousine\ for\ Powerline\ Bold\ 10
-"    set rtp+=~/.fzf
-"  elseif has('win32')
-"    let &pythonthreedll = 'C:\python38\python38.dll'
-"    set guifont=Source_Code_Pro_for_Powerline:h10:b
-"    set shell='C:/Program\ Files/Git/bin/bash.exe'
-"  endif
-
-" highlighting 
+" Standard Language Settings {{{
 let python_highlight_all = 1
 let rust_highlight_all = 1
 let cpp_highlight_all = 1
 let typescript_highlight_all = 1
 let javascript_highlight_all = 1
 let java_highlight_all = 1
+" }}}
 
-" netrw
+" NetRW {{{
 autocmd TabNew * call feedkeys(":15Lexplore\<CR>", 'n')
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_mousemaps= 0
+" }}}
 
-" rainbow
+" Rainbow {{{
 let g:rainbow_active = 1
+" }}}
 
-" airline
+" Airline {{{
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
@@ -165,11 +163,13 @@ let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 0
+" }}}
 
-" tagbar
+" Tagbar {{{
 let g:tagbar_map_showproto = 'P'
+" }}}
 
-" syntastic
+" Syntastic {{{
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -178,8 +178,9 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
+" }}}
 
-" ycm 
+" YouCompleteMe {{{
 let g:ycm_enable_semantic_highlighting = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -191,11 +192,13 @@ let g:syntastic_go_checkers = []
 let g:syntastic_typescript_checkers = []
 let g:syntastic_java_checkers = []
 let g:syntastic_csharp_checkers = []
+" }}}
 
-" vimspector
+" Vimspector {{{
 let g:vimspector_enable_mappings = 'HUMAN'
+" }}}
 
-" rg search commands
+" FZF Rg search commands {{{
 command! -bang -nargs=* Rggo
 \	call fzf#vim#grep(
 \		"rg --column --line-number --no-heading --color=always --smart-case --type go -- ".shellescape(<q-args>),
@@ -225,7 +228,9 @@ command! -bang -nargs=* Rgcs
 \	call fzf#vim#grep(
 \		"rg --column --line-number --no-heading --color=always --smart-case --type csharp -- ".shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
+" }}}
 
+" Custom Functions {{{
 " highlight all instances of word under cursor, when idle. useful when studying strange source code.
 function! AutoHighlightToggle()
    let @/ = ''
@@ -268,3 +273,4 @@ if 'VIRTUAL_ENV' in os.environ:
     with open(activate_this) as f:
         exec(f.read(), {'__file__': activate_this})
 EOF
+"}}}
