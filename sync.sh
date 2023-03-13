@@ -48,7 +48,7 @@ check_command cmake
 check_command python
 check_command pip
 check_command go
-check_command goimports
+check_command golangci-lint
 check_command mono warn 
 check_command dlv warn
 
