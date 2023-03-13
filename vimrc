@@ -35,9 +35,9 @@ set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 call plug#begin('~/.vim/plugged')
 " general language plugins
 Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --all --verbose && chmod -R u+rw ./' }
+Plug 'ycm-core/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'majutsushi/tagbar'
-Plug 'puremourning/vimspector', { 'do': ':VimspectorInstall --verbose --all' }
+Plug 'puremourning/vimspector', { 'do': function('BuildVimspector') }
 Plug 'vim-test/vim-test'
 
 " language specific plugins
@@ -137,6 +137,7 @@ nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 nnoremap <leader>yh <Plug>(YCMToggleInlayHints)
 nnoremap <leader>yd <Plug>(YCMDiags)
 nnoremap <leader>ys <Plug>(YCMToggleSignatureHelp)
+nnoremap <leader>yq <plug>(YCMHover)
 nnoremap <leader>yf :YcmCompleter Format<CR>
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
@@ -248,17 +249,37 @@ command! -bang -nargs=* Rgcs
 " }}}
 
 " Custom Functions {{{
-function! MakeSession()
-	if (bufexists('NetrwTreeListing'))
-		let b:nr = bufnr('NetrwTreeListing')
+fun! BuildYCM(info)
+  " info is a dictionary with 3 fields
+  " - name:   name of the plugin
+  " - status: 'installed', 'updated', or 'unchanged'
+  " - force:  set on PlugInstall! or PlugUpdate!
+  if a:info.status == 'installed' || a:info.force
+    term++shell ./install.py --all --verbose && chmod -R u+rw ./
+  endif
+endfun
+
+fun! BuildVimspector(info)
+  if a:info.status == 'installed' || a:info.force
+	term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./
+  endif
+endfun
+
+fun! CloseBufferByName(name)
+	if (bufexists(a:name))
+		let b:nr = bufnr(a:name)
 		exe b:nr . 'bd'
 	endif
-	exe 'tabdo pclose'
-	exe 'tabdo lclose'
-	exe 'tabdo helpclose'
-	exe 'tabdo cclose'
-	exe 'tabdo TagbarClose'
-	exe 'tabdo call CloseGstatus()'
+endfun
+
+fun! MakeSession()
+	call CloseBufferByName('NetrwTreeListing')
+	tabdo pclose
+	tabdo lclose
+	tabdo helpclose
+	tabdo cclose
+	tabdo TagbarClose
+	tabdo call CloseGstatus()
 	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
 	if (filewritable(b:sessiondir) != 2)
 		exe 'silent !mkdir -p ' b:sessiondir
@@ -266,28 +287,28 @@ function! MakeSession()
 	endif
 	let b:filename = b:sessiondir . '/session.vim'
 	exe "mksession! " . b:filename
-endfunction
+endfun
 
-function! LoadSession()
+fun! LoadSession()
 	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
 	let b:sessionfile = b:sessiondir . "/session.vim"
 	if (filereadable(b:sessionfile))
 		exe 'source ' b:sessionfile
-		exe '2buffer'
-		exe 'tabdo 15Lexplore'
-		exe 'redraw!'
-		exe 'tabdo TagbarOpen'
+		redraw!
+		tabdo 15Lexplore
+		" TODO: change tagbar to open below netrw
+		tabdo TagbarOpen
 	else
 		echo "No session loaded."
 	endif
-endfunction
+endfun
 
 au VimLeave * :call MakeSession()
 if(argc() == 0)
 	au VimEnter * nested :call LoadSession()
 endif
 
-function! GetActiveBufferName()
+fun! GetActiveBufferName()
 	redir => buffname
 	sil exe "ls! %"
 	redir END
@@ -298,9 +319,11 @@ result = re.search('\"([^\"]*)\"',b).group(1)
 vim.command('let l:s="%s"'%result)
 EOF
 	return l:s
-endfunction
+endfun
+		
+" TODO: write tagbar toggle to open tagbar below netrw
 
-function! ToggleQuickfix()
+fun! ToggleQuickfix()
 python3 << EOF
 current_buffer_name=vim.eval('GetActiveBufferName()')
 if current_buffer_name=='[Quickfix List]':
@@ -308,9 +331,9 @@ if current_buffer_name=='[Quickfix List]':
 else:
     vim.command('bel copen10')
 EOF
-endfunction
+endfun
 
-function! ToggleNetrw()
+fun! ToggleNetrw()
 python3 << EOF
 current_buffer_name=vim.eval('GetActiveBufferName()')
 if current_buffer_name=='NetrwTreeListing':
@@ -318,9 +341,9 @@ if current_buffer_name=='NetrwTreeListing':
 else:
     vim.command('15Lexplore')
 EOF
-endfunction
+endfun
 
-function! ToggleLocation()
+fun! ToggleLocation()
 python3 << EOF
 current_buffer_name=vim.eval('GetActiveBufferName()')
 if current_buffer_name=='[Location List]':
@@ -331,10 +354,10 @@ else:
 	except:
 		print("nothing to open")
 EOF
-endfunction
+endfun
 
 " highlight all instances of word under cursor, when idle. useful when studying strange source code.
-function! AutoHighlightToggle()
+fun! AutoHighlightToggle()
     let @/ = ''
     if exists('#auto_highlight')
         au! auto_highlight
@@ -351,10 +374,10 @@ function! AutoHighlightToggle()
 		echo 'Highlight current word: ON'
 		return 1
 	endif
-endfunction
+endfun
 
 " fugitive
-function! ToggleGstatus() abort
+fun! ToggleGstatus() abort
 	for l:winnr in range(1, winnr('$'))
 		if !empty(getwinvar(l:winnr, 'fugitive_status'))
 			exe l:winnr 'close'
@@ -362,24 +385,25 @@ function! ToggleGstatus() abort
 		endif
 	endfor
 	keepalt :abo Git
-endfunction
+endfun
 
-function! CloseGstatus() abort
+fun! CloseGstatus() abort
 	for l:winnr in range(1, winnr('$'))
 		if !empty(getwinvar(l:winnr, 'fugitive_status'))
 			exe l:winnr 'close'
 			return
         endif
     endfor
-endfunction
+endfun
 
+" deprecated with virtualenv plugin?
 " enable virtual environments for python 3
-python3 << EOF
-import os, sys
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    with open(activate_this) as f:
-        exec(f.read(), {'__file__': activate_this})
-EOF
+" python3 << EOF
+" import os, sys
+" if 'VIRTUAL_ENV' in os.environ:
+"     project_base_dir = os.environ['VIRTUAL_ENV']
+"     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"     with open(activate_this) as f:
+"         exec(f.read(), {'__file__': activate_this})
+" EOF
 " }}}
