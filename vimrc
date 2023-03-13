@@ -50,6 +50,7 @@ Plug 'krispyensign/vimux-golang'
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'luochen1990/rainbow'
 
