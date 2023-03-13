@@ -6,7 +6,6 @@ set background=dark                 " dark mode
 set encoding=utf8                   " default encoding
 set t_ut=                           " use current background color
 set nowrap                          " no text wrap
-set expandtab                       " use spaces not tabs
 set number                          " turn on numbering
 set foldenable                      " start with all folds closed
 set signcolumn=yes                  " gutter enabled
@@ -21,6 +20,9 @@ set switchbuf+=usetab,newtab        " default commands to start a new tab
 set mouse=a                         " enable mouse integrations for tty
 set ttymouse=sgr                    " more tty integrations for mouse
 set cursorline                      " enable visual line for for cursor
+
+packloadall                         " load everything in pack
+silent! helptags ALL                " load all help tags after everything else
 filetype plugin indent on           " allow filetype to be completely managed by vim
 
 " colors
@@ -117,15 +119,8 @@ let g:airline_powerline_fonts = 0
 " Tagbar settings
 let g:tagbar_map_showproto = 'P'
 
-" Language client settings
-let g:LanguageClient_loggingLevel = 'DEBUG'
-let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
-let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
-let g:LanguageClient_serverCommands = {
-    \ 'python': ['pyls'],
-    \ 'cpp': ['clangd'],
-    \ }
-let g:LanguageClient_rootMarkers = {
-    \ 'cpp': ['compile_commands.json'],
-    \ }
-
+" Ale settings
+set completeopt=menu,menuone,preview,noselect,noinsert
+let g:ale_completion_enabled = 1
+let g:ale_fixers = { 'rust': ['rustfmt', 'trim_whitespace', 'remove_trailing_lines'] }
+let g:ale_linters = { 'rust': ['analyzer'] }
