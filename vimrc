@@ -40,7 +40,7 @@ Plug 'majutsushi/tagbar'
 Plug 'puremourning/vimspector', { 'do': ':VimspectorInstall --verbose --all' }
 Plug 'vim-test/vim-test'
 
-"Language specific plugins
+" language specific plugins
 Plug 'aklt/plantuml-syntax'
 Plug 'hashivim/vim-terraform'
 Plug 'rust-lang/rust/vim'
