@@ -45,20 +45,25 @@ nnoremap <silent> <leader>n :NERDTreeToggle<CR>
 nnoremap <silent> <leader>t :TagbarToggle<CR>
 nnoremap <silent> <leader>c :cope<CR>
 
-" Font and FZF management script
+" Per OS settings
 if has('macunix')
   set guifont=SourceCodeProForPowerline-Bold:h14
-  " FZF settings
   set rtp+=/usr/local/opt/fzf
+  let g:slimv_swank_cmd = 
+        \ '!start "/usr/local/bin/csi" -l "$HOME/.vim/pack/$USER/r7rs-swank/chicken-swank.sld"'
+
 elseif has('unix')
   set guifont=Cousine\ for\ Powerline\ Bold\ 10
-  " FZF settings
   set rtp+=~/.fzf
+  let g:slimv_swank_cmd = 
+        \ '!start "csi" -l "$HOME/.vim/pack/$USER/r7rs-swank/chicken-swank.sld"'
+
 elseif has('win32')
   let &pythonthreedll = 'C:\python38\python38.dll'
   set guifont=Source_Code_Pro_for_Powerline:h10:b
   let g:slimv_swank_cmd = 
-        \ '!start "C:/Program Files (x86)/Gambit/v4.9.3/bin/gsi.exe" -l "$HOME/vimfiles/pack/$USER/r7rs-swank/gambit-swank.sld"'
+        \ '!start "csi.exe" -l "$HOME/vimfiles/pack/$USER/r7rs-swank/chicken-swank.sld"'
+
 endif
 
 " Set color column to light grey
