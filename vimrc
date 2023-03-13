@@ -60,13 +60,13 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'luochen1990/rainbow'
 
 " theme plugins
+Plug 'rafalbromirski/vim-aurora'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'sjl/badwolf'
 Plug 'srcery-colors/srcery-vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'nanotech/jellybeans.vim'
-Plug 'kyoh86/momiji'
 Plug 'Everblush/everblush.vim'
 Plug 'embark-theme/vim'
 Plug 'juanedi/predawn.vim'
@@ -74,20 +74,18 @@ Plug 'erizocosmico/vim-firewatch'
 Plug 'AlessandroYorba/Alduin'
 Plug 'atelierbram/vim-colors_atelier-schemes' 
 Plug 'sainnhe/everforest'
-Plug 'blueshirts/darcula'
 Plug 'connorholyday/vim-snazzy'
-Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' }
 Plug 'hzchirs/vim-material'
-Plug 'Rigellute/shades-of-purple.vim'
 Plug 'jacoborus/tender'
-Plug 'haishanh/night-owl.vim'
 Plug 'mhinz/vim-janah'
-Plug 'rafalbromirski/vim-aurora'
+Plug 'AhmedAbdulrahman/vim-aylin'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'ghifarit53/tokyonight-vim'
 call plug#end()
 
 " colors
-colorscheme janah
-
+colorscheme badwolf
+let g:airline_theme = 'badwolf'
 
 " leader remap for ergonomic
 let mapleader = ' '
@@ -159,7 +157,6 @@ let g:netrw_mousemaps= 0
 let g:rainbow_active = 1
 
 " airline
-let g:airline_theme = 'srcery'
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
