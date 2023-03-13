@@ -54,10 +54,13 @@ nnoremap <silent> <leader>s <Plug>(YCMToggleSignatureHelp)
 " Rg search commands
 command! -bang -nargs=* Rggo
 \	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --type *.go -- ".shellescape(<q-args>),
-\		1, 
-\		fzf#vim#with_preview(),
-\ 		<bang>0)
+\		"rg --column --line-number --no-heading --color=always --smart-case --type go -- ".shellescape(<q-args>),
+\		1, fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=* Rgrs
+\	call fzf#vim#grep(
+\		"rg --column --line-number --no-heading --color=always --smart-case --type rust -- ".shellescape(<q-args>),
+\		1, fzf#vim#with_preview(), <bang>0)
 
 " Per OS settings
 if has('macunix')
