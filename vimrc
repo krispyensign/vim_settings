@@ -320,6 +320,7 @@ func! LoadSession()
 		redraw!
 		tabdo TagbarOpen
 		tabdo 15Lexplore
+		tabdo wincmd r
 		" TODO: change tagbar to open below netrw
 	else
 		echo "No session loaded."
