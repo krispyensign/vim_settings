@@ -176,23 +176,20 @@ let g:tagbar_autoclose_netrw = 1
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+let g:syntastic_auto_loc_list = 3
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
+let g:syntastic_mode_map = {
+	\ "mode": "active",
+	\ "active_filetypes": [],
+	\ "passive_filetypes": ["rust", "python", "javascript", "go", "typescript", "java", "csharp"] }
 " }}}
 
 " YouCompleteMe {{{
 let g:ycm_enable_semantic_highlighting = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
-let g:syntastic_python_checkers = []
-let g:syntastic_rust_checkers = []
-let g:syntastic_javascript_checkers = []
-let g:syntastic_go_checkers = []
-let g:syntastic_typescript_checkers = []
-let g:syntastic_java_checkers = []
-let g:syntastic_csharp_checkers = []
 " }}}
 
 " Vimspector {{{
