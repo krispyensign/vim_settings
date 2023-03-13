@@ -20,9 +20,9 @@ https://github.com/roxma/vim-hug-neovim-rpc
 https://github.com/racer-rust/vim-racer
 https://github.com/plytophogy/vim-virtualenv
 https://github.com/rudrab/vimf90
-https://github.com/deoplete-plugins/deoplete-jedi
 https://github.com/sebastianmarkow/deoplete-rust
 https://github.com/luochen1990/rainbow
 https://github.com/vhdirk/vim-cmake
 https://github.com/nickhutchinson/vim-cmake-syntax
 https://github.com/morhetz/gruvbox
+https://github.com/fatih/vim-go
