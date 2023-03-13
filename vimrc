@@ -44,10 +44,13 @@ nnoremap <silent> <leader>n :NERDTreeToggle<CR>
 nnoremap <silent> <leader>t :TagbarToggle<CR>
 nnoremap <silent> <leader>c :cope<CR>
 nnoremap <silent> <leader>T :bel term<CR>
+nnoremap <silent> <leader>p :lopen<CR>
+nnoremap <silent> <leader>o :close<CR>
 
 " YCM mappings
-nnoremap <silent> <leader>h <Plug>(YcmToggleInlayHints)
-nnoremap <silent> <leader>d <Plug>(YcmDiags)
+nnoremap <silent> <leader>h <Plug>(YCMToggleInlayHints)
+nnoremap <silent> <leader>d <Plug>(YCMDiags)
+nnoremap <silent> <leader>s <Plug>(YCMToggleSignatureHelp)
 
 " Per OS settings
 if has('macunix')
