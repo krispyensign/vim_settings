@@ -1,14 +1,14 @@
 " Settings {{{
-set nocompatible                    " be iMproved, required
-syntax on                           " enable syntax highlighting
-set termguicolors
-set background=dark                 " dark mode
-set encoding=utf8                   " default encoding
-set t_ut=                           " use current background color
-set nowrap                          " no text wrap
-set number                          " turn on numbering
-set foldenable                      " turn on folding
-set foldmethod=syntax               " make folds based per syntax
+set nocompatible					" be iMproved, required
+syntax on							" enable syntax highlighting
+set termguicolors 					" enable 24 bit
+set background=dark 				" dark mode
+set encoding=utf8 					" default encoding
+set t_ut= 							" use current background color
+set nowrap 							" no text wrap
+set number 							" turn on numbering
+set foldenable 						" turn on folding
+set foldmethod=syntax 				" make folds based per syntax
 set foldlevel=2                     " start with 2 folds open
 set signcolumn=yes                  " gutter enabled
 set backspace=indent,eol,start      " enable backspace key
@@ -25,10 +25,10 @@ set cursorline                      " enable visual line for for cursor
 set updatetime=300                  " improve latency
 set tabstop=4                       " make sure if tabs are used it displays 4 and not 8
 set shiftwidth=4                    " shifts should also display as 4
-set ssop-=options 					" do not store global and local values in a session
-set ssop-=folds 					" do not store folds
-filetype plugin indent on           " allow filetype to be completely managed by vim
-autocmd FileType vim,txt setlocal foldmethod=marker
+set ssop-=options                   " do not store global and local values in a session
+set ssop-=folds                     " do not store folds
+set hlsearch                        " enable highlighting during search
+set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 " }}}
 
 " Plugins {{{
@@ -38,11 +38,17 @@ Plug 'vim-syntastic/syntastic'
 Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --all --verbose && chmod -R u+rw ./' }
 Plug 'majutsushi/tagbar'
 Plug 'puremourning/vimspector', { 'do': ':VimspectorInstall --verbose --all' }
+Plug 'vim-test/vim-test'
 
 "Language specific plugins
 Plug 'aklt/plantuml-syntax'
 Plug 'hashivim/vim-terraform'
 Plug 'rust-lang/rust/vim'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'aklt/plantuml-syntax'
+Plug 'weirongxu/plantuml-previewer.vim'
+Plug 'tyru/open-browser.vim'
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -68,7 +74,7 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'embark-theme/vim'
 Plug 'erizocosmico/vim-firewatch'
 Plug 'AlessandroYorba/Alduin'
-Plug 'atelierbram/vim-colors_atelier-schemes' 
+Plug 'atelierbram/vim-colors_atelier-schemes'
 Plug 'sainnhe/everforest'
 Plug 'kaicataldo/material.vim'
 Plug 'connorholyday/vim-snazzy'
@@ -82,7 +88,7 @@ call plug#end()
 " Colors {{{
 " various theme settings
 let g:alduin_Shout_Dragon_Aspect = 1
-let g:everforest_background = 'hard' 
+let g:everforest_background = 'hard'
 let g:everforest_disable_italic_comment = 1
 let g:material_theme_style = 'darker'
 let g:tokyonight_enable_italic = 0
@@ -110,22 +116,25 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
+
 " toggles
 nnoremap <leader>c :call ToggleQuickfix()<CR>
 nnoremap <leader>l :call ToggleLocation()<CR>
 nnoremap <leader>s :call ToggleGstatus()<CR>
 nnoremap <leader>n :call ToggleNetrw()<CR>
+nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
 nnoremap <leader>m :call MakeSession()<CR>
+nnoremap <leader>i :set invlist<CR>
+
 " debug vimrc map
 nnoremap <leader>RS :source %<CR>
 nnoremap <leader>RR :source $MYVIMRC<CR>
+
 " custom function map
 nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-" netwr
-" tagbar
-nnoremap <leader>t :TagbarToggle<CR>
+
 " ycm
 nnoremap <leader>yh <Plug>(YCMToggleInlayHints)
 nnoremap <leader>yd <Plug>(YCMDiags)
@@ -135,11 +144,12 @@ nnoremap <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
-"fugitive
-nnoremap <leader>gl :G! pull<CR>
 " }}}
 
-" Standard Language Settings {{{
+" Language Settings {{{
+filetype plugin indent on           " allow filetype to be completely managed by vim
+autocmd FileType vim,txt setlocal foldmethod=marker
+
 let python_highlight_all = 1
 let rust_highlight_all = 1
 let cpp_highlight_all = 1
@@ -269,7 +279,7 @@ function! LoadSession()
 		exe 'redraw!'
 		exe 'tabdo TagbarOpen'
 	else
-		echo "No session loaded." 
+		echo "No session loaded."
 	endif
 endfunction
 
@@ -289,7 +299,7 @@ result = re.search('\"([^\"]*)\"',b).group(1)
 vim.command('let l:s="%s"'%result)
 EOF
 	return l:s
-endfunction 
+endfunction
 
 function! ToggleQuickfix()
 python3 << EOF
@@ -340,24 +350,24 @@ function! AutoHighlightToggle()
 		augroup end
 		setl updatetime=500
 		echo 'Highlight current word: ON'
-	    return 1
+		return 1
 	endif
 endfunction
 
 " fugitive
 function! ToggleGstatus() abort
-    for l:winnr in range(1, winnr('$'))
-        if !empty(getwinvar(l:winnr, 'fugitive_status'))
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
 			exe l:winnr 'close'
 			return
-        endif
-    endfor
-    keepalt :abo Git
+		endif
+	endfor
+	keepalt :abo Git
 endfunction
 
 function! CloseGstatus() abort
-    for l:winnr in range(1, winnr('$'))
-        if !empty(getwinvar(l:winnr, 'fugitive_status'))
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
 			exe l:winnr 'close'
 			return
         endif
