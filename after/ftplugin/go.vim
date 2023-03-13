@@ -3,12 +3,11 @@ nnoremap <leader>gt :call GoTestifyRun()<CR>
 nnoremap <leader>gf :call GoFmt()<CR>
 
 au FileType go setlocal makeprg=$HOME/go/bin/golangci-lint\ run\ --config\ $HOME/.golang-lint.yml
-au BufWritePost *.go call GoFmt()
 let go_highlight_all = 1
 
 func! GoFmt()
 	let saved_view = winsaveview()
-	silent %!gofmt
+	silent %!goimports
 	if v:shell_error > 0
 		cexpr getline(1, '$')->map({ idx, val -> val->substitute('<standard input>', expand('%'), '') })
 		silent undo
