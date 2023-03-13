@@ -39,7 +39,8 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
-nnoremap <silent> <leader>T :bel term<CR>
+nnoremap <silent> <leader>l :lopen<CR>
+nnoremap <silent> <leader>c :cope<CR>
 
 " Set color column to light grey
 if (exists('+colorcolumn'))
@@ -97,7 +98,6 @@ nnoremap <silent> <leader>tt :TagbarToggle<CR>
 let g:tagbar_map_showproto = 'P'
 
 " Syntastic
-nnoremap <silent> <leader>c :cope<CR>
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -108,13 +108,11 @@ let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
 
 " YCM settings
-nnoremap <silent> <leader>l :lopen<CR>
 nnoremap <silent> <leader>yh :YCMToggleInlayHints<CR>
-nnoremap <silent> <leader>ye :YCMDiags<CR>
+nnoremap <silent> <leader>yd :YCMDiags<CR>
 nnoremap <silent> <leader>ys :YCMToggleSignatureHelp<CR>
 nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
-nnoremap <silent> <leader>yi :YcmCompleter GoToImplementationElseDeclaration<CR>
 let g:ycm_enable_semantic_highlighting=1
 let g:syntastic_python_checkers = []
 let g:syntastic_rust_checkers = []
