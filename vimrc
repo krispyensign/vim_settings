@@ -30,16 +30,6 @@ autocmd FileType vim,txt setlocal foldmethod=marker
 " }}}
 
 " Plugins {{{
-function! BuildYCM(info)
-  " info is a dictionary with 3 fields
-  " - name:   name of the plugin
-  " - status: 'installed', 'updated', or 'unchanged'
-  " - force:  set on PlugInstall! or PlugUpdate!
-  if a:info.status == 'installed' || a:info.force
-	term++shell ./install.py --all --verbose && chmod -R u+rw ./
-  endif
-endfunction
-
 call plug#begin('~/.vim/plugged')
 " language plugins
 Plug 'vim-syntastic/syntastic'
@@ -108,29 +98,28 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
-nnoremap <silent> <leader>l :lopen<CR>
-nnoremap <silent> <leader>co :cope<CR>
-nnoremap <silent> <leader>pc :pclose<CR>
-nnoremap <silent> <leader>f @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+nnoremap <silent> <leader>c :call Toggle_Quickfix()<CR>
+nnoremap <silent> <leader>p :call Toggle_Location()<CR>
 " debug vimrc map
 nnoremap <silent> <leader>RS :source %<CR>
 nnoremap <silent> <leader>RR :source $MYVIMRC<CR>
 " custom function map
 nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-nnoremap <silent> <leader>g :call ToggleGstatus()<CR>
 " netwr
 nnoremap <silent> <leader>n :100wincmd h<CR>:15Lexplore<CR>
 " tagbar
-nnoremap <silent> <leader>t <Plug>(TagbarToggle)
+nnoremap <silent> <leader>tt <Plug>(TagbarToggle)
 " ycm
 nnoremap <silent> <leader>yh <Plug>(YCMToggleInlayHints)
 nnoremap <silent> <leader>yd <Plug>(YCMDiags)
 nnoremap <silent> <leader>ys <Plug>(YCMToggleSignatureHelp)
 nnoremap <silent> <leader>yf :YcmCompleter Format<CR>
 nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
-nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
-nnoremap <silent> <leader>yx :YcmCompleter FixIt<CR>
+nnoremap <silent> <leader>yt :YcmCompleter GoToReferences<CR>
+nnoremap <silent> <leader>yt :YcmCompleter FixIt<CR>
+nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 "fugitive
+nnoremap <silent> <leader>gs :call ToggleGstatus()<CR>
 nnoremap <silent> <leader>gh :G! push<CR>
 nnoremap <silent> <leader>gl :G! pull<CR>
 " }}}
@@ -182,8 +171,7 @@ let g:syntastic_aggregate_errors = 1
 
 " YouCompleteMe {{{
 let g:ycm_enable_semantic_highlighting = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
 let g:syntastic_python_checkers = []
 let g:syntastic_rust_checkers = []
@@ -231,6 +219,52 @@ command! -bang -nargs=* Rgcs
 " }}}
 
 " Custom Functions {{{
+function! BuildYCM(info)
+  " info is a dictionary with 3 fields
+  " - name:   name of the plugin
+  " - status: 'installed', 'updated', or 'unchanged'
+  " - force:  set on PlugInstall! or PlugUpdate!
+  if a:info.status == 'installed' || a:info.force
+	term++shell ./install.py --all --verbose && chmod -R u+rw ./
+  endif
+endfunction
+
+function! GetActiveBufferName()
+	redir => buffname
+	sil exe "ls! %"
+	redir END
+python3 << EOF
+import re
+b=vim.eval('buffname')
+result = re.search('\"([^\"]*)\"',b).group(1)
+vim.command('let l:s="%s"'%result)
+EOF
+	return l:s
+endfunction 
+
+function! Toggle_Quickfix()
+python3 << EOF
+current_buffer_name=vim.eval('GetActiveBufferName()')
+if current_buffer_name=='[Quickfix List]':
+    vim.command('q')
+else:
+    vim.command('copen')
+EOF
+endfunction
+
+function! Toggle_Location()
+python3 << EOF
+current_buffer_name=vim.eval('GetActiveBufferName()')
+if current_buffer_name=='[Location List]':
+    vim.command('q')
+else:
+	try:
+		vim.command('lopen')
+	except:
+		print("nothing to open")
+EOF
+endfunction
+
 " highlight all instances of word under cursor, when idle. useful when studying strange source code.
 function! AutoHighlightToggle()
    let @/ = ''
@@ -265,8 +299,7 @@ endfunction
 
 " enable virtual environments for python 3
 py3 << EOF
-import os
-import sys
+import os, sys
 if 'VIRTUAL_ENV' in os.environ:
     project_base_dir = os.environ['VIRTUAL_ENV']
     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
