@@ -110,18 +110,20 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
+" toggles
 nnoremap <leader>c :call ToggleQuickfix()<CR>
 nnoremap <leader>l :call ToggleLocation()<CR>
 nnoremap <leader>s :call ToggleGstatus()<CR>
+nnoremap <leader>n :call ToggleNetrw()<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
+nnoremap <leader>m :call MakeSession()<CR>
 " debug vimrc map
 nnoremap <leader>RS :source %<CR>
 nnoremap <leader>RR :source $MYVIMRC<CR>
 " custom function map
 nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 " netwr
-nnoremap <silent> <leader>n :15Lexplore<CR>
 " tagbar
 nnoremap <leader>t :TagbarToggle<CR>
 " ycm
@@ -238,6 +240,10 @@ command! -bang -nargs=* Rgcs
 
 " Custom Functions {{{
 function! MakeSession()
+  if (bufexists('NetrwTreeListing'))
+	  let b:nr = bufnr('NetrwTreeListing')
+	  exec b:nr . 'bd'
+  endif
   let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
   if (filewritable(b:sessiondir) != 2)
     exe 'silent !mkdir -p ' b:sessiondir
@@ -282,6 +288,16 @@ if current_buffer_name=='[Quickfix List]':
     vim.command('q')
 else:
     vim.command('bel copen10')
+EOF
+endfunction
+
+function! ToggleNetrw()
+python3 << EOF
+current_buffer_name=vim.eval('GetActiveBufferName()')
+if current_buffer_name=='NetrwTreeListing':
+    vim.command('q')
+else:
+    vim.command('15Lexplore')
 EOF
 endfunction
 
