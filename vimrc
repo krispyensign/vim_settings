@@ -257,7 +257,7 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_mode_map = {
 	\ "mode": "active",
 	\ "active_filetypes": [],
-	\ "passive_filetypes": ["rust", "python", "javascript", "go", "typescript", "java", "csharp"] }
+	\ "passive_filetypes": ["rust", "python", "javascript", "go", "typescript", "java", "csharp", "cs"] }
 " }}}
 
 " Netrw {{{
