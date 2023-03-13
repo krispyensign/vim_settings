@@ -121,6 +121,8 @@ nnoremap <silent> <leader>ys :YCMToggleSignatureHelp<CR>
 nnoremap <silent> <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>yr :YcmCompleter GoToReferences<CR>
 let g:ycm_enable_semantic_highlighting=1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
 let g:syntastic_python_checkers = []
 let g:syntastic_rust_checkers = []
 let g:syntastic_javascript_checkers = []
