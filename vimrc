@@ -297,12 +297,7 @@ endfunc
 
 func! MakeSession()
 	call CloseBufferByName('NetrwTreeListing')
-	tabdo pclose
-	tabdo lclose
-	tabdo helpclose
-	tabdo cclose
-	tabdo TagbarClose
-	tabdo call CloseGstatus()
+	tabdo pclose | lclose | helpclose | cclose | TagbarClose | call CloseGstatus()
 	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
 	if (filewritable(b:sessiondir) != 2)
 		exe 'silent !mkdir -p ' b:sessiondir
@@ -318,9 +313,7 @@ func! LoadSession()
 	if (filereadable(b:sessionfile))
 		exe 'source ' b:sessionfile
 		redraw!
-		tabdo TagbarOpen
-		tabdo 15Lexplore
-		tabdo wincmd l
+		tabdo TagbarOpen | 15Lexplore | wincmd l
 	" TODO: change tagbar to open below netrw ??
 	else
 		echo "No session loaded."
