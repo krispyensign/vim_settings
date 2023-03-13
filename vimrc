@@ -34,11 +34,14 @@ call plug#begin('~/.vim/plugged')
 " language plugins
 Plug 'vim-syntastic/syntastic'
 Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --all --verbose && chmod -R u+rw ./' }
-Plug 'rust-lang/rust/vim'
 Plug 'majutsushi/tagbar'
+Plug 'puremourning/vimspector', { 'do': ':VimspectorInstall --verbose --all' }
+
+"Language specific plugins
+Plug 'aklt/plantuml-syntax'
 Plug 'hashivim/vim-terraform'
 Plug 'krispyensign/vimux-golang'
-Plug 'puremourning/vimspector', { 'do': ':VimspectorInstall --verbose --all' }
+Plug 'rust-lang/rust/vim'
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
