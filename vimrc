@@ -154,8 +154,12 @@ nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 
 " Language Settings {{{
 filetype plugin indent on " allow filetype to be completely managed by vim
-autocmd FileType vim,txt setlocal foldmethod=marker
-autocmd FileType go setlocal makeprg=golangci-lint\ run\ --config\ ~/.golang-lint.yml
+au FileType vim,txt setlocal foldmethod=marker
+au FileType go setlocal makeprg=golangci-lint\ run\ --config\ ~/.golang-lint.yml
+au BufWritePost *.go {
+	lmake!
+	call GoFmt()
+}
 
 let python_highlight_all = 1
 let rust_highlight_all = 1
