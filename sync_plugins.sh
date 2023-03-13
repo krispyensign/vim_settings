@@ -43,9 +43,5 @@ for plugin in ${plugins[@]}; do
 	git clone ${plugin} ${pack_folder}${plugin_name} || printe "failed cloning ${plugin_name}"
 done 
 
-prints "deploying plugins directory"
-set -x
-rsync -Elpr ./${pack_folder} ${user_pack_folder}
-set +x
-printh "deployed"
-ls ${user_pack_folder}
+./deploy_plugins.sh
+
