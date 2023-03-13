@@ -109,6 +109,7 @@ nnoremap <silent> <leader>] :vertical resize -5<CR>
 nnoremap <leader>c :call Toggle_Quickfix()<CR>
 nnoremap <leader>l :call Toggle_Location()<CR>
 nnoremap <leader>p :pclose<CR>
+nnoremap <leader>h :helpclose<CR>
 " debug vimrc map
 nnoremap <leader>RS :source %<CR>
 nnoremap <leader>RR :source $MYVIMRC<CR>
