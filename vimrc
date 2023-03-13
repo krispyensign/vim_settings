@@ -79,14 +79,14 @@ Plug 'connorholyday/vim-snazzy'
 Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' }
 Plug 'hzchirs/vim-material'
 Plug 'Rigellute/shades-of-purple.vim'
-Plug 'jacoborus/tender.vim'
+Plug 'jacoborus/tender'
 Plug 'haishanh/night-owl.vim'
 Plug 'mhinz/vim-janah'
 Plug 'rafalbromirski/vim-aurora'
 call plug#end()
 
 " colors
-colorscheme srcery
+colorscheme janah
 
 
 " leader remap for ergonomic
