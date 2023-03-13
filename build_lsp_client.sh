@@ -1,17 +1,17 @@
 #!/bin/bash -e
-# select vim dir based on OS
-VIM_DIR=".vim"
-if [[ "msys" == $OSTYPE ]]; then
-  VIM_DIR="vimfiles"
-fi
-username=$(whoami)
 
-echo "building..."
+source ./common.sh
+
+pushd > /dev/null
 cd ./plugins/YouCompleteMe
+printh "updating modules"
 git submodule update --init --recursive
+printh "building"
 ./install.py --all --verbose
+popd
 
-echo "deploying..."
+printh "deploying..."
+set -x
 chmod -R u+rw ${pack_folder}/YouCompleteMe
-rm -fr ~/${VIM_DIR}/pack/${username}/start/YouCompleteMe
-cp -fr ../YouCompleteMe/ ~/${VIM_DIR}/pack/${username}/start/YouCompleteMe
+rsync -pEr ./${pack_folder} ${user_pack_folder}
+ls -lah ${user_pack_folder}
