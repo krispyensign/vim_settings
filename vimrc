@@ -144,13 +144,14 @@ nnoremap <leader>RS :source %<CR>
 nnoremap <leader>RR :source $MYVIMRC<CR>
 
 " ycm
-nnoremap <leader>yh <Plug>(YCMToggleInlayHints)
-nnoremap <leader>yd <Plug>(YCMDiags)
+nnoremap <leader>yy <Plug>(YCMDiags)
 nnoremap <leader>ys <Plug>(YCMToggleSignatureHelp)
-nnoremap <leader>yq <plug>(YCMHover)
+nnoremap <leader>yh <Plug>(YCMHover)
+nnoremap <leader>yd :YcmCompleter GetDoc<CR>
 nnoremap <leader>yf :YcmCompleter Format<CR>
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
+nnoremap <leader>yR :YcmCompleter RefactorRename <word> 
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 " }}}
@@ -287,7 +288,7 @@ endfun
 
 " Sessions Functions {{{ 
 func! CloseBufferByName(name)
-	if (bufexists(a:name) && buflisted(a:name))
+	if bufexists(a:name)
 		let b:nr = bufnr(a:name)
 		exe b:nr . 'bd'
 	endif
@@ -303,7 +304,7 @@ func! CloseGstatus() abort
 endfunc
 
 func! MakeSession()
-	call CloseBufferByName('NetrwTreeListing')
+	tabdo call CloseBufferByName('NetrwTreeListing')
 	tabdo call CloseGstatus()
 	tabdo TagbarClose
 	tabdo pclose | lclose | cclose | helpclose
