@@ -28,7 +28,6 @@ echo "=processing plugins="
 cd plugins/
 while IFS= read -r plugin; do
 	if [[ ${plugin} =~ ^#.*$|^[[:blank:]]*$ ]]; then
-		echo "=skipping ${plugin}...="
 		continue
 	fi
 
