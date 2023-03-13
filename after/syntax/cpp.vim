@@ -5,6 +5,7 @@ syn match Operator	"/[^/*=]"me=e-1
 syn match Operator	"/$"
 syn match Operator "&&\|||"
 syn match Operator	"[][]"
+syn match Comment "\v(^\s*//.*\n)+"
 
 hi! link Type GruvboxRed
 hi! link Class GruvboxOrangeBold
@@ -22,4 +23,5 @@ hi! link Structure GruvboxAquaBold
 hi! link Union GruvboxOrange
 hi! link GlobalVariable GruvboxOrangeBold
 hi! link Extern GruvboxGray
+hi! link Comment GruvboxGray
 hi Operator guifg=RoyalBlue3
