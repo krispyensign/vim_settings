@@ -155,11 +155,8 @@ nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 " Language Settings {{{
 filetype plugin indent on " allow filetype to be completely managed by vim
 au FileType vim,txt setlocal foldmethod=marker
-au FileType go setlocal makeprg=golangci-lint\ run\ --config\ ~/.golang-lint.yml
-au BufWritePost *.go {
-	lmake!
-	call GoFmt()
-}
+au FileType go setlocal makeprg=$HOME/go/bin/golangci-lint\ run\ --config\ $HOME/.golang-lint.yml
+au BufWritePost *.go call GoFmt()
 
 let python_highlight_all = 1
 let rust_highlight_all = 1
@@ -289,7 +286,7 @@ func! BuildVimspector(info)
 endfunc
 
 func! CloseBufferByName(name)
-	if (bufexists(a:name))
+	if (bufexists(a:name) && buflisted(a:name))
 		let b:nr = bufnr(a:name)
 		exe b:nr . 'bd'
 	endif
@@ -297,7 +294,13 @@ endfunc
 
 func! MakeSession()
 	call CloseBufferByName('NetrwTreeListing')
-	tabdo pclose | lclose | helpclose | cclose | TagbarClose | call CloseGstatus()
+	tabdo pclose
+	tabdo lclose
+	tabdo cclose
+	tabdo TagbarClose
+	tabdo helpclose
+	tabdo call CloseGstatus()
+	" TODO: figure out how to keep these all open correctly
 	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
 	if (filewritable(b:sessiondir) != 2)
 		exe 'silent !mkdir -p ' b:sessiondir
@@ -313,7 +316,6 @@ func! LoadSession()
 	if (filereadable(b:sessionfile))
 		exe 'source ' b:sessionfile
 		redraw!
-		tabdo TagbarOpen | 15Lexplore | wincmd l
 	" TODO: change tagbar to open below netrw ??
 	else
 		echo "No session loaded."
