@@ -44,6 +44,7 @@ Plug 'rust-lang/rust/vim', { 'for' : 'rust' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
+Plug 'johejo/gomod.vim', { 'for' : 'gomod' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'

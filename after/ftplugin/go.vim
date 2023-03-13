@@ -46,10 +46,10 @@ endfunc
 
 func! GoTestifyRun() abort
 	let l:fulltestname = GoGetTestName()
-	let l:suitename = split(l:fulltestname, '/')[0]
-	let l:testname = split(l:fulltestname, '/')[1]
-	let l:relpackage = expand("%:h")
-	exec 'term++shell go test -v ./' .. l:relpackage .. '/... -run ^' .. l:suitename .. '$ -testify.m ^' .. l:testname .. '$'
+	let l:suitename = '^'..split(l:fulltestname, '/')[0]..'$'
+	let l:testname = '^'..split(l:fulltestname, '/')[1]..'$'
+	let l:relpackage = './'..expand("%:h")..'/...'
+	exec 'term++shell go test -v ' .. l:relpackage .. ' -run ' .. l:suitename .. ' -testify.m ' .. l:testname
 	" TODO: add coloring that shows test passed or failed
 	" if v:shell_error != 0
 	"	match Error /l:testname/
