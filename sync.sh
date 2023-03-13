@@ -1,21 +1,32 @@
 #!/bin/bash
 set -ex
 
+# select vim dir based on OS
+VIM_DIR=".vim"
+if [[ "msys" == $OSTYPE ]]; then
+  VIM_DIR="vimfiles"
+fi  
+
+# Get the username to deploy the pack files to
 username=$(whoami)
 
-mkdir -p ~/.vim/pack/${username}/start/
-mkdir -p ~/.vim/after
-mkdir -p ~/.vim/autoload
-mkdir -p ~/.local/share/nvim/ 
+# create the directory structure
+mkdir -p ~/${VIM_DIR}/pack/${username}/start/
+mkdir -p ~/${VIM_DIR}/after
+mkdir -p ~/${VIM_DIR}/autoload
+mkdir -p ~/.local/share/nvim/
+mkdir -p ~/.local/bin/
 
-rm -fr ~/.vim/pack/${username}/start/*
+# Purge any files in the start folder
+rm -fr ~/${VIM_DIR}/pack/${username}/start/*
 
+# deploy the plugins and addons
+cp -fr plugins/* ~/${VIM_DIR}/pack/${username}/start/
+cp -fr after/* ~/${VIM_DIR}/after/
+cp -fr autoload ~/${VIM_DIR}/autoload/
+cp -fr scripts/* ~/.local/bin
+chmod +x ~/.local/bin/*
+
+# deploy the new vimrc file
 cp ~/.vimrc ~/.vimrc.bak
 cp vimrc ~/.vimrc
-cp -fr plugins/* ~/.vim/pack/${username}/start/
-cp -fr after/* ~/.vim/after/
-cp -fr autoload ~/.vim/autoload/
-
-# Custom code for packages
-cd ~/.vim/pack/${username}/start/LanguageClient-neovim/
-make

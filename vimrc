@@ -1,5 +1,6 @@
 set nocompatible              " be iMproved, required
 syntax on
+
 set t_Co=256
 set background=dark
 set encoding=utf8
@@ -20,11 +21,29 @@ set guioptions-=T
 set guioptions-=e
 set guioptions-=r
 set guioptions-=L
+set clipboard^=unnamed,unnamedplus
 set ttyfast
 set showmatch
 set cmdheight=2
 set noshowmode
 set switchbuf+=usetab,newtab
+
+colorscheme gruvbox              " set color scheme
+filetype plugin indent on
+
+" My leader mappings
+let mapleader = ' '
+nnoremap <silent> <leader><Up> :wincmd k<CR>
+nnoremap <silent> <leader><Down> :wincmd j<CR>
+nnoremap <silent> <leader><Left> :wincmd h<CR>
+nnoremap <silent> <leader><Right> :wincmd l<CR>
+nnoremap <silent> <leader>[ :vertical resize +5<CR>
+nnoremap <silent> <leader>] :vertical resize -5<CR>
+nnoremap <silent> <leader>n :NERDTreeToggle<CR>
+nnoremap <silent> <leader>t :TagbarToggle<CR>
+nnoremap <silent> <leader>c :cope<CR>
+
+" Font and FZF management script
 if has('macunix')
   set guifont=SourceCodeProForPowerline-Bold:h14
   " FZF settings
@@ -33,10 +52,9 @@ elseif has('unix')
   set guifont=Cousine\ for\ Powerline\ Bold\ 10
   " FZF settings
   set rtp+=~/.fzf
+elseif has('win32')
+  set guifont=Source_Code_Pro_for_Powerline:h10:b
 endif
-
-colorscheme gruvbox              " set color scheme
-filetype plugin indent on
 
 " Set color column to light grey
 if (exists('+colorcolumn'))
@@ -67,27 +85,6 @@ function! AutoHighlightToggle()
  endif
 endfunction
 
-" Vim Go settings
-let g:go_highlight_extra_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_parameters = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_generate_tags = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_highlight_variable_assignments = 1
-
-" Rust racer settings
-let g:racer_cmd = "~/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
-
-" Echodoc settings
-let g:echodoc_enable_at_startup = 1
-let g:echodoc#type = "virtual"
-
 " Highlight settings
 let python_highlight_all = 1
 let rust_highlight_all = 1
@@ -104,30 +101,19 @@ if 'VIRTUAL_ENV' in os.environ:
         exec(f.read(), {'__file__': activate_this})
 EOF
 
-"TagHL settings
-if ! exists('g:TagHighlightSettings')
-    let g:TagHighlightSettings = {}
-endif
-let g:TagHighlightSettings['IncludeLocals'] = 1
-
 " Rainbow settings
 let g:rainbow_active = 1
 let g:rainbow_conf = { 'ctermfgs': [27, 142, 'magenta', 'cyan'] }
 
 " Airline settings
-let g:airline_powerline_fonts = 1
 let g:airline_theme = 'badwolf'
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#show_buffers = 0
-
-" Deoplete configurations
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_delay = 1000
-let g:deoplete#auto_refresh_delay = 1000
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-set completeopt+=preview
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_powerline_fonts = 0
 
 " Tagbar settings
 let g:tagbar_map_showproto = 'P'
@@ -139,48 +125,10 @@ let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.l
 let g:LanguageClient_serverCommands = {
     \ 'java': ['~/bin/java-lsp.sh'],
     \ 'python': ['pyls'],
-    \ 'cpp': ['clangd-7'],
+    \ 'cpp': ['clangd'],
     \ }
 let g:LanguageClient_rootMarkers = {
     \ 'java': ['gradlew'],
     \ 'cpp': ['compile_commands.json'],
     \ }
 
-" Syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:loaded_syntastic_java_javac_checker = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_python_checkers = ['pylint', 'pycodestyle', 'mypy']
-let g:syntastic_python_mypy_args = ['--ignore-missing-import']
-let g:syntastic_rust_checkers = ['cargo']
-let g:syntastic_cpp_checkers = [' ']
-let g:syntastic_java_checkers = [' ']
-let g:syntastic_go_checkers = [' ']
-let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
-
-" Autoformat settings
-let g:autoformat_autoindent = 0
-let g:autoformat_retab = 0
-let g:autoformat_remove_trailing_spaces = 0
-
-" Function key mappings
-noremap <F3> :Autoformat<CR>
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-
-" My leader mappings
-let mapleader = ' '
-nnoremap <silent> <leader><Up> :wincmd k<CR>
-nnoremap <silent> <leader><Down> :wincmd j<CR>
-nnoremap <silent> <leader><Left> :wincmd h<CR>
-nnoremap <silent> <leader><Right> :wincmd l<CR>
-nnoremap <silent> <leader>[ :vertical resize +5<CR>
-nnoremap <silent> <leader>] :vertical resize -5<CR>
-nnoremap <silent> <leader>n :NERDTreeToggle<CR>
-nnoremap <silent> <leader>t :TagbarToggle<CR>
-nnoremap <silent> <leader>c :cope<CR>

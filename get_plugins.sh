@@ -5,6 +5,7 @@ submodules=$(cat plugins_list.txt)
 plugin_paths=$(ls plugins/)
 for plugin in $plugin_paths; do
   git submodule deinit -f plugins/$plugin
+  git add --all
   git rm -fr plugins/$plugin
   rm -fr plugins/$plugin
   rm -fr .git/modules/plugins/$plugin
