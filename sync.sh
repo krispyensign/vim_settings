@@ -11,6 +11,7 @@ username=$(whoami)
 plugins=$(cat plugins_list.txt)
 
 echo "=creating directory structure="
+chmod -R 777 ~/${VIM_DIR}/pack/*
 rm -fr \
 	~/${VIM_DIR}/after 					\
 	~/${VIM_DIR}/plugin 					\
