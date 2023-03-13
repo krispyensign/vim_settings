@@ -11,39 +11,44 @@ username=$(whoami)
 plugins=$(cat plugins_list.txt)
 
 echo "=creating directory structure="
+rm -fr \
+	~/${VIM_DIR}/after 						\
+	~/${VIM_DIR}/plugin 					\
+	~/${VIM_DIR}/autoload 					\
+	~/${VIM_DIR}/pack/${username}/start/
 mkdir -p 									\
 	plugins/ 								\
 	~/${VIM_DIR}/after 						\
 	~/${VIM_DIR}/plugin 					\
+	~/${VIM_DIR}/autoload 					\
 	~/${VIM_DIR}/pack/${username}/start/
 
 pushd $(pwd)
 echo "=processing plugins="
 cd plugins/
 while IFS= read -r plugin; do
-	if [[ $plugin =~ ^#.*$|^[[:blank:]]*$ ]]; then
+	if [[ ${plugin} =~ ^#.*$|^[[:blank:]]*$ ]]; then
 		echo "=skipping ${plugin}...="
 		continue
 	fi
 
-	plugin_name=$(echo $plugin | cut -d'/' -f5)
+	plugin_name=$(echo ${plugin} | cut -d'/' -f5)
 	echo "=processing ${plugin_name}="
-	if [[ -d "$plugin_name" ]]; then
+	if [[ -d "${plugin_name}" ]]; then
 		pushd $(pwd)
 		echo "=${plugin_name} already cloned. updating...="
 		cd ${plugin_name}
-		git pull || true
+		git pull || echo "something was not happy pulling"
 		popd
 		continue
 	fi
 
 	echo "=cloning ${plugin_name}="
-	git clone $plugin || true
+	git clone ${plugin} || echo "something was not happy cloning"
 done < ../plugins_list.txt
 
 # sync plugins directory
 echo "=deploying plugins directory="
-rm -fr ~/${VIM_DIR}/pack/${username}/start/
 cp -fr * ~/${VIM_DIR}/pack/${username}/start/
 popd
 
@@ -51,13 +56,12 @@ popd
 pushd $(pwd)
 echo "=configuring rainbow="
 cd ~/${VIM_DIR}/pack/${username}/start/rainbow
-cp plugin/* ~/${VIM_DIR}/plugin
-cp autoload/* ~/${VIM_DIR}/autoload
+cp -fr plugin/ autoload/ ~/${VIM_DIR}/
 popd
 
 # deploy other addons
 echo "=deploying other addons="
-cp -fr after/* ~/${VIM_DIR}/after/
+cp -fr after/ ~/${VIM_DIR}/after/
 
 # deploy the new vimrc file
 echo "=deploying vimrc="
