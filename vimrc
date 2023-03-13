@@ -51,13 +51,13 @@ elseif has('win32')
   set shell='C:/Program\ Files/Git/bin/bash.exe'
 endif
 
-
 " Highlight settings
 let python_highlight_all = 1
 let rust_highlight_all = 1
 let cpp_highlight_all = 1
 let typescript_highlight_all = 1
 let javascript_highlight_all = 1
+let java_highlight_all = 1
 
 " Rainbow settings
 let g:rainbow_active = 1
@@ -84,6 +84,8 @@ let g:syntastic_rust_checkers = []
 let g:syntastic_javascript_checkers = []
 let g:syntastic_go_checkers = []
 let g:syntastic_typescript_checkers = []
+let g:syntastic_java_checkers = []
+let g:syntastic_csharp_checkers = []
 
 " syntastic settings for all other files that don't have LSPs installed yet
 set statusline+=%#warningmsg#
@@ -105,6 +107,9 @@ nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
 nnoremap <silent> <leader>T :bel term<CR>
 
+" Merginal mappings
+nnoremap <silent> <leader>mt :MerginalToggle<CR>
+
 " NerdTree mappings
 nnoremap <silent> <leader>n :NERDTreeToggle<CR>
 
@@ -116,9 +121,9 @@ nnoremap <silent> <leader>c :cope<CR>
 nnoremap <silent> <leader>l :lopen<CR>
 
 " YCM leader mappings
-nnoremap <silent> <leader>h <Plug>(YCMToggleInlayHints)
-nnoremap <silent> <leader>d <Plug>(YCMDiags)
-nnoremap <silent> <leader>s <Plug>(YCMToggleSignatureHelp)
+nnoremap <silent> <leader>yh <Plug>(YCMToggleInlayHints)
+nnoremap <silent> <leader>yd <Plug>(YCMDiags)
+nnoremap <silent> <leader>ys <Plug>(YCMToggleSignatureHelp)
 
 " Rg search commands
 command! -bang -nargs=* Rggo
@@ -131,8 +136,27 @@ command! -bang -nargs=* Rgrs
 \		"rg --column --line-number --no-heading --color=always --smart-case --type rust -- ".shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
 
-" Highlight all instances of word under cursor, when idle.
-" Useful when studying strange source code.
+command! -bang -nargs=* Rgjs
+\	call fzf#vim#grep(
+\		"rg --column --line-number --no-heading --color=always --smart-case --type javascript -- ".shellescape(<q-args>),
+\		1, fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=* Rgts
+\	call fzf#vim#grep(
+\		"rg --column --line-number --no-heading --color=always --smart-case --type typescript -- ".shellescape(<q-args>),
+\		1, fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=* Rgjava
+\	call fzf#vim#grep(
+\		"rg --column --line-number --no-heading --color=always --smart-case --type java -- ".shellescape(<q-args>),
+\		1, fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=* Rgcs
+\	call fzf#vim#grep(
+\		"rg --column --line-number --no-heading --color=always --smart-case --type csharp -- ".shellescape(<q-args>),
+\		1, fzf#vim#with_preview(), <bang>0)
+
+" Highlight all instances of word under cursor, when idle. Useful when studying strange source code.
 " Type z/ to toggle highlighting on/off.
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 function! AutoHighlightToggle()
