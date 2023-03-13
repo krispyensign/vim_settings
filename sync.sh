@@ -42,7 +42,7 @@ printh "syncing vim settings"
 prints "checking available commands"
 bluey
 check_command git
-check_command nodejs
+check_command node
 check_command npm
 check_command cargo
 check_command javac
