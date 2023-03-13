@@ -129,8 +129,8 @@ nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
 
 " toggles
-nnoremap <leader>c :call ToggleQuickfix()<CR>
-nnoremap <leader>l :call ToggleLocation()<CR>
+nnoremap <leader>c :cwindow5<CR>
+nnoremap <leader>l :lwindow5<CR>
 nnoremap <leader>s :call ToggleGstatus()<CR>
 nnoremap <leader>n :15Lexplore<CR>
 nnoremap <leader>t :TagbarToggle<CR>
@@ -274,24 +274,6 @@ endfunc
 " }}}
 
 " Toggle Functions {{{
-" TODO: write tagbar toggle to open tagbar below netrw
-
-func! ToggleQuickfix()
-	if bufname() == '[Quickfix List]'
-		q
-	else
-		bel copen10
-	endif
-endfunc
-
-func! ToggleLocation()
-	if bufname() == '[Location List]'
-		q
-	else
-		bel lopen10
-	endif
-endfunc
-
 func! ToggleGstatus() abort
 	for l:winnr in range(1, winnr('$'))
 		if !empty(getwinvar(l:winnr, 'fugitive_status'))
@@ -322,12 +304,9 @@ endfunc
 
 func! MakeSession()
 	call CloseBufferByName('NetrwTreeListing')
-	tabdo pclose
-	tabdo lclose
-	tabdo cclose
-	tabdo TagbarClose
-	tabdo helpclose
 	tabdo call CloseGstatus()
+	tabdo TagbarClose
+	tabdo pclose | lclose | cclose | helpclose
 	" TODO: figure out how to keep these all open correctly
 	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
 	if (filewritable(b:sessiondir) != 2)
