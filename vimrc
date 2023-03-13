@@ -25,6 +25,8 @@ set cursorline                      " enable visual line for for cursor
 set updatetime=300                  " improve latency
 set tabstop=4                       " make sure if tabs are used it displays 4 and not 8
 set shiftwidth=4                    " shifts should also display as 4
+set ssop-=options 					" do not store global and local values in a session
+set ssop-=folds 					" do not store folds
 filetype plugin indent on           " allow filetype to be completely managed by vim
 autocmd FileType vim,txt setlocal foldmethod=marker
 " }}}
@@ -235,6 +237,31 @@ command! -bang -nargs=* Rgcs
 " }}}
 
 " Custom Functions {{{
+function! MakeSession()
+  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  if (filewritable(b:sessiondir) != 2)
+    exe 'silent !mkdir -p ' b:sessiondir
+    redraw!
+  endif
+  let b:filename = b:sessiondir . '/session.vim'
+  exe "mksession! " . b:filename
+endfunction
+
+function! LoadSession()
+  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  let b:sessionfile = b:sessiondir . "/session.vim"
+  if (filereadable(b:sessionfile))
+    exe 'source ' b:sessionfile
+  else
+    echo "No session loaded."
+  endif
+endfunction
+
+au VimLeave * :call MakeSession()
+if(argc() == 0)
+  au VimEnter * nested :call LoadSession()
+endif
+
 function! GetActiveBufferName()
 	redir => buffname
 	sil exe "ls! %"
