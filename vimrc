@@ -44,7 +44,8 @@ nnoremap <silent> <leader>l :lopen<CR>
 nnoremap <silent> <leader>co :cope<CR>
 nnoremap <silent> <leader>pc :pclose<CR>
 " debug vimrc map
-nnoremap <silent> <leader>RR :source %<CR>
+nnoremap <silent> <leader>RS :source %<CR>
+nnoremap <silent> <leader>RR :source $MYVIMRC<CR>
 " custom function map
 nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 nnoremap <silent> <leader>g :call ToggleGstatus()<CR>
