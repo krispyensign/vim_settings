@@ -34,13 +34,11 @@ function! BuildYCM(info)
   " - status: 'installed', 'updated', or 'unchanged'
   " - force:  set on PlugInstall! or PlugUpdate!
   if a:info.status == 'installed' || a:info.force
-    !git submodule update --init --recursive
-    !./install.py --all --verbose
+    !git submodule update --init --recursive && ./install.py --all --verbose
   endif
 endfunction
 
 call plug#begin('~/.vim/plugged')
-
 " language plugins
 Plug 'vim-syntastic/syntastic'
 Plug 'ycm-core/YouCompleteMe', { 'do': function('BuildYCM') }
@@ -52,18 +50,20 @@ Plug 'krispyensign/vimux-golang'
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'luochen1990/rainbow'
 
 " git plugins
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
+" supplemental theme plugins
+Plug 'vim-airline/vim-airline-themes'
+Plug 'luochen1990/rainbow'
 
 " theme plugins
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'sjl/badwolf'
 Plug 'srcery-colors/srcery-vim'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'nanotech/jellybeans.vim'
 Plug 'kyoh86/momiji'
@@ -73,7 +73,16 @@ Plug 'juanedi/predawn.vim'
 Plug 'erizocosmico/vim-firewatch'
 Plug 'AlessandroYorba/Alduin'
 Plug 'atelierbram/vim-colors_atelier-schemes' 
-
+Plug 'sainnhe/everforest'
+Plug 'blueshirts/darcula'
+Plug 'connorholyday/vim-snazzy'
+Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' }
+Plug 'hzchirs/vim-material'
+Plug 'Rigellute/shades-of-purple.vim'
+Plug 'jacoborus/tender.vim'
+Plug 'haishanh/night-owl.vim'
+Plug 'mhinz/vim-janah'
+Plug 'rafalbromirski/vim-aurora'
 call plug#end()
 
 " colors
