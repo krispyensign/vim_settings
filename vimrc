@@ -27,8 +27,10 @@ set showmatch
 set cmdheight=2
 set noshowmode
 set switchbuf+=usetab,newtab
+set mouse=a
+set ttymouse=sgr
 
-colorscheme gruvbox              " set color scheme
+colorscheme gruvbox             " set color scheme
 filetype plugin indent on
 
 " My leader mappings
@@ -53,7 +55,10 @@ elseif has('unix')
   " FZF settings
   set rtp+=~/.fzf
 elseif has('win32')
+  let &pythonthreedll = 'C:\python38\python38.dll'
   set guifont=Source_Code_Pro_for_Powerline:h10:b
+  let g:slimv_swank_cmd = 
+        \ '!start "C:/Program Files (x86)/Gambit/v4.9.3/bin/gsi.exe" -l "$HOME/vimfiles/pack/$USER/r7rs-swank/gambit-swank.sld"'
 endif
 
 " Set color column to light grey
@@ -89,6 +94,8 @@ endfunction
 let python_highlight_all = 1
 let rust_highlight_all = 1
 let cpp_highlight_all = 1
+let typescript_highlight_all = 1
+let javascript_highlight_all = 1
 
 " Enable virtual environments for python 3
 py3 << EOF
@@ -103,7 +110,6 @@ EOF
 
 " Rainbow settings
 let g:rainbow_active = 1
-let g:rainbow_conf = { 'ctermfgs': [27, 142, 'magenta', 'cyan'] }
 
 " Airline settings
 let g:airline_theme = 'badwolf'
@@ -117,6 +123,9 @@ let g:airline_powerline_fonts = 0
 
 " Tagbar settings
 let g:tagbar_map_showproto = 'P'
+
+" Scheme settings
+let g:scheme_executable = "gsi"
 
 " Language client settings
 let g:LanguageClient_loggingLevel = 'DEBUG'
