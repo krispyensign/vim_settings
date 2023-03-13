@@ -163,6 +163,7 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
+nnoremap <silent> <leader>* :nohls<CR>
 
 " toggles
 nnoremap <leader>c :cwindow5<CR>
@@ -174,7 +175,6 @@ nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
 nnoremap <leader>m :call MakeSession()<CR>
 nnoremap <leader>i :set invlist<CR>
-nnoremap <leader>8 :call ToggleHlSearch()<CR>
 
 " debug vimrc map
 nnoremap <leader>RS :source %<CR>
@@ -201,14 +201,6 @@ func! ToggleGstatus() abort
 	endfor
 	keepalt :abo Git
 endfun
-
-func! ToggleHlSearch() abort
-	if &hls == 1
-		nohls
-	else
-		*
-	endif
-endfunc
 " }}}
 
 " General Language Settings {{{
