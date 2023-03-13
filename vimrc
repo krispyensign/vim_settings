@@ -44,13 +44,20 @@ nnoremap <silent> <leader>n :NERDTreeToggle<CR>
 nnoremap <silent> <leader>t :TagbarToggle<CR>
 nnoremap <silent> <leader>c :cope<CR>
 nnoremap <silent> <leader>T :bel term<CR>
-nnoremap <silent> <leader>p :lopen<CR>
-nnoremap <silent> <leader>o :close<CR>
+nnoremap <silent> <leader>l :lopen<CR>
 
-" YCM mappings
+" YCM leader mappings
 nnoremap <silent> <leader>h <Plug>(YCMToggleInlayHints)
 nnoremap <silent> <leader>d <Plug>(YCMDiags)
 nnoremap <silent> <leader>s <Plug>(YCMToggleSignatureHelp)
+
+" Rg search commands
+command! -bang -nargs=* Rggo
+\	call fzf#vim#grep(
+\		"rg --column --line-number --no-heading --color=always --smart-case --type *.go -- ".shellescape(<q-args>),
+\		1, 
+\		fzf#vim#with_preview(),
+\ 		<bang>0)
 
 " Per OS settings
 if has('macunix')
