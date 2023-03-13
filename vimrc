@@ -50,7 +50,6 @@ Plug 'johejo/gomod.vim', { 'for' : 'gomod' }
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'}
 
 " git plugins
 Plug 'tpope/vim-fugitive'
@@ -84,6 +83,7 @@ Plug 'jacoborus/tender.vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'jonathanfilip/vim-lucius'
+Plug 'glepnir/oceanic-material'
 call plug#end()
 " }}}
 
@@ -91,7 +91,7 @@ call plug#end()
 func! CloseBufferByName(name)
 	if bufexists(a:name)
 		let b:nr = bufnr(a:name)
-		exe 'bd ' .. b:nr 
+		exe 'bd ' .. b:nr
 	endif
 endfunc
 
@@ -277,12 +277,6 @@ let g:ycm_min_num_of_chars_for_completion = 5
 
 " Vimspector {{{
 let g:vimspector_enable_mappings = 'HUMAN'
-" }}}
-
-" Minimap {{{
-let g:minimap_width = 10
-let g:minimap_auto_start = 1
-let g:minimap_auto_start_win_enter = 1
 " }}}
 
 " FZF {{{
