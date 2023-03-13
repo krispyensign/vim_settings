@@ -151,11 +151,10 @@ nnoremap <leader>yd :YcmCompleter GetDoc<CR>
 nnoremap <leader>yf :YcmCompleter Format<CR>
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
-nnoremap <leader>yR :YcmCompleter RefactorRename <word>
+nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 " }}}
-
 " Language Settings {{{
 filetype plugin indent on " allow filetype to be completely managed by vim
 au FileType vim,txt setlocal foldmethod=marker
