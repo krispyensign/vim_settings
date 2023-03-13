@@ -37,7 +37,7 @@ mkdir -p plugins ~/${VIM_DIR}
 pushd $(pwd) > /dev/null
 	cd ~/${VIM_DIR}/
 	chmod -R 777 pack/
-	rm -fr after plugin autoload pack/
+	rm -fr after plugin autoload pack/ & progress -mp $!
 	mkdir -p after plugin autoload pack/ ~/${VIM_DIR}/pack/${username}/start/
 popd > /dev/null
 
