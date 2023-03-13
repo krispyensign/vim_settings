@@ -1,18 +1,3 @@
-[submodule "plugins/LanguageClient-neovim"]
-	path = plugins/LanguageClient-neovim
-	url = https://github.com/autozimu/LanguageClient-neovim
-[submodule "plugins/fzf"]
-	path = plugins/fzf
-	url = https://github.com/junegunn/fzf
-[submodule "plugins/fzf.vim"]
-	path = plugins/fzf.vim
-	url = https://github.com/junegunn/fzf.vim
-[submodule "plugins/nerdtree"]
-	path = plugins/nerdtree
-	url = https://github.com/scrooloose/nerdtree
-[submodule "plugins/nerdtree-git-plugin"]
-	path = plugins/nerdtree-git-plugin
-	url = https://github.com/Xuyuanp/nerdtree-git-plugin
 [submodule "plugins/tagbar"]
 	path = plugins/tagbar
 	url = https://github.com/majutsushi/tagbar
@@ -31,15 +16,3 @@
 [submodule "plugins/vim-gitgutter"]
 	path = plugins/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
-[submodule "plugins/rainbow"]
-	path = plugins/rainbow
-	url = https://github.com/luochen1990/rainbow
-[submodule "plugins/gruvbox"]
-	path = plugins/gruvbox
-	url = https://github.com/morhetz/gruvbox
-[submodule "plugins/slimv"]
-	path = plugins/slimv
-	url = https://github.com/kovisoft/slimv
-[submodule "plugins/r7rs-swank"]
-	path = plugins/r7rs-swank
-	url = https://github.com/ecraven/r7rs-swank
