@@ -18,7 +18,3 @@ for submodule in $submodules; do
   fi
 done
 
-# Custom code for packages
-cd ~/.vim/pack/so/start/LanguageClient-neovim/
-./install.sh
-
