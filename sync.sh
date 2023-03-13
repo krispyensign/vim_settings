@@ -36,7 +36,7 @@ printh "removing and creating new directory structure"
 mkdir -p plugins ~/${VIM_DIR} 
 pushd $(pwd) > /dev/null
 	cd ~/${VIM_DIR}/
-	chmod -R 777 pack/ || true
+	chmod -R 777 pack/
 	rm -fr after plugin autoload pack/
 	mkdir -p after plugin autoload pack/ ~/${VIM_DIR}/pack/${username}/start/
 popd > /dev/null
@@ -82,7 +82,7 @@ pushd $(pwd) > /dev/null
 	done 
 
 	prints "deploying plugins directory"
-	cp -fr * ~/${VIM_DIR}/pack/${username}/start/
+	cp -fr * ~/${VIM_DIR}/pack/${username}/start/ & progress -mp $!
 popd > /dev/null
 
 printh "deploying rainbow"
