@@ -7,7 +7,10 @@ set encoding=utf8                   " default encoding
 set t_ut=                           " use current background color
 set nowrap                          " no text wrap
 set number                          " turn on numbering
-set foldenable                      " start with all folds closed
+set foldenable                      " turn on folding
+set foldmethod=syntax               " make folds based per syntax
+set foldlevel=1                     " start with 1 level open
+set foldclose=all                   " refold after exiting
 set signcolumn=yes                  " gutter enabled
 set backspace=indent,eol,start      " enable backspace key
 set guioptions=gm                   " enable menu only
