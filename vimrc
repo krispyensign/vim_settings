@@ -9,8 +9,7 @@ set nowrap                          " no text wrap
 set number                          " turn on numbering
 set foldenable                      " turn on folding
 set foldmethod=syntax               " make folds based per syntax
-set foldlevel=1                     " start with 1 level open
-set foldclose=all                   " refold after exiting
+set foldlevel=2                     " start with 1 fold open
 set signcolumn=yes                  " gutter enabled
 set backspace=indent,eol,start      " enable backspace key
 set guioptions=gm                   " enable menu only
@@ -24,6 +23,8 @@ set mouse=a                         " enable mouse integrations for tty
 set ttymouse=sgr                    " more tty integrations for mouse
 set cursorline                      " enable visual line for for cursor
 set updatetime=300                  " improve latency
+set tabstop=4                       " make sure if tabs are used it displays 4 and not 8
+set shiftwidth=4                    " shifts should also display as 4
 
 silent! helptags ALL                " load all help tags after everything else
 filetype plugin indent on           " allow filetype to be completely managed by vim
@@ -45,7 +46,8 @@ nnoremap <silent> <leader>c :cope<CR>
 nnoremap <silent> <leader>T :bel term<CR>
 
 " YCM mappings
-nnoremap <silent> <leader>h <Plug>(YCMToggleInlayHints)
+nnoremap <silent> <leader>h <Plug>(YcmToggleInlayHints)
+nnoremap <silent> <leader>d <Plug>(YcmDiags)
 
 " Per OS settings
 if has('macunix')
