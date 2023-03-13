@@ -8,6 +8,9 @@ fi
 # Get the username and plugins
 username=$(whoami)
 
-cd ~/${VIM_DIR}/pack/${username}/start/YouCompleteMe
+cd ./plugins/YouCompleteMe
 git submodule update --init --recursive
 ./install.py --all
+
+rm -fr ~/${VIM_DIR}/pack/${username}/start/YouCompleteMe
+cp -fr ../YouCompleteMe ~/${VIM_DIR}/pack/${username}/start/YouCompleteMe

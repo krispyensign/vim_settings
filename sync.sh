@@ -11,11 +11,11 @@ username=$(whoami)
 plugins=$(cat plugins_list.txt)
 
 echo "=creating directory structure="
-mkdir -p	plugins/ \
-			~/${VIM_DIR}/after \
-			~/${VIM_DIR}/autoload \
-			~/${VIM_DIR}/plugin \
-			~/${VIM_DIR}/pack/${username}/start/
+mkdir -p 									\
+	plugins/ 								\
+	~/${VIM_DIR}/after 						\
+	~/${VIM_DIR}/plugin 					\
+	~/${VIM_DIR}/pack/${username}/start/
 
 pushd $(pwd)
 echo "=processing plugins="
@@ -43,6 +43,7 @@ done < ../plugins_list.txt
 
 # sync plugins directory
 echo "=deploying plugins directory="
+rm -fr ~/${VIM_DIR}/pack/${username}/start/
 cp -fr * ~/${VIM_DIR}/pack/${username}/start/
 popd
 
