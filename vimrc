@@ -32,6 +32,26 @@ filetype plugin indent on           " allow filetype to be completely managed by
 " colors
 colorscheme badwolf
 
+" Set color column to light grey
+if (exists('+colorcolumn'))
+  set colorcolumn=100
+  highlight ColorColumn ctermbg=9
+endif
+
+" Per OS settings
+if has('macunix')
+  set guifont=SourceCodeProForPowerline-Bold:h14
+  set rtp+=/usr/local/opt/fzf
+elseif has('unix')
+  set guifont=Cousine\ for\ Powerline\ Bold\ 10
+  set rtp+=~/.fzf
+elseif has('win32')
+  let &pythonthreedll = 'C:\python38\python38.dll'
+  set guifont=Source_Code_Pro_for_Powerline:h10:b
+  set shell='C:/Program\ Files/Git/bin/bash.exe'
+endif
+
+
 " Highlight settings
 let python_highlight_all = 1
 let rust_highlight_all = 1
@@ -74,25 +94,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
-
-" Per OS settings
-if has('macunix')
-  set guifont=SourceCodeProForPowerline-Bold:h14
-  set rtp+=/usr/local/opt/fzf
-elseif has('unix')
-  set guifont=Cousine\ for\ Powerline\ Bold\ 10
-  set rtp+=~/.fzf
-elseif has('win32')
-  let &pythonthreedll = 'C:\python38\python38.dll'
-  set guifont=Source_Code_Pro_for_Powerline:h10:b
-  set shell='C:/Program\ Files/Git/bin/bash.exe'
-endif
-
-" Set color column to light grey
-if (exists('+colorcolumn'))
-  set colorcolumn=100
-  highlight ColorColumn ctermbg=9
-endif
 
 " My leader mappings
 let mapleader = ' '
