@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 
 function printh() {
 	printf "${GREEN}= $1 =${NC}\n"
-} 
+}
 
 function prints() {
 	printf "${YELLOW}*  $1 ${NC}\n"
@@ -42,6 +42,8 @@ printh "syncing vim settings"
 prints "checking available commands"
 bluey
 check_command git
+check_command nodejs
+check_command npm
 check_command cargo
 check_command javac
 check_command cmake
@@ -49,8 +51,6 @@ check_command python
 check_command pip
 check_command go
 check_command golangci-lint
-check_command mono warn 
-check_command dlv warn
 
 prints "deploying configs"
 mkdir -p ${vim_dir}/autoload ${vim_dir}/after/
@@ -58,10 +58,12 @@ cp -fr after/* ${vim_dir}/after/
 touch ${HOME}/.vimrc
 cp ${HOME}/.vimrc ${HOME}/.vimrc.bak
 cp vimrc ${HOME}/.vimrc
-if [[ ! -f ~/.vim/autoload/plug.vim ]]; then 
+if [[ ! -f ~/.vim/autoload/plug.vim ]]; then
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 else
 	prints "vim plug already exists, upgrade at any time with PU command"
 fi
+
 printh "Done! Use <leader>RR to load new settings without restarting vim :)"
+
