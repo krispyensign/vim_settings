@@ -257,10 +257,16 @@ command! -bang -nargs=* Rgcs
 " }}}
 
 " Custom Functions {{{
-func! GoFmt()
-  system('gofmt -e -w ' . expand('%'))
-  edit!
-endfunc
+function! GoFmt()
+  let saved_view = winsaveview()
+  silent %!gofmt
+  if v:shell_error > 0
+    cexpr getline(1, '$')->map({ idx, val -> val->substitute('<standard input>', expand('%'), '') })
+    silent undo
+    cwindow
+  endif
+  call winrestview(saved_view)
+endfunction
 
 func! BuildYCM(info)
 	" info is a dictionary with 3 fields
