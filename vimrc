@@ -30,7 +30,7 @@ if has('macunix')
   " FZF settings
   set rtp+=/usr/local/opt/fzf
 elseif has('unix')
-  set guifont=Source\ Code\ Pro\ for\ Powerline\ Bold\ 9
+  set guifont=Source\ Code\ Pro\ for\ Powerline\ Bold\ 10
   " FZF settings
   set rtp+=~/.fzf
 endif
@@ -40,7 +40,7 @@ filetype plugin indent on
 
 " Set color column to light grey
 if (exists('+colorcolumn'))
-  set colorcolumn=120
+  set colorcolumn=100
   highlight ColorColumn ctermbg=9
 endif
 
