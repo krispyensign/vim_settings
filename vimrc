@@ -47,7 +47,7 @@ if has('macunix')
 elseif has('unix')
   set guifont=Cousine\ for\ Powerline\ Bold\ 10
   set rtp+=~/.fzf
-  let g:slimv_swank_cmd = '!PATH=/usr/local/bin:$PATH $HOME/.vim/pack/$USER/start/r7rs-swank/chicken.sh &'
+  let g:slimv_swank_cmd = '!PATH=/usr/local/bin:$PATH $HOME/.local/vim_scripts/chicken.sh &'
 
 elseif has('win32')
   let &pythonthreedll = 'C:\python38\python38.dll'

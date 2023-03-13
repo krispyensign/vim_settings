@@ -10,19 +10,7 @@ fi
 # Get the username to deploy the pack files to
 username=$(whoami)
 
-# create plugins directory
+# sync plugins directory
 mkdir -p ~/${VIM_DIR}/pack/${username}/start/
-
-# create helper folders
-mkdir -p ~/.local/share/nvim/
-mkdir -p ~/.local/vim_scripts/
-
-# Purge any files in the start folder
 rm -fr ~/${VIM_DIR}/pack/${username}/start/*
-
-# deploy
 cp -fr plugins/* ~/${VIM_DIR}/pack/${username}/start/
-cp -fr scripts/* ~/.local/vim_scripts/
-
-# make scripts executable
-chmod +x ~/.local/vim_scripts/*
