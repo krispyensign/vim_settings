@@ -16,13 +16,16 @@ set foldlevel=2
 set signcolumn=yes
 set hidden
 set backspace=indent,eol,start
-set guioptions-=T,e,r,L
+set guioptions-=T
+set guioptions-=e
+set guioptions-=r
+set guioptions-=L
 set ttyfast
 set showmatch
 set cmdheight=2
 set noshowmode
 set switchbuf+=usetab,newtab
-set guifont=SourceCodeProForPowerline-Bold:h14
+set guifont=Hack\ Bold\ 10
 colorscheme gruvbox              " set color scheme
 filetype plugin indent on
 
@@ -94,6 +97,12 @@ let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 let g:cpp_concepts_highlight = 1
 
+"TagHL settings
+if ! exists('g:TagHighlightSettings')
+    let g:TagHighlightSettings = {}
+endif
+let g:TagHighlightSettings['IncludeLocals'] = 1
+
 " Rainbow settings
 let g:rainbow_active = 1
 let g:rainbow_conf = { 'ctermfgs': [27, 142, 'magenta', 'cyan'] }
@@ -120,7 +129,7 @@ let g:LanguageClient_loggingLevel = 'DEBUG'
 let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
 let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 let g:LanguageClient_serverCommands = {
-    \ 'java': ['~/bin/java-lsp.sh']
+    \ 'java': ['~/bin/java-lsp.sh'],
     \ 'python': ['pyls'],
     \ 'cpp': ['clangd-7'],
     \ }
