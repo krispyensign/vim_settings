@@ -43,7 +43,7 @@ check_command python
 check_command pip
 check_command fzf
 check_command go
-check_command dlv
+check_command dlv || true
 
 printh "deploying configs"
 mkdir -p ${vim_dir}/autoload ${vim_dir}/after/
