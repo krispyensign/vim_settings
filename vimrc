@@ -116,8 +116,7 @@ let g:airline_theme = 'everforest'
 " C-w N terminal Normal mode
 " * search for whole word under cursor
 " # search for partial word under cursor
-" TODO: add more cheatsheet things and also add mapping for double clicking
-" mouse to highlight
+" TODO: add more cheatsheet things
 
 " leader remap for ergonomic
 let mapleader = ' '
@@ -133,7 +132,7 @@ nnoremap <silent> <leader>] :vertical resize -5<CR>
 nnoremap <leader>c :call ToggleQuickfix()<CR>
 nnoremap <leader>l :call ToggleLocation()<CR>
 nnoremap <leader>s :call ToggleGstatus()<CR>
-nnoremap <leader>n :call ToggleNetrw()<CR>
+nnoremap <leader>n :15Lexplore<CR>
 nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
@@ -143,9 +142,6 @@ nnoremap <leader>i :set invlist<CR>
 " debug vimrc map
 nnoremap <leader>RS :source %<CR>
 nnoremap <leader>RR :source $MYVIMRC<CR>
-
-" custom function map
-nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 
 " ycm
 nnoremap <leader>yh <Plug>(YCMToggleInlayHints)
@@ -281,15 +277,7 @@ endfunc
 " TODO: write tagbar toggle to open tagbar below netrw
 
 func! ToggleQuickfix()
-	if call buffname() == '[Quickfix List]'
-		q
-	else
-		bel copen10
-	endif
-endfunc
-
-func! ToggleNetrw()
-	if call buffname() == 'NetrwTreeListing'
+	if bufname() == '[Quickfix List]'
 		q
 	else
 		bel copen10
@@ -297,14 +285,13 @@ func! ToggleNetrw()
 endfunc
 
 func! ToggleLocation()
-	if call buffname() == '[Location List]'
+	if bufname() == '[Location List]'
 		q
 	else
-		bel copen10
+		bel lopen10
 	endif
 endfunc
 
-" fugitive
 func! ToggleGstatus() abort
 	for l:winnr in range(1, winnr('$'))
 		if !empty(getwinvar(l:winnr, 'fugitive_status'))
@@ -314,15 +301,6 @@ func! ToggleGstatus() abort
 	endfor
 	keepalt :abo Git
 endfun
-
-func! CloseGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			exe l:winnr 'close'
-			return
-		endif
-	endfor
-endfunc
 " }}}
 
 " Sessions Functions {{{ 
@@ -331,6 +309,15 @@ func! CloseBufferByName(name)
 		let b:nr = bufnr(a:name)
 		exe b:nr . 'bd'
 	endif
+endfunc
+
+func! CloseGstatus() abort
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			exe l:winnr 'close'
+			return
+		endif
+	endfor
 endfunc
 
 func! MakeSession()
