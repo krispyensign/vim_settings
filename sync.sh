@@ -14,8 +14,8 @@ mkdir -p plugins
 pushd $(pwd)
 	cd ~/${VIM_DIR}/
 	chmod -R 777 pack/
-	rm -fr after plugin autoload pack/${username}/start/
-	mkdir -p after plugin autoload pack/${username}/start/
+	rm -fr after plugin autoload pack/
+	mkdir -p after plugin autoload pack/
 popd
 
 echo "=cleanup stale plugins="
