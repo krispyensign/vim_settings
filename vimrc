@@ -102,10 +102,16 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
-nnoremap <silent> <leader>n :NERDTreeToggle<CR>
-nnoremap <silent> <leader>t :TagbarToggle<CR>
-nnoremap <silent> <leader>c :cope<CR>
 nnoremap <silent> <leader>T :bel term<CR>
+
+" NerdTree mappings
+nnoremap <silent> <leader>n :NERDTreeToggle<CR>
+
+" Tagbar mappings
+nnoremap <silent> <leader>t :TagbarToggle<CR>
+
+" Diagnostic mappings
+nnoremap <silent> <leader>c :cope<CR>
 nnoremap <silent> <leader>l :lopen<CR>
 
 " YCM leader mappings
