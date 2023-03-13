@@ -273,4 +273,4 @@ if 'VIRTUAL_ENV' in os.environ:
     with open(activate_this) as f:
         exec(f.read(), {'__file__': activate_this})
 EOF
-"}}}
+" }}}
