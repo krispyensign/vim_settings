@@ -4,6 +4,7 @@ https://github.com/vim-syntastic/syntastic
 https://github.com/ycm-core/YouCompleteMe
 https://github.com/majutsushi/tagbar
 https://github.com/darrikonn/vim-gofmt.git
+https://github.com/hashivim/vim-terraform
 # navigation plugins
 https://github.com/scrooloose/nerdtree
 https://github.com/Xuyuanp/nerdtree-git-plugin
