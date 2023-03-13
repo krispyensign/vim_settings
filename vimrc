@@ -117,7 +117,7 @@ nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 " netwr
 nnoremap <silent> <leader>n :15Lexplore<CR>
 " tagbar
-nnoremap <silent> <leader>tt :TagbarToggle
+nnoremap <leader>tt :TagbarToggle<CR>
 " ycm
 nnoremap <leader>yh <Plug>(YCMToggleInlayHints)
 nnoremap <leader>yd <Plug>(YCMDiags)
@@ -143,11 +143,11 @@ let java_highlight_all = 1
 " }}}
 
 " NetRW {{{
-let g:netrw_list_hide= '.*\.swp$,\.git/'
-let g:netrw_hide=1
+let g:netrw_list_hide = '.*\.swp$,\.git/'
+let g:netrw_hide = 1
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_mousemaps= 0
+let g:netrw_mousemaps = 0
 " }}}
 
 " Rainbow {{{
