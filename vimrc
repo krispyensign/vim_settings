@@ -29,7 +29,7 @@ set shiftwidth=4                    " shifts should also display as 4
 filetype plugin indent on           " allow filetype to be completely managed by vim
 
 " colors
-colorscheme onedark
+colorscheme gruvbox
 
 " leader remap for ergonomic
 let mapleader = ' '
@@ -165,7 +165,6 @@ command! -bang -nargs=* Rgcs
 \		1, fzf#vim#with_preview(), <bang>0)
 
 " highlight all instances of word under cursor, when idle. useful when studying strange source code.
-" type z/ to toggle highlighting on/off.
 function! AutoHighlightToggle()
    let @/ = ''
    if exists('#auto_highlight')
@@ -207,4 +206,3 @@ if 'VIRTUAL_ENV' in os.environ:
     with open(activate_this) as f:
         exec(f.read(), {'__file__': activate_this})
 EOF
-
