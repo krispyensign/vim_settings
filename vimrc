@@ -9,20 +9,18 @@ set nowrap							" no text wrap
 set number							" turn on numbering
 set foldenable						" turn on folding
 set foldmethod=syntax				" make folds based per syntax
-set foldlevel=2						" start with 2 folds open
 set signcolumn=yes					" gutter enabled
 set backspace=indent,eol,start		" enable backspace key
 set guioptions=gm					" enable menu only
 set clipboard^=unnamed,unnamedplus	" setup clipboard to be more integrated
 set ttyfast							" speed things up with tty
-set showmatch						" show matches on /
 set cmdheight=2						" command line bar is 2 chars high
 set noshowmode						" managed by airline instead
+set noshowmatch						" do not try to jump to braces
 set switchbuf+=usetab,newtab		" default commands to start a new tab
 set mouse=a							" enable mouse integrations for tty
 set ttymouse=sgr					" more tty integrations for mouse
 set cursorline						" enable visual line for for cursor
-set updatetime=300					" improve latency
 set tabstop=4						" make sure if tabs are used it displays 4 and not 8
 set shiftwidth=4					" shifts should also display as 4
 set ssop-=options					" do not store global and local values in a session
@@ -41,11 +39,11 @@ Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verb
 Plug 'vim-test/vim-test'
 
 " language specific plugins
-Plug 'hashivim/vim-terraform'
-Plug 'rust-lang/rust/vim'
+Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
+Plug 'rust-lang/rust/vim', { 'for' : 'rust' }
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'preservim/vim-markdown'
+Plug 'preservim/vim-markdown', { 'for' : 'markdown' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -58,7 +56,6 @@ Plug 'airblade/vim-gitgutter'
 
 " supplemental theme plugins
 Plug 'vim-airline/vim-airline-themes'
-Plug 'luochen1990/rainbow'
 
 " theme plugins
 Plug 'rafalbromirski/vim-aurora'
@@ -86,7 +83,7 @@ call plug#end()
 func! CloseBufferByName(name)
 	if bufexists(a:name)
 		let b:nr = bufnr(a:name)
-		exe b:nr . 'bd'
+		exe 'bd ' .. b:nr 
 	endif
 endfunc
 
@@ -120,16 +117,13 @@ func! LoadSession()
 	if (filereadable(b:sessionfile))
 		exe 'source ' b:sessionfile
 		redraw!
-	" TODO: change tagbar to open below netrw ??
 	else
-		echo "No session loaded."
+		echo "No session loaded from " .. b:sessionfile
 	endif
 endfunc
 
 au VimLeave * :call MakeSession()
-if(argc() == 0)
-	au VimEnter * nested :call LoadSession()
-endif
+au VimEnter * nested :call LoadSession()
 " }}}
 
 " Colors {{{
@@ -232,10 +226,12 @@ let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 0
+let g:airline_experimental = 1
+let g:airline_highlighting_cache = 1
+let g:airline_extensions = []
 " }}}
 
 " Tagbar {{{
-let g:tagbar_map_showproto = 'P'
 let g:tagbar_autoclose_netrw = 1
 " }}}
 
@@ -253,11 +249,19 @@ let g:syntastic_mode_map = {
 	\ "passive_filetypes": ["rust", "python", "javascript", "go", "typescript", "java", "csharp"] }
 " }}}
 
+" Netrw {{{
+let g:netrw_list_hide = '.*\.swp$,\.git/'
+let g:netrw_hide = 1
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_mousemaps = 0
+" }}}
+
 " YouCompleteMe {{{
 let g:ycm_enable_semantic_highlighting = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_min_num_of_chars_for_completion = 5
 " }}}
 
 " Vimspector {{{
