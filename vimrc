@@ -27,8 +27,12 @@ set noshowmode
 set switchbuf+=usetab,newtab
 if has('macunix')
   set guifont=SourceCodeProForPowerline-Bold:h14
+  " FZF settings
+  set rtp+=/usr/local/opt/fzf
 elseif has('unix')
   set guifont=Source\ Code\ Pro\ for\ Powerline\ Bold\ 9
+  " FZF settings
+  set rtp+=~/.fzf
 endif
 
 colorscheme gruvbox              " set color scheme
@@ -76,9 +80,6 @@ let python_highlight_all = 1
 let rust_highlight_all = 1
 let cpp_highlight_all = 1
 
-" FZF settings
-set rtp+=/usr/local/opt/fzf
-
 " Enable virtual environments for python 3
 py3 << EOF
 import os
@@ -125,9 +126,8 @@ let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.l
 let g:LanguageClient_serverCommands = {
     \ 'java': ['~/bin/java-lsp.sh'],
     \ 'python': ['pyls'],
-    \ 'cpp': ['clangd-7'],
+    \ 'cpp': ['ccls'],
     \ }
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 let g:LanguageClient_rootMarkers = {
     \ 'java': ['gradlew'],
     \ 'cpp': ['compile_commands.json'],
@@ -149,6 +149,15 @@ let g:syntastic_rust_checkers = ['cargo']
 let g:syntastic_cpp_checkers = [' ']
 let g:syntastic_java_checkers = [' ']
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+
+" Autoformat settings
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 0
+
+" Function key mappings
+noremap <F3> :Autoformat<CR>
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 
 " My leader mappings
 let mapleader = ' '
