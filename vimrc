@@ -87,7 +87,6 @@ function! AutoHighlightToggle()
 endfunction
 
 " fugitive
-nnoremap gs :call ToggleGstatus()<CR>
 function! ToggleGstatus() abort
   for l:winnr in range(1, winnr('$'))
     if !empty(getwinvar(l:winnr, 'fugitive_status'))
@@ -140,25 +139,22 @@ Plug 'sjl/badwolf'
 Plug 'srcery-colors/srcery-vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'nanotech/jellybeans.vim'
-Plug 'Everblush/everblush.vim'
 Plug 'embark-theme/vim'
-Plug 'juanedi/predawn.vim'
 Plug 'erizocosmico/vim-firewatch'
 Plug 'AlessandroYorba/Alduin'
 Plug 'atelierbram/vim-colors_atelier-schemes' 
 Plug 'sainnhe/everforest'
+Plug 'kaicataldo/material.vim'
 Plug 'connorholyday/vim-snazzy'
-Plug 'hzchirs/vim-material'
 Plug 'jacoborus/tender'
 Plug 'mhinz/vim-janah'
 Plug 'AhmedAbdulrahman/vim-aylin'
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'ghifarit53/tokyonight-vim'
 call plug#end()
 " }}}
 
 " Colors {{{
-colorscheme badwolf
+colorscheme everforest
 let g:airline_theme = 'badwolf'
 
 " set color column to light grey
@@ -166,6 +162,15 @@ if (exists('+colorcolumn'))
   set colorcolumn=100
   highlight ColorColumn ctermbg=9
 endif
+
+" various theme settings
+let g:alduin_Shout_Dragon_Aspect = 1
+let g:everforest_background = 'hard' 
+let g:everforest_disable_italic_comment = 1
+let g:material_theme_style = 'darker'
+let g:tokyonight_enable_italic = 0
+let g:tokyonight_disable_italic_comment = 1
+let g:tokyonight_cursor = "red"
 " }}}
 
 " Custom Shortcuts {{{
@@ -178,7 +183,6 @@ nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
-
 nnoremap <leader>c :call Toggle_Quickfix()<CR>
 nnoremap <leader>l :call Toggle_Location()<CR>
 nnoremap <leader>p :pclose<CR>
