@@ -11,22 +11,14 @@ fi
 username=$(whoami)
 
 # create the directory structure
-mkdir -p ~/${VIM_DIR}/after
-mkdir -p ~/${VIM_DIR}/autoload
+mkdir -p ~/${VIM_DIR}/after ~/${VIM_DIR}/autoload
 
 # create helper folders
 mkdir -p ~/.local/share/nvim/
-mkdir -p ~/.local/vim_scripts/
 
 # deploy addons
 cp -fr after/* ~/${VIM_DIR}/after/
 cp -fr autoload/* ~/${VIM_DIR}/autoload/
-
-# deploy helper scripts
-cp -fr scripts/* ~/.local/vim_scripts/
-
-# make scripts executable
-chmod +x ~/.local/vim_scripts/*
 
 # deploy the new vimrc file
 touch ~/.vimrc
