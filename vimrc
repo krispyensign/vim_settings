@@ -31,28 +31,29 @@ filetype plugin indent on           " allow filetype to be completely managed by
 " colors
 colorscheme badwolf
 
-" My leader mappings
+" leader remap for ergonomic
 let mapleader = ' '
+" navigation maps
 nnoremap <silent> <leader><Up> :wincmd k<CR>
 nnoremap <silent> <leader><Down> :wincmd j<CR>
 nnoremap <silent> <leader><Left> :wincmd h<CR>
 nnoremap <silent> <leader><Right> :wincmd l<CR>
 nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
-
+" location map
 nnoremap <silent> <leader>l :lopen<CR>
 nnoremap <silent> <leader>c :cope<CR>
-
+" debug vimrc map
+nnoremap <silent> <leader>RR :source %<CR>
+" custom function map
+nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+" netwr
 nnoremap <silent> <leader>nt :Ntree<CR>
 nnoremap <silent> <leader>n :100wincmd h<CR>:15Lexplore<CR>
-
+" git
 nnoremap <silent> <leader>G :100wincmd h<CR>:abo Git<CR>
-
-nnoremap <silent> <leader>mt :MerginalToggle<CR>
-
+" tagbar
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
-
-nnoremap <silent> <leader>RR :source %<CR>
 
 " Set color column to light grey
 if (exists('+colorcolumn'))
@@ -161,7 +162,6 @@ command! -bang -nargs=* Rgcs
 
 " Highlight all instances of word under cursor, when idle. Useful when studying strange source code.
 " Type z/ to toggle highlighting on/off.
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 function! AutoHighlightToggle()
    let @/ = ''
    if exists('#auto_highlight')
