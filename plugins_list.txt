@@ -11,5 +11,3 @@ https://github.com/tpope/vim-fugitive
 https://github.com/airblade/vim-gitgutter
 https://github.com/luochen1990/rainbow
 https://github.com/morhetz/gruvbox
-https://github.com/kovisoft/slimv
-https://github.com/ecraven/r7rs-swank

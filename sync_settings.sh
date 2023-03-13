@@ -29,5 +29,7 @@ cp -fr scripts/* ~/.local/vim_scripts/
 chmod +x ~/.local/vim_scripts/*
 
 # deploy the new vimrc file
+touch ~/.vimrc
 cp ~/.vimrc ~/.vimrc.bak
 cp vimrc ~/.vimrc
+

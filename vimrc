@@ -24,7 +24,7 @@ set cursorline                      " enable visual line for for cursor
 filetype plugin indent on           " allow filetype to be completely managed by vim
 
 " colors
-colorscheme PaperColor
+colorscheme badwolf
 
 " My leader mappings
 let mapleader = ' '
@@ -89,7 +89,6 @@ let rust_highlight_all = 1
 let cpp_highlight_all = 1
 let typescript_highlight_all = 1
 let javascript_highlight_all = 1
-let scheme_highlight_all = 1
 
 " Enable virtual environments for python 3
 py3 << EOF
@@ -123,12 +122,10 @@ let g:LanguageClient_loggingLevel = 'DEBUG'
 let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
 let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 let g:LanguageClient_serverCommands = {
-    \ 'java': ['~/bin/java-lsp.sh'],
     \ 'python': ['pyls'],
     \ 'cpp': ['clangd'],
     \ }
 let g:LanguageClient_rootMarkers = {
-    \ 'java': ['gradlew'],
     \ 'cpp': ['compile_commands.json'],
     \ }
 
