@@ -31,6 +31,13 @@ set hlsearch						" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 " }}}
 
+" Sessions {{{
+au VimLeave * :call MakeSession()
+if(argc() == 0)
+	au VimEnter * nested :call LoadSession()
+endif
+" }}}
+
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
 " general language plugins
@@ -148,6 +155,7 @@ nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 " Language Settings {{{
 filetype plugin indent on " allow filetype to be completely managed by vim
 autocmd FileType vim,txt setlocal foldmethod=marker
+autocmd FileType go setlocal makeprg=golangci-lint\ run\ --config\ ~/.golang-lint.yml
 
 let python_highlight_all = 1
 let rust_highlight_all = 1
@@ -249,6 +257,11 @@ command! -bang -nargs=* Rgcs
 " }}}
 
 " Custom Functions {{{
+func! GoFmt()
+  system('gofmt -e -w ' . expand('%'))
+  edit!
+endfunc
+
 func! BuildYCM(info)
 	" info is a dictionary with 3 fields
 	" - name:   name of the plugin
@@ -259,7 +272,7 @@ func! BuildYCM(info)
 	endif
 endfunc
 
-fun! BuildVimspector(info)
+func! BuildVimspector(info)
 	if a:info.status == 'installed' || a:info.force
 		term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./
 	endif
@@ -302,11 +315,6 @@ func! LoadSession()
 		echo "No session loaded."
 	endif
 endfunc
-
-au VimLeave * :call MakeSession()
-if(argc() == 0)
-	au VimEnter * nested :call LoadSession()
-endif
 
 func! GetActiveBufferName()
 	redir => buffname
