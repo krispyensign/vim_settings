@@ -43,6 +43,9 @@ nnoremap <silent> <leader>n :NERDTreeToggle<CR>
 nnoremap <silent> <leader>t :TagbarToggle<CR>
 nnoremap <silent> <leader>c :cope<CR>
 
+" YCM mappings
+nnoremap <silent> <leader>h <Plug>(YCMToggleInlayHints)
+
 " Per OS settings
 if has('macunix')
   set guifont=SourceCodeProForPowerline-Bold:h14
@@ -121,3 +124,6 @@ let g:airline_powerline_fonts = 0
 
 " Tagbar settings
 let g:tagbar_map_showproto = 'P'
+
+" YCM settings
+let g:ycm_enable_semantic_highlighting=1
