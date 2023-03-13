@@ -118,7 +118,7 @@ nnoremap <silent> <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 " netwr
 nnoremap <silent> <leader>n :15Lexplore<CR>
 " tagbar
-nnoremap <leader>tt :TagbarToggle<CR>
+nnoremap <leader>t :TagbarToggle<CR>
 " ycm
 nnoremap <leader>yh <Plug>(YCMToggleInlayHints)
 nnoremap <leader>yd <Plug>(YCMDiags)
@@ -250,7 +250,7 @@ current_buffer_name=vim.eval('GetActiveBufferName()')
 if current_buffer_name=='[Quickfix List]':
     vim.command('q')
 else:
-    vim.command('copen')
+    vim.command('bel copen10')
 EOF
 endfunction
 
@@ -261,7 +261,7 @@ if current_buffer_name=='[Location List]':
     vim.command('q')
 else:
 	try:
-		vim.command('lopen')
+		vim.command('bel lopen10')
 	except:
 		print("nothing to open")
 EOF
