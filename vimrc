@@ -262,14 +262,14 @@ command! -bang -nargs=* Rgcs
 
 " Custom Functions {{{
 func! GoFmt()
-  let saved_view = winsaveview()
-  silent %!gofmt
-  if v:shell_error > 0
-    cexpr getline(1, '$')->map({ idx, val -> val->substitute('<standard input>', expand('%'), '') })
-    silent undo
-    cwindow
-  endif
-  call winrestview(saved_view)
+	let saved_view = winsaveview()
+	silent %!gofmt
+	if v:shell_error > 0
+		cexpr getline(1, '$')->map({ idx, val -> val->substitute('<standard input>', expand('%'), '') })
+		silent undo
+		cwindow
+	endif
+	call winrestview(saved_view)
 endfunc
 
 func! BuildYCM(info)
@@ -321,7 +321,7 @@ func! LoadSession()
 		tabdo TagbarOpen
 		tabdo 15Lexplore
 		tabdo wincmd l
-		" TODO: change tagbar to open below netrw
+	" TODO: change tagbar to open below netrw ??
 	else
 		echo "No session loaded."
 	endif
