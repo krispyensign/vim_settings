@@ -26,7 +26,6 @@ set updatetime=300                  " improve latency
 set tabstop=4                       " make sure if tabs are used it displays 4 and not 8
 set shiftwidth=4                    " shifts should also display as 4
 
-silent! helptags ALL                " load all help tags after everything else
 filetype plugin indent on           " allow filetype to be completely managed by vim
 
 " colors
@@ -111,8 +110,9 @@ let g:syntastic_aggregate_errors = 1
 " YCM settings
 nnoremap <silent> <leader>l :lopen<CR>
 nnoremap <silent> <leader>yh <Plug>(YCMToggleInlayHints)
-nnoremap <silent> <leader>yd <Plug>(YCMDiags)
+nnoremap <silent> <leader>ye <Plug>(YCMDiags)
 nnoremap <silent> <leader>ys <Plug>(YCMToggleSignatureHelp)
+nnoremap <silent> <leader>yg <Plug>(YCMCompleter GoTo)
 let g:ycm_enable_semantic_highlighting=1
 let g:syntastic_python_checkers = []
 let g:syntastic_rust_checkers = []
