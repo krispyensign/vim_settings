@@ -39,6 +39,7 @@ nnoremap <silent> <leader>] :vertical resize -5<CR>
 nnoremap <silent> <leader>n :NERDTreeToggle<CR>
 nnoremap <silent> <leader>t :TagbarToggle<CR>
 nnoremap <silent> <leader>c :cope<CR>
+nnoremap <silent> <leader>T :bel term<CR>
 
 " YCM mappings
 nnoremap <silent> <leader>h <Plug>(YCMToggleInlayHints)
