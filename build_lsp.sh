@@ -13,4 +13,4 @@ git submodule update --init --recursive
 ./install.py --all
 
 rm -fr ~/${VIM_DIR}/pack/${username}/start/YouCompleteMe
-cp -fr ../YouCompleteMe ~/${VIM_DIR}/pack/${username}/start/YouCompleteMe
+cp -fr ../YouCompleteMe/ ~/${VIM_DIR}/pack/${username}/start/YouCompleteMe
