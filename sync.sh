@@ -66,7 +66,7 @@ function get_omnisharp() {
 			*) platform=unknown ;;
 		esac
 		# TODO: detect arch
-		omnisharp_filename=omnisharp.http-${platform}-x64-net6.0.tar.gz
+		omnisharp_filename=omnisharp-${platform}-x64-net6.0.tar.gz
 		pushd ${omnisharp_path}
 			wget -O omnisharp.tar.gz -v\
 				https://github.com/OmniSharp/omnisharp-roslyn/releases/download/${omnisharp_version}/${omnisharp_filename}

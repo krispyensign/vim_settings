@@ -273,11 +273,15 @@ let g:ycm_enable_semantic_highlighting = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_min_num_of_chars_for_completion = 5
-" if has('win32') || has ('win64')
-"     let g:ycm_roslyn_binary_path = $VIM."/vimfiles/contrib/omnisharp"
-" else
-"     let g:ycm_roslyn_binary_path = $HOME."/.vim/contrib/omnisharp"
-" endif
+let g:ycm_language_server = 
+  \ [ 
+  \   {
+  \     'name': 'omnisharp',
+  \     'cmdline': [ g:omnisharp_bin_path ],
+  \     'filetypes': [ 'cs' ],
+  \		'port': 2000
+  \   }
+  \ ]
 " }}}
 
 " Vimspector {{{
