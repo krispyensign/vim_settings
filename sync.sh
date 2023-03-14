@@ -131,4 +131,3 @@ get_omnisharp
 # TODO: manually manage all LSPs??
 
 printh 'Done! Use <leader>RR to load new settings without restarting vim :)'
-
