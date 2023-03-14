@@ -273,14 +273,11 @@ let g:ycm_enable_semantic_highlighting = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_min_num_of_chars_for_completion = 5
-<<<<<<< HEAD
 " if has('win32') || has ('win64')
 "     let g:ycm_roslyn_binary_path = $VIM."/vimfiles/contrib/omnisharp"
 " else
 "     let g:ycm_roslyn_binary_path = $HOME."/.vim/contrib/omnisharp"
 " endif
-=======
->>>>>>> be1d3e42bb801716e328becf6e895f240b77fc80
 " }}}
 
 " Vimspector {{{
