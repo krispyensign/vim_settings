@@ -126,7 +126,7 @@ deploy_configs
 
 get_vimplug
 get_golangci
-get_omnisharp
+# get_omnisharp
 
 # TODO: manually manage all LSPs??
 

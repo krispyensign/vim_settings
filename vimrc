@@ -33,7 +33,7 @@ set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 call plug#begin('~/.vim/plugged')
 " general language plugins
 Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --all --verbose && chmod -R u+rw ./' }
+Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --java-completer --go-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
 Plug 'majutsushi/tagbar'
 Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all --enable-go && chmod -R u+rw ./' }
 Plug 'vim-test/vim-test'
@@ -45,6 +45,7 @@ Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'johejo/gomod.vim', { 'for' : 'gomod' }
+Plug 'OmniSharp/omnisharp-vim', { 'for' : 'cs' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -257,7 +258,8 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_mode_map = {
 	\ "mode": "active",
 	\ "active_filetypes": [],
-	\ "passive_filetypes": ["rust", "python", "javascript", "go", "typescript", "java", "csharp", "cs"] }
+	\ "passive_filetypes": ["rust", "python", "javascript", "go", "typescript", "java" ] }
+let g:syntastic_cs_checkers = ['code_checker']
 " }}}
 
 " Netrw {{{
@@ -273,15 +275,15 @@ let g:ycm_enable_semantic_highlighting = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_min_num_of_chars_for_completion = 5
-let g:ycm_language_server = 
-  \ [ 
-  \   {
-  \     'name': 'omnisharp',
-  \     'cmdline': [ g:omnisharp_bin_path ],
-  \     'filetypes': [ 'cs' ],
-  \		'port': 2000
-  \   }
-  \ ]
+let g:ycm_auto_start_csharp_server = 0  " :( stuck on mono
+" }}}
+
+" omnisharp-vim {{{
+let g:OmniSharp_selector_ui = ''       " Use vim - command line, quickfix etc.
+let g:OmniSharp_selector_findusages = 'fzf'
+let g:OmniSharp_server_use_net6 = 1
+let g:OmniSharp_server_stdio = 1
+ let g:OmniSharp_server_use_mono = 0
 " }}}
 
 " Vimspector {{{
