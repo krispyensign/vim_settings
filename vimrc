@@ -33,7 +33,7 @@ set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 call plug#begin('~/.vim/plugged')
 " general language plugins
 Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --java-completer --go-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
+Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --java-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
 Plug 'majutsushi/tagbar'
 Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all --enable-go && chmod -R u+rw ./' }
 Plug 'vim-test/vim-test'
@@ -44,8 +44,9 @@ Plug 'rust-lang/rust/vim', { 'for' : 'rust' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
-Plug 'johejo/gomod.vim', { 'for' : 'gomod' }
 Plug 'OmniSharp/omnisharp-vim', { 'for' : 'cs' }
+Plug 'vito-c/jq.vim', { 'for' : 'jq' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for' : ['gomod', 'go'] }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -85,6 +86,8 @@ Plug 'tyrannicaltoucan/vim-deep-space'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'glepnir/oceanic-material'
+Plug 'yorickpeterse/happy_hacking.vim'
+Plug 'crusoexia/vim-monokai'
 call plug#end()
 " }}}
 
@@ -278,12 +281,16 @@ let g:ycm_min_num_of_chars_for_completion = 5
 let g:ycm_auto_start_csharp_server = 0  " :( stuck on mono
 " }}}
 
-" omnisharp-vim {{{
+" OmniSharp {{{
 let g:OmniSharp_selector_ui = ''       " Use vim - command line, quickfix etc.
 let g:OmniSharp_selector_findusages = 'fzf'
 let g:OmniSharp_server_use_net6 = 1
 let g:OmniSharp_server_stdio = 1
- let g:OmniSharp_server_use_mono = 0
+let g:OmniSharp_server_use_mono = 0
+let g:OmniSharp_diagnostic_showid = 1
+" let g:OmniSharp_diagnostic_overrides = {
+" \ 'IDE0008': {'type': 'None'}
+" \}
 " }}}
 
 " Vimspector {{{
