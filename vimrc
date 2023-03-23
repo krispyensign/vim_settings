@@ -1,10 +1,7 @@
 " Settings {{{
 set nocompatible					" be iMproved, required
 syntax on							" enable syntax highlighting
-set termguicolors					" enable 24 bit
-set background=dark					" dark mode
 set encoding=utf8					" default encoding
-set t_ut=							" use current background color
 set nowrap							" no text wrap
 set number							" turn on numbering
 set foldenable						" turn on folding
@@ -139,6 +136,10 @@ au VimEnter * nested :call LoadSession()
 " }}}
 
 " Colors {{{
+set background=dark					" dark mode
+set termguicolors					" enable 24 bit
+set t_ut=							" use current background color
+
 " various theme settings
 let g:alduin_Shout_Dragon_Aspect = 1
 let g:everforest_background = 'hard'
@@ -156,13 +157,14 @@ if (exists('+colorcolumn'))
 endif
 
 " turn on the colors
-colorscheme everforest
-let g:airline_theme = 'everforest'
+colorscheme aurora
+let g:airline_theme = 'papercolor'
 " }}}
 
 " Custom Shortcuts {{{
 " Cheatsheet for randos
 " C-w N terminal Normal mode
+" C-w x switch files during diff this
 " * search for whole word under cursor
 " # search for partial word under cursor
 " TODO: add more cheatsheet things
@@ -205,6 +207,10 @@ nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 
+" omnicomplete
+inoremap <expr> <Nul> Auto_complete_string()
+inoremap <expr> <C-Space> Auto_complete_string()
+
 func! ToggleGstatus() abort
 	for l:winnr in range(1, winnr('$'))
 		if !empty(getwinvar(l:winnr, 'fugitive_status'))
@@ -214,6 +220,22 @@ func! ToggleGstatus() abort
 	endfor
 	keepalt :abo Git
 endfun
+
+function! Auto_complete_string()
+    if pumvisible()
+        return "\<C-n>"
+    else
+        return "\<C-x>\<C-o>\<C-r>=Auto_complete_opened()\<CR>"
+    end
+endfunction
+
+function! Auto_complete_opened()
+    if pumvisible()
+        return "\<Down>"
+    end
+    return ""
+endfunction
+
 " }}}
 
 " General Language Settings {{{
@@ -278,7 +300,11 @@ let g:ycm_enable_semantic_highlighting = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_min_num_of_chars_for_completion = 5
-let g:ycm_auto_start_csharp_server = 0  " :( stuck on mono
+let g:ycm_filetype_specific_completion_to_disable = {
+			\ 'go': 1,
+			\ 'cs': 1,
+			\ 'csharp': 1,
+			\ }
 " }}}
 
 " OmniSharp {{{
@@ -288,9 +314,9 @@ let g:OmniSharp_server_use_net6 = 1
 let g:OmniSharp_server_stdio = 1
 let g:OmniSharp_server_use_mono = 0
 let g:OmniSharp_diagnostic_showid = 1
-" let g:OmniSharp_diagnostic_overrides = {
-" \ 'IDE0008': {'type': 'None'}
-" \}
+let g:OmniSharp_diagnostic_overrides = {
+\ 'IDE0008': {'type': 'None'}
+\}
 " }}}
 
 " Vimspector {{{
