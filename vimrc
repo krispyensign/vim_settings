@@ -289,50 +289,14 @@ let g:netrw_mousemaps = 0
 " }}}
 
 " YouCompleteMe {{{
-let g:ycm_enable_semantic_highlighting = 1
+let g:ycm_enable_semantic_highlighting = 0
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_min_num_of_chars_for_completion = 5
 let g:ycm_filetype_specific_completion_to_disable = {
-			\ 'cs': 1,
-			\ 'csharp': 1,
-			\ }
-
-let MY_YCM_HIGHLIGHT_GROUP = {
-\		'namespace': 'Special',
-\		'class': 'Special',
-\		'enum': 'Special',
-\		'interface': 'Typedef',
-\		'struct': 'Special',
-\		'typeParameter': 'PreProc',
-\		'type': 'Type',
-\		'parameter': 'Identifier',
-\		'variable': 'Identifier',
-\		'property': 'Identifier',
-\		'enumMember': 'Constant',
-\		'event': 'Special',
-\		'function': 'Function',
-\		'method': 'Keyword',
-\		'macro': 'Macro',
-\		'label': 'Label',
-\		'comment': 'Comment',
-\		'string': 'String',
-\		'keyword': 'Keyword',
-\		'number': 'Number',
-\		'operator': 'Operator',
-\ }
-
-for tokenType in keys( MY_YCM_HIGHLIGHT_GROUP )
-	try
-		call prop_type_add( 'YCM_HL_' . tokenType, {
-				  \ 'highlight': MY_YCM_HIGHLIGHT_GROUP[ tokenType ],
-				  \ } )
-	catch
-		call prop_type_change( 'YCM_HL_' . tokenType, {
-				  \ 'highlight': MY_YCM_HIGHLIGHT_GROUP[ tokenType ],
-				  \ } )
-	endtry
-endfor
+\	'cs': 1,
+\	'csharp': 1,
+\	}
 " }}}
 
 " OmniSharp {{{
