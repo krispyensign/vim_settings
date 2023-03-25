@@ -102,7 +102,7 @@ function get_vimplug() {
 
 function deploy_configs() {
 	prints "deploying configs"
-	mkdir -p ${vim_dir}/autoload ${vim_dir}/after/
+	mkdir -p ${vim_dir}/autoload ${vim_dir}/after/ ${vim_dir}/contrib/
 	cp -fr after/* ${vim_dir}/after/
 	touch ${HOME}/.vimrc
 	cp ${HOME}/.vimrc ${HOME}/.vimrc.bak

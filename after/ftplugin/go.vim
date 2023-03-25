@@ -8,10 +8,6 @@ au FileType go setlocal makeprg=$HOME/go/bin/golangci-lint\ run\ --config\ $HOME
 au BufWritePre *.go silent :YcmCompleter Format
 " }}}
 
-" Settings {{{
-let go_highlight_all = 1
-" }}}
-
 " Testing {{{
 func! GoRunTest() abort
 	let l:relpackage = './'..expand("%:h")..'/...'

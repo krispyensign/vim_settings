@@ -1,4 +1,4 @@
-" Settings {{{
+" Top Level Settings {{{
 set nocompatible					" be iMproved, required
 syntax on							" enable syntax highlighting
 set encoding=utf8					" default encoding
@@ -26,13 +26,19 @@ set hlsearch						" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
 " }}}
 
+" General Language Settings {{{
+au FileType vim,txt setlocal foldmethod=marker
+" }}}
+
 " Plugins {{{
+command! PU PlugUpdate | PlugUpgrade
+filetype plugin indent on " allow filetype to be completely managed by vim
 call plug#begin('~/.vim/plugged')
 " general language plugins
 Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --java-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
+Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --java-completer --go-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
 Plug 'majutsushi/tagbar'
-Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all --enable-go && chmod -R u+rw ./' }
+Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./' }
 Plug 'vim-test/vim-test'
 
 " language specific plugins
@@ -43,7 +49,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'OmniSharp/omnisharp-vim', { 'for' : 'cs' }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for' : ['gomod', 'go'] }
+Plug 'aklt/plantuml-syntax'
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -235,20 +241,6 @@ function! Auto_complete_opened()
     end
     return ""
 endfunction
-
-" }}}
-
-" General Language Settings {{{
-filetype plugin indent on " allow filetype to be completely managed by vim
-au FileType vim,txt setlocal foldmethod=marker
-command! PU PlugUpdate | PlugUpgrade
-
-let python_highlight_all = 1
-let rust_highlight_all = 1
-let cpp_highlight_all = 1
-let typescript_highlight_all = 1
-let javascript_highlight_all = 1
-let java_highlight_all = 1
 " }}}
 
 " Rainbow {{{
@@ -301,10 +293,29 @@ let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_min_num_of_chars_for_completion = 5
 let g:ycm_filetype_specific_completion_to_disable = {
-			\ 'go': 1,
 			\ 'cs': 1,
 			\ 'csharp': 1,
 			\ }
+
+let MY_YCM_HIGHLIGHT_GROUP = {
+      \   'typeParameter': 'PreProc',
+      \   'parameter': 'Normal',
+      \   'variable': 'Identifier',
+      \   'property': 'Normal',
+      \   'enumMember': 'Normal',
+      \   'event': 'Special',
+      \   'member': 'Normal',
+      \   'method': 'Keyword',
+      \   'class': 'Special',
+      \   'namespace': 'Special',
+	  \	  'function': 'Function',
+	  \   'struct': 'Structure',
+      \ }
+
+for tokenType in keys( MY_YCM_HIGHLIGHT_GROUP )
+  call prop_type_add( 'YCM_HL_' . tokenType,
+                    \ { 'highlight': MY_YCM_HIGHLIGHT_GROUP[ tokenType ] } )
+endfor
 " }}}
 
 " OmniSharp {{{
@@ -321,17 +332,6 @@ let g:OmniSharp_diagnostic_overrides = {
 
 " Vimspector {{{
 let g:vimspector_enable_mappings = 'HUMAN'
-" }}}
-
-" Vim-Go {{{
-let g:go_highlight_operators = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_parameters = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_highlight_variable_assignments = 1
 " }}}
 
 " FZF {{{
