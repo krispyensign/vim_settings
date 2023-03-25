@@ -289,6 +289,11 @@ let g:netrw_liststyle = 3
 let g:netrw_mousemaps = 0
 " }}}
 
+" VimGoSyntax {{{
+let g:go_highlight_struct_fields = 1
+let g:go_highlight_struct_type_fields = 1
+" }}}
+
 " YouCompleteMe {{{
 let g:ycm_enable_semantic_highlighting = 0
 let g:ycm_open_loclist_on_ycm_diags = 1
