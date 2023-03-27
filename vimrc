@@ -176,7 +176,7 @@ inoremap <expr> <C-Space> Auto_complete_string()
 
 " sesion
 au VimLeave * :call UpdateSession()
-nnoremap <leader>ml :call LoadSession()
+nnoremap <leader>ml :call LoadSession()<CR>
 nnoremap <leader>ms :call MakeSession()<CR>
 
 " session helpers
