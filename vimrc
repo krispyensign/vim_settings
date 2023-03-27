@@ -188,7 +188,6 @@ func! CloseBufferByName(name)
 endfunc
 
 func! MakeSession()
-" Creates a session
   let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
   if (filewritable(b:sessiondir) != 2)
     exe 'silent !mkdir -p ' b:sessiondir
@@ -199,20 +198,27 @@ func! MakeSession()
 endfunc
 
 func! UpdateSession()
-" Updates a session, BUT ONLY IF IT ALREADY EXISTS
-  let b:sessiondir = $HOME . "/.vim_session" . getcwd()
-  let b:sessionfile = b:sessiondir . "session.vim"
-  if (filereadable(b:sessionfile))
-    exe "mksession! " . b:filename
-  endif
+	" Updates a session, BUT ONLY IF IT ALREADY EXISTS
+	tabdo call CloseBufferByName('NetrwTreeListing')
+	tabdo call CloseGstatus()
+	tabdo TagbarClose
+	tabdo pclose | lclose | cclose | helpclose
+	let b:sessiondir = $HOME . "/.vim_session" . getcwd()
+	let b:sessionfile = b:sessiondir . "session.vim"
+	if (filereadable(b:sessionfile))
+		exe "mksession! " . b:filename
+	endif
 endfunc
 
 func! LoadSession()
-" Loads a session if it exists
   let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
   let b:sessionfile = b:sessiondir . "/session.vim"
   if (filereadable(b:sessionfile))
-    exe 'source ' b:sessionfile
+	exe 'source ' b:sessionfile
+	tabdo call CloseBufferByName('NetrwTreeListing')
+	tabdo call CloseGstatus()
+	tabdo TagbarClose
+	tabdo pclose | lclose | cclose | helpclose
   else
     echo "No session loaded."
   endif
