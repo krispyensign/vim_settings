@@ -62,7 +62,6 @@ Plug 'junegunn/fzf.vim'
 " git plugins
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'krispyensign/gitsessions.vim'
 
 " supplemental theme plugins
 Plug 'vim-airline/vim-airline-themes'
@@ -175,7 +174,51 @@ nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 inoremap <expr> <Nul> Auto_complete_string()
 inoremap <expr> <C-Space> Auto_complete_string()
 
-" helpers
+" sesion
+au VimLeave * :call UpdateSession()
+nnoremap <leader>ml :call LoadSession()
+nnoremap <leader>ms :call MakeSession()<CR>
+
+" session helpers
+func! CloseBufferByName(name)
+	if bufexists(a:name)
+		let b:nr = bufnr(a:name)
+		exe 'bd ' .. b:nr
+	endif
+endfunc
+
+func! MakeSession()
+" Creates a session
+  let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
+  if (filewritable(b:sessiondir) != 2)
+    exe 'silent !mkdir -p ' b:sessiondir
+    redraw!
+  endif
+  let b:filename = b:sessiondir . '/session.vim'
+  exe "mksession! " . b:filename
+endfunc
+
+func! UpdateSession()
+" Updates a session, BUT ONLY IF IT ALREADY EXISTS
+  let b:sessiondir = $HOME . "/.vim_session" . getcwd()
+  let b:sessionfile = b:sessiondir . "session.vim"
+  if (filereadable(b:sessionfile))
+    exe "mksession! " . b:filename
+  endif
+endfunc
+
+func! LoadSession()
+" Loads a session if it exists
+  let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
+  let b:sessionfile = b:sessiondir . "/session.vim"
+  if (filereadable(b:sessionfile))
+    exe 'source ' b:sessionfile
+  else
+    echo "No session loaded."
+  endif
+endfunc
+
+" git
 func! ToggleGstatus() abort
 	for l:winnr in range(1, winnr('$'))
 		if !empty(getwinvar(l:winnr, 'fugitive_status'))
@@ -186,20 +229,30 @@ func! ToggleGstatus() abort
 	keepalt :abo Git
 endfun
 
-function! Auto_complete_string()
+func! CloseGstatus() abort
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			exe l:winnr 'close'
+			return
+		endif
+	endfor
+endfunc
+
+" omnicomplete
+func! Auto_complete_string()
 	if pumvisible()
 		return "\<C-n>"
 	else
 		return "\<C-x>\<C-o>\<C-r>=Auto_complete_opened()\<CR>"
 	end
-endfunction
+endfunc
 
-function! Auto_complete_opened()
+func! Auto_complete_opened()
 	if pumvisible()
 		return "\<Down>"
 	end
 	return ""
-endfunction
+endfunc
 " }}}
 
 " Rainbow {{{
