@@ -1,29 +1,28 @@
 " Top Level Settings {{{
-set nocompatible					" be iMproved, required
-syntax on							" enable syntax highlighting
-set encoding=utf8					" default encoding
-set nowrap							" no text wrap
-set number							" turn on numbering
-set foldenable						" turn on folding
-set foldmethod=indent				" make folds based per syntax
-set signcolumn=yes					" gutter enabled
-set backspace=indent,eol,start		" enable backspace key
-set guioptions=gm					" enable menu only
-set clipboard^=unnamed,unnamedplus	" setup clipboard to be more integrated
-set ttyfast							" speed things up with tty
-set cmdheight=2						" command line bar is 2 chars high
-set noshowmode						" managed by airline instead
-set noshowmatch						" do not try to jump to braces
-set switchbuf+=usetab,newtab		" default commands to start a new tab
-set mouse=a							" enable mouse integrations for tty
-set ttymouse=sgr					" more tty integrations for mouse
-set cursorline						" enable visual line for for cursor
-set tabstop=4						" make sure if tabs are used it displays 4 and not 8
-set shiftwidth=4					" shifts should also display as 4
-set ssop-=options					" do not store global and local values in a session
-set ssop-=folds						" do not store folds
-set hlsearch						" enable highlighting during search
-set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.
+set nocompatible									" be iMproved, required
+syntax on											" enable syntax highlighting
+set encoding=utf8									" default encoding
+set nowrap											" no text wrap
+set number											" turn on numbering
+set foldenable										" turn on folding
+set foldmethod=indent								" make folds based per syntax
+set signcolumn=yes									" gutter enabled
+set backspace=indent,eol,start						" enable backspace key
+set guioptions=gm									" enable menu only
+set clipboard^=unnamed,unnamedplus					" setup clipboard to be more integrated
+set ttyfast											" speed things up with tty
+set cmdheight=2										" command line bar is 2 chars high
+set noshowmode										" managed by airline instead
+set noshowmatch										" do not try to jump to braces
+set switchbuf+=usetab,newtab						" default commands to start a new tab
+set mouse=a											" enable mouse integrations for tty
+set ttymouse=sgr									" more tty integrations for mouse
+set cursorline										" enable visual line for for cursor
+set tabstop=4										" make sure if tabs are used it displays 4 and not 8
+set shiftwidth=4									" shifts should also display as 4
+set sessionoptions-=options,folds,buffers			" don't try to store buggy stuff in a session
+set hlsearch										" enable highlighting during search
+set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
 " }}}
 
 " General Language Settings {{{
@@ -33,7 +32,9 @@ au FileType vim,txt setlocal foldmethod=marker
 " Plugins {{{
 command! PU PlugUpdate | PlugUpgrade
 filetype plugin indent on " allow filetype to be completely managed by vim
+
 call plug#begin('~/.vim/plugged')
+
 " general language plugins
 Plug 'vim-syntastic/syntastic'
 Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --java-completer --go-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
@@ -61,6 +62,7 @@ Plug 'junegunn/fzf.vim'
 " git plugins
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'krispyensign/gitsessions.vim'
 
 " supplemental theme plugins
 Plug 'vim-airline/vim-airline-themes'
@@ -93,54 +95,8 @@ Plug 'jonathanfilip/vim-lucius'
 Plug 'glepnir/oceanic-material'
 Plug 'yorickpeterse/happy_hacking.vim'
 Plug 'crusoexia/vim-monokai'
+
 call plug#end()
-" }}}
-
-" Sessions {{{
-func! CloseBufferByName(name)
-	if bufexists(a:name)
-		let b:nr = bufnr(a:name)
-		exe 'bd ' .. b:nr
-	endif
-endfunc
-
-func! CloseGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			exe l:winnr 'close'
-			return
-		endif
-	endfor
-endfunc
-
-func! MakeSession()
-	tabdo call CloseBufferByName('NetrwTreeListing')
-	tabdo call CloseGstatus()
-	tabdo TagbarClose
-	tabdo pclose | lclose | cclose | helpclose
-	" TODO: figure out how to keep these all open correctly
-	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-	if (filewritable(b:sessiondir) != 2)
-		exe 'silent !mkdir -p ' b:sessiondir
-		redraw!
-	endif
-	let b:filename = b:sessiondir . '/session.vim'
-	exe "mksession! " . b:filename
-endfunc
-
-func! LoadSession()
-	let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-	let b:sessionfile = b:sessiondir . "/session.vim"
-	if (filereadable(b:sessionfile))
-		exe 'source ' b:sessionfile
-		redraw!
-	else
-		echo "No session loaded from " .. b:sessionfile
-	endif
-endfunc
-
-au VimLeave * :call MakeSession()
-au VimEnter * nested :call LoadSession()
 " }}}
 
 " Colors {{{
@@ -160,7 +116,7 @@ let macvim_skip_colorscheme = 1 " fix for tender.vim
 
 " set color column to light grey
 if (exists('+colorcolumn'))
-	set colorcolumn=100
+	set colorcolumn=80,100,120
 	highlight ColorColumn ctermbg=9
 endif
 
@@ -219,6 +175,7 @@ nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 inoremap <expr> <Nul> Auto_complete_string()
 inoremap <expr> <C-Space> Auto_complete_string()
 
+" helpers
 func! ToggleGstatus() abort
 	for l:winnr in range(1, winnr('$'))
 		if !empty(getwinvar(l:winnr, 'fugitive_status'))
@@ -230,18 +187,18 @@ func! ToggleGstatus() abort
 endfun
 
 function! Auto_complete_string()
-    if pumvisible()
-        return "\<C-n>"
-    else
-        return "\<C-x>\<C-o>\<C-r>=Auto_complete_opened()\<CR>"
-    end
+	if pumvisible()
+		return "\<C-n>"
+	else
+		return "\<C-x>\<C-o>\<C-r>=Auto_complete_opened()\<CR>"
+	end
 endfunction
 
 function! Auto_complete_opened()
-    if pumvisible()
-        return "\<Down>"
-    end
-    return ""
+	if pumvisible()
+		return "\<Down>"
+	end
+	return ""
 endfunction
 " }}}
 
@@ -275,9 +232,15 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_mode_map = {
-	\ "mode": "active",
-	\ "active_filetypes": [],
-	\ "passive_filetypes": ["rust", "python", "javascript", "go", "typescript", "java" ] }
+\	"mode": "active",
+\	"active_filetypes": [],
+\	"passive_filetypes": [
+\		"rust",
+\		"python",
+\		"javascript",
+\		"go",
+\		"typescript",
+\		"java" ] }
 let g:syntastic_cs_checkers = ['code_checker']
 " }}}
 
@@ -301,8 +264,7 @@ let g:ycm_always_populate_location_list = 1
 let g:ycm_min_num_of_chars_for_completion = 5
 let g:ycm_filetype_specific_completion_to_disable = {
 \	'cs': 1,
-\	'csharp': 1,
-\	}
+\	'csharp': 1}
 " }}}
 
 " OmniSharp {{{
@@ -313,8 +275,7 @@ let g:OmniSharp_server_stdio = 1
 let g:OmniSharp_server_use_mono = 0
 let g:OmniSharp_diagnostic_showid = 1
 let g:OmniSharp_diagnostic_overrides = {
-\ 'IDE0008': {'type': 'None'}
-\}
+\	'IDE0008': {'type': 'None'}}
 " }}}
 
 " Vimspector {{{
@@ -323,15 +284,18 @@ let g:vimspector_enable_mappings = 'HUMAN'
 
 " FZF {{{
 let g:fzf_action = {
-	\ 'ctrl-t': 'tab split',
-	\ 'ctrl-x': 'split',
-	\ 'ctrl-v': 'vsplit',
-	\ 'ctrl-q': 'fill_quickfix'}
+\	'ctrl-t': 'tab split',
+\	'ctrl-x': 'split',
+\	'ctrl-v': 'vsplit',
+\	'ctrl-q': 'fill_quickfix'}
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
 command! -bang -nargs=* Rgl
-	\ call fzf#vim#grep(
-	\	"rg --column --line-number --no-heading --color=always --smart-case --type " .. &filetype .." -- " .. shellescape(<q-args>),
-	\	1, fzf#vim#with_preview(), <bang>0)
+\	call fzf#vim#grep(
+\		"rg --column --line-number --no-heading --color=always --smart-case --type " ..
+\			&filetype ..
+\			" -- " ..
+\			shellescape(<q-args>),
+\		1, fzf#vim#with_preview(), <bang>0)
 " }}}
 
