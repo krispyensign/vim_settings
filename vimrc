@@ -134,6 +134,7 @@ let g:airline_theme = 'papercolor'
 
 " leader remap for ergonomic
 let mapleader = ' '
+
 " navigation maps
 nnoremap <silent> <leader><Up> :wincmd k<CR>
 nnoremap <silent> <leader><Down> :wincmd j<CR>
@@ -200,9 +201,6 @@ endfunc
 func! UpdateSession()
 	" Updates a session, BUT ONLY IF IT ALREADY EXISTS
 	tabdo call CloseBufferByName('NetrwTreeListing')
-	tabdo call CloseGstatus()
-	tabdo TagbarClose
-	tabdo pclose | lclose | cclose | helpclose
 	let b:sessiondir = $HOME . "/.vim_session" . getcwd()
 	let b:sessionfile = b:sessiondir . "session.vim"
 	if (filereadable(b:sessionfile))
@@ -216,9 +214,6 @@ func! LoadSession()
   if (filereadable(b:sessionfile))
 	exe 'source ' b:sessionfile
 	tabdo call CloseBufferByName('NetrwTreeListing')
-	tabdo call CloseGstatus()
-	tabdo TagbarClose
-	tabdo pclose | lclose | cclose | helpclose
   else
     echo "No session loaded."
   endif
@@ -234,15 +229,6 @@ func! ToggleGstatus() abort
 	endfor
 	keepalt :abo Git
 endfun
-
-func! CloseGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			exe l:winnr 'close'
-			return
-		endif
-	endfor
-endfunc
 
 " omnicomplete
 func! Auto_complete_string()
