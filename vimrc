@@ -184,18 +184,23 @@ nnoremap <leader>ms :call MakeSession()<CR>
 func! CloseBufferByName(name)
 	if bufexists(a:name)
 		let b:nr = bufnr(a:name)
-		exe 'bd ' .. b:nr
+		try
+			exe 'bd ' .. b:nr
+			return 1
+		catch
+		endtry
 	endif
+	return 0
 endfunc
 
 func! MakeSession()
-  let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
-  if (filewritable(b:sessiondir) != 2)
-    exe 'silent !mkdir -p ' b:sessiondir
-    redraw!
-  endif
-  let b:sessionfile = b:sessiondir . '/session.vim'
-  exe "mksession! " . b:sessionfile
+	let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
+	if (filewritable(b:sessiondir) != 2)
+		exe 'silent !mkdir -p ' b:sessiondir
+		redraw!
+	endif
+	let b:sessionfile = b:sessiondir . '/session.vim'
+	exe "mksession! " . b:sessionfile
 endfunc
 
 func! UpdateSession()
@@ -207,10 +212,6 @@ func! UpdateSession()
 			tabdo call CloseBufferByName('NetrwTreeListing')
 		catch
 		endtry
-		try
-			tabdo call CloseGstatus()
-		catch
-		endtry
 		exe "mksession! " . b:sessionfile
 		echo "updating session"
 	else
@@ -219,34 +220,30 @@ func! UpdateSession()
 endfunc
 
 func! LoadSession()
-  let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
-  let b:sessionfile = b:sessiondir . "/session.vim"
-  if (filereadable(b:sessionfile))
-	exe 'source ' b:sessionfile
-	tabdo call CloseBufferByName('NetrwTreeListing')
-  else
-    echo "No session loaded."
-  endif
+	let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
+	let b:sessionfile = b:sessiondir . "/session.vim"
+	if (filereadable(b:sessionfile))
+		exe 'source ' b:sessionfile
+		try
+			tabdo call CloseBufferByName('NetrwTreeListing')
+		catch
+		endtry
+	else
+		echo "No session loaded."
+	endif
 endfunc
 
 " git
-func! ToggleGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			exe l:winnr 'close'
-			return
-		endif
-	endfor
-	keepalt :abo Git
-endfun
+function! ToggleGstatus() abort
+	if CloseGstatus() == 1
+		return
+	endif
+	keepalt abo Git
+endfunction
 
-func! CloseGstatus() abort
-	for l:winnr in range(1, winnr('$'))
-		if !empty(getwinvar(l:winnr, 'fugitive_status'))
-			exe l:winnr 'close'
-			return
-		endif
-	endfor
+func! CloseGstatus()
+	let l:gstatus_bufname = "fugitive://" .. getcwd() .. "/.git//"
+	return CloseBufferByName(l:gstatus_bufname)
 endfun
 
 " omnicomplete
