@@ -200,13 +200,17 @@ endfunc
 
 func! UpdateSession()
 	" Updates a session, BUT ONLY IF IT ALREADY EXISTS
-	try
-		tabdo call CloseBufferByName('NetrwTreeListing')
-	catch
-	endtry
 	let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
 	let b:sessionfile = b:sessiondir . "/session.vim"
 	if (filereadable(b:sessionfile))
+		try
+			tabdo call CloseBufferByName('NetrwTreeListing')
+		catch
+		endtry
+		try
+			tabdo call CloseGstatus()
+		catch
+		endtry
 		exe "mksession! " . b:sessionfile
 		echo "updating session"
 	else
@@ -234,6 +238,15 @@ func! ToggleGstatus() abort
 		endif
 	endfor
 	keepalt :abo Git
+endfun
+
+func! CloseGstatus() abort
+	for l:winnr in range(1, winnr('$'))
+		if !empty(getwinvar(l:winnr, 'fugitive_status'))
+			exe l:winnr 'close'
+			return
+		endif
+	endfor
 endfun
 
 " omnicomplete
