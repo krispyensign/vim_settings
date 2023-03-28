@@ -194,17 +194,23 @@ func! MakeSession()
     exe 'silent !mkdir -p ' b:sessiondir
     redraw!
   endif
-  let b:filename = b:sessiondir . '/session.vim'
-  exe "mksession! " . b:filename
+  let b:sessionfile = b:sessiondir . '/session.vim'
+  exe "mksession! " . b:sessionfile
 endfunc
 
 func! UpdateSession()
 	" Updates a session, BUT ONLY IF IT ALREADY EXISTS
-	tabdo call CloseBufferByName('NetrwTreeListing')
-	let b:sessiondir = $HOME . "/.vim_session" . getcwd()
-	let b:sessionfile = b:sessiondir . "session.vim"
+	try
+		tabdo call CloseBufferByName('NetrwTreeListing')
+	catch
+	endtry
+	let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
+	let b:sessionfile = b:sessiondir . "/session.vim"
 	if (filereadable(b:sessionfile))
-		exe "mksession! " . b:filename
+		exe "mksession! " . b:sessionfile
+		echo "updating session"
+	else
+		echo "file " .. b:sessionfile .. " is not readable"
 	endif
 endfunc
 
