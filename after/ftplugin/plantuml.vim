@@ -1,1 +1,1 @@
-au FileType plantuml setlocal makeprg=plantuml\ %\ -o\ ../out/%:t:r/
+au FileType plantuml setlocal makeprg=plantuml\ %\ -o\ ../out/uml/%:t:r/
