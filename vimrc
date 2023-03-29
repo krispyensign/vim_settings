@@ -46,13 +46,10 @@ Plug 'vim-test/vim-test'
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
 Plug 'rust-lang/rust/vim', { 'for' : 'rust' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'OmniSharp/omnisharp-vim', { 'for' : 'cs' }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
-Plug 'tyru/open-browser.vim'
-Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
 
@@ -214,6 +211,10 @@ func! UpdateSession()
 			tabdo call CloseBufferByName('NetrwTreeListing')
 		catch
 		endtry
+		try
+			tabdo call CloseBufferByName('[Plugins]')
+		catch
+		endtry
 		exe "mksession! " . b:sessionfile
 		echo "updating session"
 	else
@@ -228,6 +229,10 @@ func! LoadSession()
 		exe 'source ' b:sessionfile
 		try
 			tabdo call CloseBufferByName('NetrwTreeListing')
+		catch
+		endtry
+		try
+			tabdo call CloseBufferByName('[Plugins]')
 		catch
 		endtry
 	else
@@ -263,6 +268,10 @@ func! Auto_complete_opened()
 	end
 	return ""
 endfunc
+" }}}
+
+" PlantUML {{{
+let g:plantuml_set_makeprg = 0
 " }}}
 
 " Rainbow {{{
