@@ -42,7 +42,6 @@ Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --j
 Plug 'majutsushi/tagbar'
 Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./' }
 Plug 'vim-test/vim-test'
-Plug 'godlygeek/tabular'
 
 " language specific plugins
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
@@ -129,9 +128,12 @@ let g:airline_theme = 'papercolor'
 " Cheatsheet for randos
 " C-w N terminal Normal mode
 " C-w x switch files during diff this
+" C-w r rotate files
+" C-] jump to link in help file
+" C-x C-o omnifunc
+" C-x C-u completefunc
 " * search for whole word under cursor
 " # search for partial word under cursor
-" TODO: add more cheatsheet things
 
 " leader remap for ergonomic
 let mapleader = ' '
@@ -171,10 +173,6 @@ nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
-
-" omnicomplete
-inoremap <expr> <Nul> Auto_complete_string()
-inoremap <expr> <C-Space> Auto_complete_string()
 
 " sesion
 au VimLeave * :call UpdateSession()
@@ -254,22 +252,6 @@ func! CloseGstatus()
 	let l:gstatus_bufname = "fugitive://" .. getcwd() .. "/.git//"
 	return CloseBufferByName(l:gstatus_bufname)
 endfun
-
-" omnicomplete
-func! Auto_complete_string()
-	if pumvisible()
-		return "\<C-n>"
-	else
-		return "\<C-x>\<C-o>\<C-r>=Auto_complete_opened()\<CR>"
-	end
-endfunc
-
-func! Auto_complete_opened()
-	if pumvisible()
-		return "\<Down>"
-	end
-	return ""
-endfunc
 " }}}
 
 " PlantUML {{{
