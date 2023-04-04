@@ -53,6 +53,7 @@ Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
+Plug 'wfxr/protobuf.vim', { 'for' : 'proto' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
