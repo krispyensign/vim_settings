@@ -23,6 +23,7 @@ set shiftwidth=4									" shifts should also display as 4
 set sessionoptions-=options,folds,buffers			" don't try to store buggy stuff in a session
 set hlsearch										" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
+set completeopt=menuone,popup
 " }}}
 
 " General Language Settings {{{
@@ -41,6 +42,7 @@ Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --j
 Plug 'majutsushi/tagbar'
 Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./' }
 Plug 'vim-test/vim-test'
+Plug 'godlygeek/tabular'
 
 " language specific plugins
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
