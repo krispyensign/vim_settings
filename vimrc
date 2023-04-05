@@ -356,7 +356,7 @@ command! -bang -nargs=* Rgl
 
 command! -bang -nargs=* Rgg
 \	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --glob *." ..
+\		"rg --column --line-number --no-heading --color=always --smart-case --glob \\*." ..
 \			expand("%:e") ..
 \			" -- " ..
 \			shellescape(<q-args>),
