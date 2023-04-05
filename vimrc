@@ -53,7 +53,6 @@ Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
-Plug 'wfxr/protobuf.vim', { 'for' : 'proto' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -351,6 +350,14 @@ command! -bang -nargs=* Rgl
 \	call fzf#vim#grep(
 \		"rg --column --line-number --no-heading --color=always --smart-case --type " ..
 \			&filetype ..
+\			" -- " ..
+\			shellescape(<q-args>),
+\		1, fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=* Rgg
+\	call fzf#vim#grep(
+\		"rg --column --line-number --no-heading --color=always --smart-case --glob *." ..
+\			expand("%:e") ..
 \			" -- " ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
