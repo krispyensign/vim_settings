@@ -218,8 +218,10 @@ func! UpdateSession()
 		endtry
 		exe "mksession! " . l:sessionfile
 		echo "updating session"
+		return 1
 	else
 		echo "file " .. l:sessionfile .. " is not readable"
+		return 0
 	endif
 endfunc
 
@@ -227,7 +229,7 @@ func! LoadSession()
 	let l:sessiondir = $HOME . "/.vim_sessions" . getcwd()
 	let l:sessionfile = l:sessiondir . "/session.vim"
 	if (filereadable(l:sessionfile))
-		exe 'source ' l:sessionfile
+		exe 'source' l:sessionfile
 		try
 			tabdo call CloseBufferByName('[Plugins]')
 		catch
@@ -235,6 +237,15 @@ func! LoadSession()
 	else
 		echo "No session loaded, creating new session"
 		call MakeSession()
+	endif
+endfunc
+
+func! SwitchSession(directory)
+	if UpdateSession()
+		tabonly
+		only
+		exe "cd!" a:directory
+		call LoadSession()
 	endif
 endfunc
 
