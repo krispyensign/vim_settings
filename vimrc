@@ -153,7 +153,6 @@ nnoremap <leader>c :cwindow5<CR>
 nnoremap <leader>l :lwindow5<CR>
 nnoremap <leader>s :call ToggleGstatus()<CR>
 nnoremap <leader>n :15Lexplore<CR>
-nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
 nnoremap <leader>i :set invlist<CR>
@@ -173,6 +172,10 @@ nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
+
+" tags
+nnoremap <leader>tc :term ++shell ++close ctags -R -f ./.git/tags .<CR>
+nnoremap <leader>tt :TagbarToggle<CR>
 
 " session
 au VimLeave * :call UpdateSession()
