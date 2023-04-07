@@ -38,7 +38,7 @@ call plug#begin('~/.vim/plugged')
 
 " general language plugins
 Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell TERM=xterm ./install.py --java-completer --go-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
+Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --java-completer --go-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
 Plug 'majutsushi/tagbar'
 Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./' }
 Plug 'vim-test/vim-test'
@@ -53,6 +53,7 @@ Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
+Plug 'wfxr/protobuf.vim', { 'for' : 'proto' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -130,6 +131,7 @@ let g:airline_theme = 'papercolor'
 " C-w x switch files during diff this
 " C-w r rotate files
 " C-] jump to link in help file
+" C-o jump back
 " C-x C-o omnifunc
 " C-x C-u completefunc
 " * search for whole word under cursor
@@ -193,20 +195,20 @@ func! CloseBufferByName(name)
 endfunc
 
 func! MakeSession()
-	let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
-	if (filewritable(b:sessiondir) != 2)
-		exe 'silent !mkdir -p ' b:sessiondir
+	let l:sessiondir = $HOME . "/.vim_sessions" . getcwd()
+	if (filewritable(l:sessiondir) != 2)
+		exe 'silent !mkdir -p ' l:sessiondir
 		redraw!
 	endif
-	let b:sessionfile = b:sessiondir . '/session.vim'
-	exe "mksession! " . b:sessionfile
+	let l:sessionfile = l:sessiondir . '/session.vim'
+	exe "mksession! " . l:sessionfile
 endfunc
 
 func! UpdateSession()
 	" Updates a session, BUT ONLY IF IT ALREADY EXISTS
-	let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
-	let b:sessionfile = b:sessiondir . "/session.vim"
-	if (filereadable(b:sessionfile))
+	let l:sessiondir = $HOME . "/.vim_sessions" . getcwd()
+	let l:sessionfile = l:sessiondir . "/session.vim"
+	if (filereadable(l:sessionfile))
 		try
 			tabdo call CloseBufferByName('NetrwTreeListing')
 		catch
@@ -215,28 +217,21 @@ func! UpdateSession()
 			tabdo call CloseBufferByName('[Plugins]')
 		catch
 		endtry
-		exe "mksession! " . b:sessionfile
+		exe "mksession! " . l:sessionfile
 		echo "updating session"
 	else
-		echo "file " .. b:sessionfile .. " is not readable"
+		echo "file " .. l:sessionfile .. " is not readable"
 	endif
 endfunc
 
 func! LoadSession()
-	let b:sessiondir = $HOME . "/.vim_sessions" . getcwd()
-	let b:sessionfile = b:sessiondir . "/session.vim"
-	if (filereadable(b:sessionfile))
-		exe 'source ' b:sessionfile
-		try
-			tabdo call CloseBufferByName('NetrwTreeListing')
-		catch
-		endtry
-		try
-			tabdo call CloseBufferByName('[Plugins]')
-		catch
-		endtry
+	let l:sessiondir = $HOME . "/.vim_sessions" . getcwd()
+	let l:sessionfile = l:sessiondir . "/session.vim"
+	if (filereadable(l:sessionfile))
+		exe 'source ' l:sessionfile
 	else
-		echo "No session loaded."
+		echo "No session loaded, creating new session"
+		call MakeSession()
 	endif
 endfunc
 
