@@ -110,7 +110,7 @@ let g:everforest_disable_italic_comment = 1
 let g:material_theme_style = 'darker'
 let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
-let g:tokyonight_cursor = "red"
+let g:tokyonight_cursor = 'red'
 let macvim_skip_colorscheme = 1 " fix for tender.vim
 
 " set color column to light grey
@@ -156,7 +156,6 @@ nnoremap <leader>n :15Lexplore<CR>
 nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
-nnoremap <leader>m :call MakeSession()<CR>
 nnoremap <leader>i :set invlist<CR>
 
 " debug vimrc map
@@ -175,17 +174,19 @@ nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
 nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 
-" sesion
+" session
 au VimLeave * :call UpdateSession()
 nnoremap <leader>ml :call LoadSession()<CR>
 nnoremap <leader>ms :call MakeSession()<CR>
+nnoremap <leader>mL :call ListSessions()<CR>
+nnoremap <leader>mS ^vg_y :call SwitchSession('<C-R>"')<CR>
 
 " session helpers
 func! CloseBufferByName(name)
 	if bufexists(a:name)
 		let b:nr = bufnr(a:name)
 		try
-			exe 'bd ' .. b:nr
+			exe 'bd' b:nr
 			return 1
 		catch
 		endtry
@@ -194,19 +195,18 @@ func! CloseBufferByName(name)
 endfunc
 
 func! MakeSession()
-	let l:sessiondir = $HOME . "/.vim_sessions" . getcwd()
+	let l:sessiondir = $HOME .. '/.vim_sessions' .. getcwd()
 	if (filewritable(l:sessiondir) != 2)
-		exe 'silent !mkdir -p ' l:sessiondir
+		exe 'silent !mkdir -p' l:sessiondir
 		redraw!
 	endif
-	let l:sessionfile = l:sessiondir . '/session.vim'
-	exe "mksession! " . l:sessionfile
+	exe 'mksession!' l:sessiondir .. '/session.vim'
 endfunc
 
 func! UpdateSession()
 	" Updates a session, BUT ONLY IF IT ALREADY EXISTS
-	let l:sessiondir = $HOME . "/.vim_sessions" . getcwd()
-	let l:sessionfile = l:sessiondir . "/session.vim"
+	let l:sessiondir = $HOME .. '/.vim_sessions' .. getcwd()
+	let l:sessionfile = l:sessiondir .. '/session.vim'
 	if (filereadable(l:sessionfile))
 		try
 			tabdo call CloseBufferByName('NetrwTreeListing')
@@ -216,18 +216,17 @@ func! UpdateSession()
 			tabdo call CloseBufferByName('[Plugins]')
 		catch
 		endtry
-		exe "mksession! " . l:sessionfile
-		echo "updating session"
-		return 1
+		exe 'mksession!' l:sessionfile
+		echo 'updating session'
 	else
-		echo "file " .. l:sessionfile .. " is not readable"
-		return 0
+		echo 'file' l:sessionfile 'is not readable'
 	endif
+	return 1
 endfunc
 
 func! LoadSession()
-	let l:sessiondir = $HOME . "/.vim_sessions" . getcwd()
-	let l:sessionfile = l:sessiondir . "/session.vim"
+	let l:sessiondir = $HOME .. '/.vim_sessions' .. getcwd()
+	let l:sessionfile = l:sessiondir .. '/session.vim'
 	if (filereadable(l:sessionfile))
 		exe 'source' l:sessionfile
 		try
@@ -235,7 +234,7 @@ func! LoadSession()
 		catch
 		endtry
 	else
-		echo "No session loaded, creating new session"
+		echo 'No session loaded, creating new session'
 		call MakeSession()
 	endif
 endfunc
@@ -244,9 +243,13 @@ func! SwitchSession(directory)
 	if UpdateSession()
 		tabonly
 		only
-		exe "cd!" a:directory
+		exe 'cd!' a:directory
 		call LoadSession()
 	endif
+endfunc
+
+func! ListSessions()
+	exe 'term ++shell find ~/.vim_sessions -type f -exec ls -1t "{}" + | cut -d "/" -f5- | xargs dirname | sed -e "s;^;/;g"'
 endfunc
 
 " git
@@ -258,7 +261,7 @@ function! ToggleGstatus() abort
 endfunction
 
 func! CloseGstatus()
-	let l:gstatus_bufname = "fugitive://" .. getcwd() .. "/.git//"
+	let l:gstatus_bufname = 'fugitive://' .. getcwd() .. '/.git//'
 	return CloseBufferByName(l:gstatus_bufname)
 endfun
 " }}}
@@ -297,15 +300,15 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_mode_map = {
-\	"mode": "active",
-\	"active_filetypes": [],
-\	"passive_filetypes": [
-\		"rust",
-\		"python",
-\		"javascript",
-\		"go",
-\		"typescript",
-\		"java" ] }
+\	'mode': 'active',
+\	'active_filetypes': [],
+\	'passive_filetypes': [
+\		'rust',
+\		'python',
+\		'javascript',
+\		'go',
+\		'typescript',
+\		'java' ] }
 let g:syntastic_cs_checkers = ['code_checker']
 " }}}
 
@@ -357,17 +360,17 @@ let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
 command! -bang -nargs=* Rgl
 \	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --type " ..
+\		'rg --column --line-number --no-heading --color=always --smart-case --type ' ..
 \			&filetype ..
-\			" -- " ..
+\			' -- ' ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
 
 command! -bang -nargs=* Rgg
 \	call fzf#vim#grep(
-\		"rg --column --line-number --no-heading --color=always --smart-case --glob \\*." ..
-\			expand("%:e") ..
-\			" -- " ..
+\		'rg --column --line-number --no-heading --color=always --smart-case --glob \\*.' ..
+\			expand('%:e') ..
+\			' -- ' ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
 " }}}
