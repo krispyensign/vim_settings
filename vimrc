@@ -53,7 +53,6 @@ Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
-Plug 'wfxr/protobuf.vim', { 'for' : 'proto' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -229,6 +228,10 @@ func! LoadSession()
 	let l:sessionfile = l:sessiondir . "/session.vim"
 	if (filereadable(l:sessionfile))
 		exe 'source ' l:sessionfile
+		try
+			tabdo call CloseBufferByName('[Plugins]')
+		catch
+		endtry
 	else
 		echo "No session loaded, creating new session"
 		call MakeSession()
