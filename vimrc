@@ -58,6 +58,7 @@ Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug '~/Documents/Github/sesssion.vim/'
 
 " git plugins
 Plug 'tpope/vim-fugitive'
@@ -149,8 +150,6 @@ nnoremap <silent> <leader>] :vertical resize -5<CR>
 nnoremap <silent> <leader>* :nohls<CR>
 
 " toggles
-nnoremap <leader>c :cwindow5<CR>
-nnoremap <leader>l :lwindow5<CR>
 nnoremap <leader>s :call ToggleGstatus()<CR>
 nnoremap <leader>n :15Lexplore<CR>
 nnoremap <leader>p :pclose<CR>
@@ -174,98 +173,27 @@ nnoremap <leader>yt :YcmCompleter FixIt<CR>
 nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 
 " tags
-nnoremap <leader>tc :term ++shell ++close ctags -R -f ./.git/tags .<CR>
 nnoremap <leader>tt :TagbarToggle<CR>
 
-" session
-au VimLeave * :call UpdateSession()
-nnoremap <leader>ml :call LoadSession()<CR>
-nnoremap <leader>ms :call MakeSession()<CR>
-nnoremap <leader>mL :call ListSessions()<CR>
-nnoremap <leader>mS ^vg_y :call SwitchSession('<C-R>"')<CR>
+" git
+func! ToggleGstatus() abort
+	if CloseGstatus() == 1
+		return
+	endif
+	keepalt abo Git
+endfunc
 
-" session helpers
-func! CloseBufferByName(name)
-	if bufexists(a:name)
-		let b:nr = bufnr(a:name)
+func! CloseGstatus()
+	let l:gstatus_bufname = 'fugitive://' .. getcwd() .. '/.git//'
+	if bufexists(l:gstatus_bufname)
+		let l:nr = bufnr(l:gstatus_bufname)
 		try
-			exe 'bd' b:nr
+			exe 'bd' l:nr
 			return 1
 		catch
 		endtry
 	endif
 	return 0
-endfunc
-
-func! MakeSession()
-	let l:sessiondir = $HOME .. '/.vim_sessions' .. getcwd()
-	if (filewritable(l:sessiondir) != 2)
-		exe 'silent !mkdir -p' l:sessiondir
-		redraw!
-	endif
-	exe 'mksession!' l:sessiondir .. '/session.vim'
-endfunc
-
-func! UpdateSession()
-	" Updates a session, BUT ONLY IF IT ALREADY EXISTS
-	let l:sessiondir = $HOME .. '/.vim_sessions' .. getcwd()
-	let l:sessionfile = l:sessiondir .. '/session.vim'
-	if (filereadable(l:sessionfile))
-		try
-			tabdo call CloseBufferByName('NetrwTreeListing')
-		catch
-		endtry
-		try
-			tabdo call CloseBufferByName('[Plugins]')
-		catch
-		endtry
-		exe 'mksession!' l:sessionfile
-		echo 'updating session'
-	else
-		echo 'file' l:sessionfile 'is not readable'
-	endif
-	return 1
-endfunc
-
-func! LoadSession()
-	let l:sessiondir = $HOME .. '/.vim_sessions' .. getcwd()
-	let l:sessionfile = l:sessiondir .. '/session.vim'
-	if (filereadable(l:sessionfile))
-		exe 'source' l:sessionfile
-		try
-			tabdo call CloseBufferByName('[Plugins]')
-		catch
-		endtry
-	else
-		echo 'No session loaded, creating new session'
-		call MakeSession()
-	endif
-endfunc
-
-func! SwitchSession(directory)
-	if UpdateSession()
-		tabonly
-		only
-		exe 'cd!' a:directory
-		call LoadSession()
-	endif
-endfunc
-
-func! ListSessions()
-	exe 'term ++shell find ~/.vim_sessions -type f -exec ls -1t "{}" + | cut -d "/" -f5- | xargs dirname | sed -e "s;^;/;g"'
-endfunc
-
-" git
-function! ToggleGstatus() abort
-	if CloseGstatus() == 1
-		return
-	endif
-	keepalt abo Git
-endfunction
-
-func! CloseGstatus()
-	let l:gstatus_bufname = 'fugitive://' .. getcwd() .. '/.git//'
-	return CloseBufferByName(l:gstatus_bufname)
 endfun
 " }}}
 

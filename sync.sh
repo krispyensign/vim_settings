@@ -31,10 +31,6 @@ function printe() {
 	printf "${RED}**** $1 ****${NC}\n"
 }
 
-function bluey() {
-	printf "${BLUE}"
-}
-
 function check_command() {
 	if ! type "$1" > /dev/null; then
 		printe "cannot find $1"
