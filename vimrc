@@ -76,24 +76,14 @@ Plug 'morhetz/gruvbox'
 Plug 'sjl/badwolf'
 Plug 'srcery-colors/srcery-vim'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'nanotech/jellybeans.vim'
-Plug 'embark-theme/vim'
-Plug 'erizocosmico/vim-firewatch'
-Plug 'AlessandroYorba/Alduin'
-Plug 'atelierbram/vim-colors_atelier-schemes'
 Plug 'sainnhe/everforest'
 Plug 'kaicataldo/material.vim'
 Plug 'connorholyday/vim-snazzy'
-Plug 'jacoborus/tender'
 Plug 'mhinz/vim-janah'
 Plug 'AhmedAbdulrahman/vim-aylin'
 Plug 'ghifarit53/tokyonight-vim'
-Plug 'jacoborus/tender.vim'
-Plug 'tyrannicaltoucan/vim-deep-space'
 Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'jonathanfilip/vim-lucius'
 Plug 'glepnir/oceanic-material'
-Plug 'yorickpeterse/happy_hacking.vim'
 Plug 'crusoexia/vim-monokai'
 
 call plug#end()
@@ -112,7 +102,6 @@ let g:material_theme_style = 'darker'
 let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
 let g:tokyonight_cursor = 'red'
-let macvim_skip_colorscheme = 1 " fix for tender.vim
 
 " set color column to light grey
 if (exists('+colorcolumn'))
@@ -234,9 +223,6 @@ let g:tagbar_autoclose_netrw = 1
 " }}}
 
 " Syntastic {{{
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 let g:syntastic_auto_loc_list = 3
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
