@@ -1,3 +1,12 @@
+" settings
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" omnisharp mapping
+nnoremap <leader>yg :OmniSharpFindImplementations<CR>
+nnoremap <leader>yr :OmniSharpFindUsages<CR>
+
 " omnicomplete
 inoremap <expr> <Nul> Auto_complete_string()
 inoremap <expr> <C-Space> Auto_complete_string()

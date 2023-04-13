@@ -207,15 +207,26 @@ let g:rainbow_active = 1
 
 " Airline {{{
 let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#branch#empty_message = ''
+let g:airline#extensions#branch#displayed_head_limit = 10
+let g:airline#extensions#branch#format = 1
+let g:airline#extensions#fugitiveline#enabled = 1
+let g:airline#extensions#syntastic#error_symbol = 'E:'
+let g:airline#extensions#syntastic#stl_format_err = '%E{[%fe(#%e)]}'
+let g:airline#extensions#syntastic#warning_symbol = 'W:'
+let g:airline#extensions#syntastic#stl_format_warn = '%W{[%fw(#%w)]}'
+let g:airline#extensions#ycm#error_symbol = 'E:'
+let g:airline#extensions#ycm#warning_symbol = 'W:'
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
-let g:airline_extensions = []
+let g:airline_extensions = ['tabline', 'branch', 'fugitiveline', 'fzf',
+\	'omnisharp', 'syntastic', 'tagbar', 'virtualenv', 'whitespace',
+\	'term', 'ycm']
 " }}}
 
 " Tagbar {{{
@@ -273,8 +284,27 @@ let g:OmniSharp_server_use_net6 = 1
 let g:OmniSharp_server_stdio = 1
 let g:OmniSharp_server_use_mono = 0
 let g:OmniSharp_diagnostic_showid = 1
+" CA1304 : The behavior of 'string.ToLower()' could vary based on the current user's locale settings.
+" CA1305 : The behavior of 'string.Format(string, object)' could vary based on the current user's locale settings.
+" CS1118 : Mark local variable as const
+" IDE0010 : Populate switch
+" IDE0011 : Add braces to 'if' statement
+" IDE0058 : Expression value is never used
+" RCS1124 : Inline local variable
+" RCS1181 : Convert comment to documentation comment
+" RCS1238 : Avoid nested ?: operators
 let g:OmniSharp_diagnostic_overrides = {
-\	'IDE0008': {'type': 'None'}}
+\	'CA1304': {'type': 'None'},
+\	'CA1305': {'type': 'None'},
+\	'CS1118': {'type': 'None'},
+\	'IDE0008': {'type': 'None'},
+\	'IDE0010': {'type': 'None'},
+\	'IDE0011': {'type': 'None'},
+\	'IDE0058': {'type': 'None'},
+\	'RCS1124': {'type': 'None'},
+\	'RCS1181': {'type': 'None'},
+\	'RCS1238': {'type': 'None'},
+\}
 " }}}
 
 " Vimspector {{{
