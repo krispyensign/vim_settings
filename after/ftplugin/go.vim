@@ -22,12 +22,12 @@ func! GoRunTest() abort
 	if l:methline > 0
 		let l:suitename = '^'..split(split(getline(l:funcline), " ")[1], "(")[0]..'$'
 		let l:testname = '^'..split(split(getline(l:methline), " ")[3], "(")[0]..'$'
-		exec 'Delve ' .. l:relpackage .. ' -- -test.run ' .. l:suite .. ' -testify.m ' .. l:testname
+		exec "term ++shell go test -timeout 30s -run" l:suitename '-testify.m' l:testname l:relpackage
 	endif
 
 	let l:funcname = getline(l:funcline)
 	let l:testname = '^'..split(split(l:funcname, " ")[1], "(")[0]..'$'
-	exec 'Delve ' .. l:relpackage .. ' -- -test.run ' .. l:testname
+	exec "term ++shell go test -timeout 30s -run" l:testname l:relpackage
 endfunc
 " }}}
 

@@ -80,7 +80,6 @@ Plug 'sainnhe/everforest'
 Plug 'kaicataldo/material.vim'
 Plug 'connorholyday/vim-snazzy'
 Plug 'mhinz/vim-janah'
-Plug 'AhmedAbdulrahman/vim-aylin'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'glepnir/oceanic-material'
@@ -119,10 +118,11 @@ let g:airline_theme = 'papercolor'
 " C-w N terminal Normal mode
 " C-w x switch files during diff this
 " C-w r rotate files
-" C-] jump to link in help file
+" C-] jump to tag in ctags or follow link in help file
 " C-o jump back
 " C-x C-o omnifunc
 " C-x C-u completefunc
+" 1gd jump to local var
 " * search for whole word under cursor
 " # search for partial word under cursor
 
@@ -200,16 +200,21 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+
 let g:airline#extensions#branch#empty_message = ''
 let g:airline#extensions#branch#displayed_head_limit = 10
 let g:airline#extensions#branch#format = 1
+
 let g:airline#extensions#fugitiveline#enabled = 1
+
 let g:airline#extensions#syntastic#error_symbol = 'E:'
 let g:airline#extensions#syntastic#stl_format_err = '%E{[%fe(#%e)]}'
 let g:airline#extensions#syntastic#warning_symbol = 'W:'
 let g:airline#extensions#syntastic#stl_format_warn = '%W{[%fw(#%w)]}'
+
 let g:airline#extensions#ycm#error_symbol = 'E:'
 let g:airline#extensions#ycm#warning_symbol = 'W:'
+
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
@@ -279,6 +284,7 @@ let g:OmniSharp_diagnostic_showid = 1
 " RCS1124 : Inline local variable
 " RCS1181 : Convert comment to documentation comment
 " RCS1238 : Avoid nested ?: operators
+" IDE0078 : Use pattern matching
 let g:OmniSharp_diagnostic_overrides = {
 \	'CA1304': {'type': 'None'},
 \	'CA1305': {'type': 'None'},
@@ -287,6 +293,7 @@ let g:OmniSharp_diagnostic_overrides = {
 \	'IDE0010': {'type': 'None'},
 \	'IDE0011': {'type': 'None'},
 \	'IDE0058': {'type': 'None'},
+\	'IDE0078': {'type': 'None'},
 \	'RCS1124': {'type': 'None'},
 \	'RCS1181': {'type': 'None'},
 \	'RCS1238': {'type': 'None'},

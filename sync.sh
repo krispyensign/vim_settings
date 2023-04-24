@@ -75,7 +75,7 @@ function get_omnisharp() {
 }
 
 function get_golangci() {
-	golangci_path=$(go env GOPATH)/bin 
+	golangci_path=$(go env GOPATH)/bin
 	golangci_version=$(get_latest_version "golangci/golangci-lint")
 	golangci_version_lock=${vim_dir}/contrib/golangci-${golangci_version}
 	if [[ ! -f ${golangci_version_lock} ]]; then
@@ -96,6 +96,11 @@ function get_vimplug() {
 	fi
 }
 
+function get_rustytags() {
+	rustup component add rust-src
+	cargo install rusty-tags
+}
+
 function deploy_configs() {
 	prints "deploying configs"
 	mkdir -p ${vim_dir}/autoload ${vim_dir}/after/ ${vim_dir}/contrib/
@@ -112,6 +117,7 @@ check_command git
 check_command node
 check_command npm
 check_command cargo
+check_command rustup
 check_command javac
 check_command cmake
 check_command python
@@ -122,5 +128,6 @@ deploy_configs
 
 get_vimplug
 get_golangci || true
+get_rustytags
 
 printh 'Done! Use <leader>RR to load new settings without restarting vim :)'
