@@ -84,6 +84,7 @@ Plug 'ghifarit53/tokyonight-vim'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'glepnir/oceanic-material'
 Plug 'crusoexia/vim-monokai'
+Plug 'romainl/Apprentice'
 
 call plug#end()
 " }}}
