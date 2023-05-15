@@ -50,6 +50,7 @@ Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
 Plug 'OmniSharp/omnisharp-vim'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
