@@ -39,7 +39,7 @@ call plug#begin('~/.vim/plugged')
 " general language plugins
 Plug 'dense-analysis/ale'
 Plug 'majutsushi/tagbar'
-Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./' }
+Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --enable-rust --enable-python --enable-go --enable-bash --force-enable-node && chmod -R u+rw ./' }
 
 " language specific plugins
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
@@ -49,6 +49,7 @@ Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
+Plug 'OmniSharp/omnisharp-vim'
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -215,6 +216,12 @@ let g:netrw_mousemaps = 0
 " VimGoSyntax {{{
 let g:go_highlight_struct_fields = 1
 let g:go_highlight_struct_type_fields = 1
+" }}}
+
+" ALE {{{
+let g:ale_linters = {
+\	'cs': ['OmniSharp'],
+\}
 " }}}
 
 " OmniSharp {{{

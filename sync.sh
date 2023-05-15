@@ -47,33 +47,6 @@ function get_latest_version() {
 	curl --silent "https://api.github.com/repos/$1/releases/latest" | jq -r .tag_name
 }
 
-function get_omnisharp() {
-	omnisharp_path=${vim_dir}/contrib/omnisharp
-	omnisharp_version=$(get_latest_version "OmniSharp/omnisharp-roslyn")
-	omnisharp_version_lock=${vim_dir}/contrib/omnisharp-${omnisharp_version}
-	if [[ ! -f ${omnisharp_version_lock} ]]; then
-		mkdir -p ${omnisharp_path}
-		case "${OSTYPE}" in
-			darwin*) platform=osx ;;
-			linux*) platform=linux ;;
-			msys*) platform=win ;;
-			cygwin*) platform=win ;;
-			mingw*) platform=win ;;
-			*) platform=unknown ;;
-		esac
-		# TODO: detect arch
-		omnisharp_filename=omnisharp-${platform}-x64-net6.0.tar.gz
-		pushd ${omnisharp_path}
-			wget -O omnisharp.tar.gz -v\
-				https://github.com/OmniSharp/omnisharp-roslyn/releases/download/${omnisharp_version}/${omnisharp_filename}
-			tar xvfz omnisharp.tar.gz
-		popd
-		touch ${omnisharp_version_lock}
-	else
-		prints "omnisharp up to date"
-	fi
-}
-
 function get_golangci() {
 	golangci_path=$(go env GOPATH)/bin
 	golangci_version=$(get_latest_version "golangci/golangci-lint")
@@ -96,11 +69,6 @@ function get_vimplug() {
 	fi
 }
 
-function get_rustytags() {
-	rustup component add rust-src
-	cargo install rusty-tags
-}
-
 function deploy_configs() {
 	prints "deploying configs"
 	mkdir -p ${vim_dir}/autoload ${vim_dir}/after/ ${vim_dir}/contrib/
@@ -116,10 +84,6 @@ prints "checking available commands"
 check_command git
 check_command node
 check_command npm
-check_command cargo
-check_command rustup
-check_command javac
-check_command cmake
 check_command python
 check_command pip
 check_command go
@@ -128,6 +92,5 @@ deploy_configs
 
 get_vimplug
 get_golangci || true
-get_rustytags
 
 printh 'Done! Use <leader>RR to load new settings without restarting vim :)'
