@@ -82,11 +82,10 @@ printh "syncing vim settings"
 
 prints "checking available commands"
 check_command git
-check_command node
-check_command npm
 check_command python
 check_command pip
-check_command go
+check_command jq
+check_command curl
 
 deploy_configs
 
