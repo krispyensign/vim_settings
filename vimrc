@@ -37,18 +37,14 @@ filetype plugin indent on " allow filetype to be completely managed by vim
 call plug#begin('~/.vim/plugged')
 
 " general language plugins
-Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --java-completer --go-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
+Plug 'dense-analysis/ale'
 Plug 'majutsushi/tagbar'
 Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --all && chmod -R u+rw ./' }
-Plug 'vim-test/vim-test'
 
 " language specific plugins
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
-Plug 'rust-lang/rust/vim', { 'for' : 'rust' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
-Plug 'OmniSharp/omnisharp-vim', { 'for' : 'cs' }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
@@ -58,7 +54,7 @@ Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug '~/Documents/Github/sesssion.vim/'
+Plug 'krispyensign/sesssion.vim'
 
 " git plugins
 Plug 'tpope/vim-fugitive'
@@ -150,18 +146,6 @@ nnoremap <leader>i :set invlist<CR>
 nnoremap <leader>RS :source %<CR>
 nnoremap <leader>RR :source $MYVIMRC<CR>
 
-" ycm
-nnoremap <leader>yy <Plug>(YCMDiags)
-nnoremap <leader>ys <Plug>(YCMToggleSignatureHelp)
-nnoremap <leader>yh <Plug>(YCMHover)
-nnoremap <leader>yd :YcmCompleter GetDoc<CR>
-nnoremap <leader>yf :YcmCompleter Format<CR>
-nnoremap <leader>yg :YcmCompleter GoTo<CR>
-nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
-nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
-nnoremap <leader>yt :YcmCompleter FixIt<CR>
-nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
-
 " tags
 nnoremap <leader>tt :TagbarToggle<CR>
 
@@ -208,42 +192,16 @@ let g:airline#extensions#branch#format = 1
 
 let g:airline#extensions#fugitiveline#enabled = 1
 
-let g:airline#extensions#syntastic#error_symbol = 'E:'
-let g:airline#extensions#syntastic#stl_format_err = '%E{[%fe(#%e)]}'
-let g:airline#extensions#syntastic#warning_symbol = 'W:'
-let g:airline#extensions#syntastic#stl_format_warn = '%W{[%fw(#%w)]}'
-
-let g:airline#extensions#ycm#error_symbol = 'E:'
-let g:airline#extensions#ycm#warning_symbol = 'W:'
-
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
 let g:airline_extensions = ['tabline', 'branch', 'fugitiveline', 'fzf',
-\	'omnisharp', 'syntastic', 'tagbar', 'virtualenv', 'whitespace',
-\	'term', 'ycm']
+\	'tagbar', 'virtualenv', 'whitespace',
+\	'term', 'ale']
 " }}}
 
 " Tagbar {{{
 let g:tagbar_autoclose_netrw = 1
-" }}}
-
-" Syntastic {{{
-let g:syntastic_auto_loc_list = 3
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_mode_map = {
-\	'mode': 'active',
-\	'active_filetypes': [],
-\	'passive_filetypes': [
-\		'rust',
-\		'python',
-\		'javascript',
-\		'go',
-\		'typescript',
-\		'java' ] }
-let g:syntastic_cs_checkers = ['code_checker']
 " }}}
 
 " Netrw {{{
@@ -257,16 +215,6 @@ let g:netrw_mousemaps = 0
 " VimGoSyntax {{{
 let g:go_highlight_struct_fields = 1
 let g:go_highlight_struct_type_fields = 1
-" }}}
-
-" YouCompleteMe {{{
-let g:ycm_enable_semantic_highlighting = 0
-let g:ycm_open_loclist_on_ycm_diags = 1
-let g:ycm_always_populate_location_list = 1
-let g:ycm_min_num_of_chars_for_completion = 5
-let g:ycm_filetype_specific_completion_to_disable = {
-\	'cs': 1,
-\	'csharp': 1}
 " }}}
 
 " OmniSharp {{{

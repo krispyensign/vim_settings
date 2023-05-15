@@ -1,8 +1,5 @@
-au BufWritePre *.go silent :YcmCompleter Format
-
 func! GoLint() abort
 	let l:lintcommand = $HOME.."/go/bin/golangci-lint run --config "..$HOME.."/.golang-lint.yml | sed -e '/^[[:space:]]*$/d'"
-	echo l:lintcommand
 	cexpr! system(l:lintcommand)
 endfunc
 
