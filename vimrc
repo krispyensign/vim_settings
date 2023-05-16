@@ -48,9 +48,7 @@ Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
-Plug 'charlespascoe/vim-go-syntax', { 'for' : 'go' }
 Plug 'OmniSharp/omnisharp-vim'
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -91,6 +89,19 @@ call plug#end()
 set background=dark					" dark mode
 set termguicolors					" enable 24 bit
 set t_ut=							" use current background color
+
+" enable built-in language highlighting
+let python_highlight_all = 1
+
+let go_highlight_extra_types = 1
+let go_highlight_operators = 1
+let go_highlight_functions = 1
+let go_highlight_function_parameters = 1
+let go_highlight_function_calls = 1
+let go_highlight_fields = 1
+let go_highlight_types = 1
+let go_highlight_variable_assignments = 1
+let go_highlight_variable_declarations = 1
 
 " various theme settings
 let g:alduin_Shout_Dragon_Aspect = 1
@@ -215,8 +226,6 @@ let g:netrw_mousemaps = 0
 " }}}
 
 " VimGoSyntax {{{
-let g:go_highlight_struct_fields = 1
-let g:go_highlight_struct_type_fields = 1
 " }}}
 
 " ALE {{{
