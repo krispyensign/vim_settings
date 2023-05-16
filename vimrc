@@ -49,6 +49,7 @@ Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'OmniSharp/omnisharp-vim'
+Plug 'rust-lang/rust.vim'
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
