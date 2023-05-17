@@ -48,8 +48,8 @@ Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
-Plug 'OmniSharp/omnisharp-vim'
-Plug 'rust-lang/rust.vim'
+Plug 'OmniSharp/omnisharp-vim', { 'for' : 'cs' }
+Plug 'rust-lang/rust.vim', { 'for' : 'rust' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -209,8 +209,7 @@ let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
 let g:airline_extensions = ['tabline', 'branch', 'fugitiveline', 'fzf',
-\	'tagbar', 'virtualenv', 'whitespace',
-\	'term', 'ale']
+\	'tagbar', 'virtualenv', 'whitespace', 'term', 'ale']
 " }}}
 
 " Tagbar {{{
