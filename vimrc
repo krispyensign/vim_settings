@@ -20,7 +20,7 @@ set ttymouse=sgr									" more tty integrations for mouse
 set cursorline										" enable visual line for for cursor
 set tabstop=4										" make sure if tabs are used it displays 4 and not 8
 set shiftwidth=4									" shifts should also display as 4
-set sessionoptions-=options,folds,buffers			" don't try to store buggy stuff in a session
+set sessionoptions-=folds,buffers					" don't try to store buggy stuff in a session
 set hlsearch										" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
 set completeopt=menuone,popup
@@ -227,6 +227,7 @@ let g:netrw_mousemaps = 0
 " ALE {{{
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
+\	'rust': ['analyzer'],
 \}
 " }}}
 
