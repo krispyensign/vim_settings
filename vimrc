@@ -92,17 +92,16 @@ set termguicolors					" enable 24 bit
 set t_ut=							" use current background color
 
 " enable built-in language highlighting
-let python_highlight_all = 1
-
-let go_highlight_extra_types = 1
-let go_highlight_operators = 1
-let go_highlight_functions = 1
-let go_highlight_function_parameters = 1
-let go_highlight_function_calls = 1
-let go_highlight_fields = 1
-let go_highlight_types = 1
-let go_highlight_variable_assignments = 1
-let go_highlight_variable_declarations = 1
+let g:python_highlight_all = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_variable_assignments = 1
+let g:go_highlight_variable_declarations = 1
 
 " various theme settings
 let g:alduin_Shout_Dragon_Aspect = 1
@@ -224,9 +223,6 @@ let g:netrw_hide = 1
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_mousemaps = 0
-" }}}
-
-" VimGoSyntax {{{
 " }}}
 
 " ALE {{{
