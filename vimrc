@@ -225,6 +225,7 @@ let g:netrw_mousemaps = 0
 " }}}
 
 " ALE {{{
+let g:ale_max_signs = 100
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
 \	'rust': ['analyzer'],
