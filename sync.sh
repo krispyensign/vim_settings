@@ -93,3 +93,4 @@ get_vimplug
 get_golangci || true
 
 printh 'Done! Use <leader>RR to load new settings without restarting vim :)'
+
