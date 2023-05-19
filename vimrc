@@ -23,7 +23,6 @@ set shiftwidth=4									" shifts should also display as 4
 set sessionoptions-=folds,buffers					" don't try to store buggy stuff in a session
 set hlsearch										" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
-set completeopt=menuone,popup
 " }}}
 
 " General Language Settings {{{
@@ -225,7 +224,6 @@ let g:netrw_mousemaps = 0
 " }}}
 
 " ALE {{{
-let g:ale_completion_enabled = 1
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_open_list = 1
 let g:ale_keep_list_window_open = 1let g:ale_virtualtext_cursor = 'current'
@@ -237,6 +235,7 @@ let g:ale_linters = {
 
 " omnicomplete
 set omnifunc=ale#completion#OmniFunc
+set completeopt=menu,menuone,popup,noselect,noinsert
 inoremap <expr> <Nul> Auto_complete_string()
 inoremap <expr> <C-Space> Auto_complete_string()
 func! Auto_complete_string()
