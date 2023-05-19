@@ -225,11 +225,34 @@ let g:netrw_mousemaps = 0
 " }}}
 
 " ALE {{{
+let g:ale_completion_enabled = 1
+let g:ale_warn_about_trailing_whitespace = 0
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = 1let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
 \	'rust': ['analyzer'],
 \}
+
+" omnicomplete
+set omnifunc=ale#completion#OmniFunc
+inoremap <expr> <Nul> Auto_complete_string()
+inoremap <expr> <C-Space> Auto_complete_string()
+func! Auto_complete_string()
+	if pumvisible()
+		return "\<C-n>"
+	else
+		return "\<C-x>\<C-o>\<C-r>=Auto_complete_opened()\<CR>"
+	end
+endfunc
+
+func! Auto_complete_opened()
+	if pumvisible()
+		return "\<Down>"
+	end
+	return ""
+endfunc
 " }}}
 
 " OmniSharp {{{
