@@ -1,3 +1,5 @@
+let b:ale_disable_lsp = 1
+
 func! GoLint() abort
 	let l:lintcommand = $HOME.."/go/bin/golangci-lint run --config "..$HOME.."/.golang-lint.yml | sed -e '/^[[:space:]]*$/d'"
 	cexpr! system(l:lintcommand)

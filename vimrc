@@ -23,6 +23,7 @@ set shiftwidth=4									" shifts should also display as 4
 set sessionoptions-=folds,buffers					" don't try to store buggy stuff in a session
 set hlsearch										" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
+set completeopt=menuone,popup
 " }}}
 
 " General Language Settings {{{
@@ -36,8 +37,9 @@ filetype plugin indent on " allow filetype to be completely managed by vim
 call plug#begin('~/.vim/plugged')
 
 " general language plugins
-Plug 'dense-analysis/ale'
 Plug 'majutsushi/tagbar'
+Plug 'dense-analysis/ale'
+Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --java-completer --go-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
 Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --enable-rust --enable-python --enable-go --enable-bash --force-enable-node && chmod -R u+rw ./' }
 
 " language specific plugins
@@ -158,6 +160,18 @@ nnoremap <leader>i :set invlist<CR>
 nnoremap <leader>RS :source %<CR>
 nnoremap <leader>RR :source $MYVIMRC<CR>
 
+" ycm
+nnoremap <leader>yy <Plug>(YCMDiags)
+nnoremap <leader>ys <Plug>(YCMToggleSignatureHelp)
+nnoremap <leader>yh <Plug>(YCMHover)
+nnoremap <leader>yd :YcmCompleter GetDoc<CR>
+nnoremap <leader>yf :YcmCompleter Format<CR>
+nnoremap <leader>yg :YcmCompleter GoTo<CR>
+nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
+nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
+nnoremap <leader>yt :YcmCompleter FixIt<CR>
+nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
+
 " tags
 nnoremap <leader>tt :TagbarToggle<CR>
 
@@ -169,7 +183,7 @@ func! ToggleGstatus() abort
 	keepalt abo Git
 endfunc
 
-func! CloseGstatus()
+func! CloseGstatus() abort
 	let l:gstatus_bufname = 'fugitive://' .. getcwd() .. '/.git//'
 	if bufexists(l:gstatus_bufname)
 		let l:nr = bufnr(l:gstatus_bufname)
@@ -204,11 +218,14 @@ let g:airline#extensions#branch#format = 1
 
 let g:airline#extensions#fugitiveline#enabled = 1
 
+let g:airline#extensions#ycm#error_symbol = 'E:'
+let g:airline#extensions#ycm#warning_symbol = 'W:'
+
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
 let g:airline_extensions = ['tabline', 'branch', 'fugitiveline', 'fzf',
-\	'tagbar', 'virtualenv', 'whitespace', 'term', 'ale']
+\	'tagbar', 'virtualenv', 'whitespace', 'term', 'ale', 'ycm']
 " }}}
 
 " Tagbar {{{
@@ -226,32 +243,21 @@ let g:netrw_mousemaps = 0
 " ALE {{{
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_open_list = 1
-let g:ale_keep_list_window_open = 1let g:ale_virtualtext_cursor = 'current'
+let g:ale_keep_list_window_open = 1
+let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
-\	'rust': ['analyzer'],
 \}
+" }}}
 
-" omnicomplete
-set omnifunc=ale#completion#OmniFunc
-set completeopt=menu,menuone,popup,noselect,noinsert
-inoremap <expr> <Nul> Auto_complete_string()
-inoremap <expr> <C-Space> Auto_complete_string()
-func! Auto_complete_string()
-	if pumvisible()
-		return "\<C-n>"
-	else
-		return "\<C-x>\<C-o>\<C-r>=Auto_complete_opened()\<CR>"
-	end
-endfunc
-
-func! Auto_complete_opened()
-	if pumvisible()
-		return "\<Down>"
-	end
-	return ""
-endfunc
+" YouCompleteMe {{{
+let g:ycm_open_loclist_on_ycm_diags = 1
+let g:ycm_always_populate_location_list = 1
+let g:ycm_min_num_of_chars_for_completion = 5
+let g:ycm_filetype_specific_completion_to_disable = {
+\	'cs': 1,
+\	'csharp': 1}
 " }}}
 
 " OmniSharp {{{
