@@ -68,6 +68,7 @@ Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 
 " theme plugins
+Plug 'jeffkreeftmeijer/vim-dim'
 Plug 'rafalbromirski/vim-aurora'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
