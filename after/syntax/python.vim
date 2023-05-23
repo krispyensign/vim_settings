@@ -1,34 +1,52 @@
-syn keyword	pythonThis 			self in containedin=ALL
-syn match	pythonClass 	 	"\(def \)\|\.\@<!\<[A-Z_]\+[a-zA-Z0-9_]*\>"
-syn match	pythonConstant 	 	"\(def \)\|\.\@<!\<[A-Z_]\+[A-Z0-9_]*\>"
-syn match	pythonFunctionCall 	"\(def \)\|\.\@<!\<[a-zA-Z0-9_]\+[a-zA-Z0-9_]*\ze\((\)"
-syn match 	pythonProperty 		"\.\<[a-zA-Z0-9_]\+"
-syn match 	pythonMethodCall 	"\.\<[a-zA-Z0-9_]\+\ze\((\)"
+syn keyword	pyThis 			self in containedin=ALL
+hi def link pyThis 			Structure
+
+syn match	pyClass 	 	"\(def \)\|\.\@<!\<[A-Z_]\+[a-zA-Z0-9_]*\>"
+hi def link pyClass 		Identifier
+
+syn match	pyConst 	 	"\(def \)\|\.\@<!\<[A-Z_]\+[A-Z0-9_]*\>"
+hi def link pyConst			Constant
+
+syn match	pyFuncCall 		"\(def \)\|\.\@<!\<[a-z0-9_]\+[a-zA-Z0-9_]*\ze\((\)"
+hi def link pyFuncCall 		Type
+
+syn match	pyClassCall 	"\(def \)\|\.\@<!\<[A-Z0-9_]\+[a-zA-Z0-9_]*\ze\((\)"
+hi def link pyClassCall 	Identifier
+
+syn match 	pyProperty 		"\.\<[a-zA-Z0-9_]\+"
+hi def link pyProperty 		Identifier
+
+syn match 	pyMethodCall 	"\.\<[a-zA-Z0-9_]\+\ze\((\)"
+hi def link pyMethodCall 	Type
 
 " improve builtin object highlighting
 syn keyword Structure __debug__ __doc__ __file__ __name__ __package__ __loader__
 syn keyword Structure __spec__ __cached__ __annotations__
 
-syn keyword pythonStatement 	class def nextgroup=pythonFunctionDef skipwhite
-syn match   pythonFunctionDef	"\h\w*" display contained
+syn keyword pyClassStatement 	class nextgroup=pyClassDef skipwhite
+hi def link pyClassStatement 	Statement
 
-syn match pythonMathOperator 		"\%([~!^&|/%+-]\|\%(class\s*\)\@<!<<\|<=>\|<=\|\%(<\|\<class\s\+\u\w*\s*\)\@<!<[^<]\@=\|===\|==\|=\~\|>>\|>=\|=\@<!>\|\.\.\.\|\.\.\|::\)"
-syn match PythonBitwiseOperator 	"\%(-=\|/=\|\*\*=\|\*=\|&&=\|&=\|&&\|||=\||=\|||\|%=\|+=\|!\~\|!=\)"
-syn match PythonAssignmentOperator 	"\%(=\)"
-syn match PythonWalrusOperator 		"\%(:=\)"
-syn match PythonStarOperator 		"\%(\*\|\*\*\)"
+syn match   pyClassDef			"\h\w*" display contained
+hi def link pyClassDef 			Type
 
-hi def link pythonThis 					Constant
-hi def link pythonConstant				Special
-hi def link pythonFunctionCall 			Function
-hi def link pythonClass 				Type
-hi def link pythonMethodCall 			Function
-hi def link pythonProperty 				Identifier
-hi def link pythonStatement 			Statement
-hi def link pythonFunctionDef 			Type
-hi def link PythonMathOperator 			Operator
-hi def link PythonBitwiseOperator 		Operator
-hi def link PythonAssignmentOperator 	Operator
-hi def link PythonWalrusOperator 		Operator
-hi def link PythonStarOperator 			Operator
+syn keyword pyFuncStatement 	def nextgroup=pyFuncDef skipwhite
+hi def link pyFuncStatement 	Statement
+
+syn match   pyFuncDef			"\h\w*" display contained
+hi def link pyFuncDef 			Function
+
+syn match pyMathOperator 			"\%([~!^&|/%+-]\|\%(class\s*\)\@<!<<\|<=>\|<=\|\%(<\|\<class\s\+\u\w*\s*\)\@<!<[^<]\@=\|===\|==\|=\~\|>>\|>=\|=\@<!>\|\.\.\.\|\.\.\|::\)"
+hi def link pyMathOperator 			Operator
+
+syn match pythonBitwiseOperator 	"\%(-=\|/=\|\*\*=\|\*=\|&&=\|&=\|&&\|||=\||=\|||\|%=\|+=\|!\~\|!=\)"
+hi def link pyBitwiseOperator 		Operator
+
+syn match pythonAssignmentOperator 	"\%(=\)"
+hi def link pyAssignmentOperator 	Operator
+
+syn match pythonWalrusOperator 		"\%(:=\)"
+hi def link pyWalrusOperator 		Operator
+
+syn match pythonStarOperator 		"\%(\*\|\*\*\)"
+hi def link pyStarOperator 			Operator
 
