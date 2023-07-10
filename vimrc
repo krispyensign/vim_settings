@@ -242,8 +242,8 @@ let g:netrw_mousemaps = 0
 
 " ALE {{{
 let g:ale_warn_about_trailing_whitespace = 0
-let g:ale_open_list = 1
-let g:ale_keep_list_window_open = 1
+let g:ale_open_list = 0
+let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
 let g:ale_linters = {
@@ -252,7 +252,7 @@ let g:ale_linters = {
 " }}}
 
 " YouCompleteMe {{{
-let g:ycm_open_loclist_on_ycm_diags = 1
+let g:ycm_open_loclist_on_ycm_diags = 0
 let g:ycm_always_populate_location_list = 1
 let g:ycm_min_num_of_chars_for_completion = 5
 let g:ycm_filetype_specific_completion_to_disable = {
