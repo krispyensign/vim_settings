@@ -39,8 +39,8 @@ call plug#begin('~/.vim/plugged')
 " general language plugins
 Plug 'majutsushi/tagbar'
 Plug 'dense-analysis/ale'
-Plug 'ycm-core/YouCompleteMe', { 'do': ':term++shell ./install.py --java-completer --go-completer --ts-completer --rust-completer --clangd-completer --verbose && chmod -R u+rw ./' }
-Plug 'puremourning/vimspector', { 'do': ':term++shell ./install_gadget.py --verbose --enable-rust --enable-python --enable-go --enable-bash --force-enable-node && chmod -R u+rw ./' }
+Plug 'ycm-core/YouCompleteMe'
+Plug 'puremourning/vimspector'
 
 " language specific plugins
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
@@ -50,7 +50,6 @@ Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'OmniSharp/omnisharp-vim', { 'for' : 'cs' }
-Plug 'rust-lang/rust.vim', { 'for' : 'rust' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -63,26 +62,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " supplemental theme plugins
-Plug 'vim-airline/vim-airline-themes'
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
-
-" theme plugins
-Plug 'rafalbromirski/vim-aurora'
-Plug 'joshdick/onedark.vim'
-Plug 'morhetz/gruvbox'
-Plug 'sjl/badwolf'
-Plug 'srcery-colors/srcery-vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'sainnhe/everforest'
-Plug 'kaicataldo/material.vim'
-Plug 'connorholyday/vim-snazzy'
-Plug 'mhinz/vim-janah'
-Plug 'ghifarit53/tokyonight-vim'
-Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'glepnir/oceanic-material'
-Plug 'crusoexia/vim-monokai'
-Plug 'romainl/Apprentice'
 
 call plug#end()
 " }}}
@@ -104,25 +85,16 @@ let g:go_highlight_types = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
 
-" various theme settings
-let g:alduin_Shout_Dragon_Aspect = 1
-let g:everforest_background = 'hard'
-let g:everforest_disable_italic_comment = 1
-let g:material_theme_style = 'darker'
-let g:tokyonight_enable_italic = 0
-let g:tokyonight_disable_italic_comment = 1
-let g:tokyonight_cursor = 'red'
+" turn on the colors
+colorscheme retrobox
+hi Normal ctermbg=16 guibg=#000000
+" }}}
 
 " set color column to light grey
 if (exists('+colorcolumn'))
 	set colorcolumn=80,100,120
 	highlight ColorColumn ctermbg=9
 endif
-
-" turn on the colors
-colorscheme aurora
-let g:airline_theme = 'papercolor'
-" }}}
 
 " Custom Shortcuts {{{
 " Cheatsheet for randos
