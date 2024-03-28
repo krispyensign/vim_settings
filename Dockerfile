@@ -52,16 +52,17 @@ RUN mkdir -p /root/.vim/autoload /src/ \
 # setup vim
 COPY after/ /root/.vim/after/
 COPY vimrc /root/.vimrc
-RUN --mount=type=cache,id=vim,target=/root/.vim/plugged \
-	vim +PlugUpdate +qall
+RUN vim +PlugUpdate +qall
 
 # post install vimspector
 WORKDIR /root/.vim/plugged/vimspector/
-RUN --mount=type=cache,id=vim,target=/root/.vim/plugged \
-	./install_gadget.py --verbose --force-enable-csharp --enable-python \
-	--enable-go --enable-bash --enable-c \
-	&& chmod -R u+rw ./
+RUN ./install_gadget.py --verbose --force-enable-csharp --enable-python \
+	--enable-go --enable-bash --enable-c --enable-cpp --force-enable-java \
+	&& chmod -R u+rw ./ && true
 
+RUN apt install -y zsh
+RUN wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && sh install.sh --unatttended
+RUN chsh -s $(which zsh)
 RUN mkdir -p /src/
 WORKDIR /src/
 

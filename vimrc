@@ -24,6 +24,7 @@ set sessionoptions-=folds,buffers					" don't try to store buggy stuff in a sess
 set hlsearch										" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
 set completeopt=menuone,popup
+set shell=/usr/bin/zsh
 " }}}
 
 " General Language Settings {{{
@@ -39,7 +40,6 @@ call plug#begin('~/.vim/plugged')
 " general language plugins
 Plug 'majutsushi/tagbar'
 Plug 'dense-analysis/ale'
-Plug 'ycm-core/YouCompleteMe'
 Plug 'puremourning/vimspector'
 
 " language specific plugins
@@ -49,7 +49,6 @@ Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
-Plug 'OmniSharp/omnisharp-vim', { 'for' : 'cs' }
 
 " navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -64,6 +63,7 @@ Plug 'airblade/vim-gitgutter'
 " supplemental theme plugins
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 " }}}
@@ -86,8 +86,9 @@ let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
 
 " turn on the colors
-colorscheme retrobox
+colorscheme slate
 hi Normal ctermbg=16 guibg=#000000
+let g:airline_theme='simple'
 " }}}
 
 " set color column to light grey
@@ -99,6 +100,7 @@ endif
 " Custom Shortcuts {{{
 " Cheatsheet for randos
 " C-w N terminal Normal mode
+" C-w " " paste
 " C-w x switch files during diff this
 " C-w r rotate files
 " C-] jump to tag in ctags or follow link in help file
@@ -131,18 +133,6 @@ nnoremap <leader>i :set invlist<CR>
 " debug vimrc map
 nnoremap <leader>RS :source %<CR>
 nnoremap <leader>RR :source $MYVIMRC<CR>
-
-" ycm
-nnoremap <leader>yy <Plug>(YCMDiags)
-nnoremap <leader>ys <Plug>(YCMToggleSignatureHelp)
-nnoremap <leader>yh <Plug>(YCMHover)
-nnoremap <leader>yd :YcmCompleter GetDoc<CR>
-nnoremap <leader>yf :YcmCompleter Format<CR>
-nnoremap <leader>yg :YcmCompleter GoTo<CR>
-nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
-nnoremap <leader>yR yiw :YcmCompleter RefactorRename <C-R>"
-nnoremap <leader>yt :YcmCompleter FixIt<CR>
-nnoremap <leader>yc :YcmForceCompileAndDiagnostics<CR>
 
 " tags
 nnoremap <leader>tt :TagbarToggle<CR>
@@ -197,7 +187,7 @@ let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
 let g:airline_extensions = ['tabline', 'branch', 'fugitiveline', 'fzf',
-\	'tagbar', 'virtualenv', 'whitespace', 'term', 'ale', 'ycm']
+\	'tagbar', 'virtualenv', 'whitespace', 'term', 'ale']
 " }}}
 
 " Tagbar {{{
@@ -214,6 +204,7 @@ let g:netrw_mousemaps = 0
 
 " ALE {{{
 let g:ale_warn_about_trailing_whitespace = 0
+let g:ale_completion_enabled = 1
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
@@ -221,15 +212,6 @@ let g:ale_max_signs = 100
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
 \}
-" }}}
-
-" YouCompleteMe {{{
-let g:ycm_open_loclist_on_ycm_diags = 0
-let g:ycm_always_populate_location_list = 1
-let g:ycm_min_num_of_chars_for_completion = 5
-let g:ycm_filetype_specific_completion_to_disable = {
-\	'cs': 1,
-\	'csharp': 1}
 " }}}
 
 " OmniSharp {{{
