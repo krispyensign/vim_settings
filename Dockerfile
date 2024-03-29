@@ -76,7 +76,7 @@ ADD --keep-git-dir=true https://github.com/puremourning/vimspector.git vimspecto
 WORKDIR /root/.vim/plugged/vimspector/
 RUN --mount=type=cache,target=/root/.cache/go-build \
 	--mount=type=cache,target=/root/.vim/plugged/vimspector/gadgets/linux/download/delve/pkg \
-	./install_gadget.py --verbose --enable-c --enable-cpp --enable-python --enable-bash --enable-go
+	./install_gadget.py --verbose --enable-c --enable-cpp --enable-python --enable-bash
 
 ######################################################################################################################
 # build devbox
@@ -102,7 +102,7 @@ RUN --mount=type=cache,target=/root/go/pkg --mount=type=cache,target=/root/.cach
 # setup vim plugins
 COPY after/ /root/.vim/after/
 COPY vimrc /root/.vimrc
-COPY --from=vimspectorbuild /root/.vim/plugged/vimwspector/ /root/.vim/plugged/vimspector/
+COPY --from=vimspectorbuild /root/.vim/plugged/vimspector/ /root/.vim/plugged/vimspector/
 RUN vim +PlugUpdate +qall
 
 # start using zsh
