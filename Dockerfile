@@ -3,7 +3,8 @@ FROM debian:latest AS base
 ARG cert_location=/usr/local/share/ca-certificates
 
 # create a base build with apt caching enabled
-RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
+RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
+	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=aptcache \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked,id=aptlib \
 	apt update && apt install -y git libncurses6 python3 python-is-python3 pip jq
@@ -28,9 +29,11 @@ FROM base AS vimbuild
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=aptcache \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked,id=aptlib \
 	apt install -y make gcc libtool-bin python3-dev libncurses-dev
-RUN git clone https://github.com/vim/vim.git
+ADD --keep-git-dir=true https://github.com/vim/vim.git /vim
 WORKDIR vim
-RUN ./configure --prefix=/usr/local --disable-gui --enable-python3interp && make && make install
+RUN ./configure --prefix=/usr/local --disable-gui --enable-python3interp \
+	&& make \
+	&& make install
 
 # build devbox
 FROM base AS final
@@ -45,7 +48,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=aptcache \
 RUN wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh \
 	&& sh install.sh --unatttended \
 	&& rm install.sh \
-	chsh -s $(which zsh)
+	&& chsh -s $(which zsh)
 
 # install fzf
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
@@ -54,33 +57,41 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/ins
 RUN wget https://go.dev/dl/go1.22.1.linux-amd64.tar.gz \
 	&& tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz \
 	&& rm go1.22.1.linux-amd64.tar.gz
-ENV PATH="${PATH}:/usr/local/go/bin"
+ENV PATH="${PATH}:/usr/local/go/bin:/root/go/bin"
 ENV GOSUMDB="off"
 ENV GOPROXY="direct"
-RUN cert_location=/usr/local/share/ca-certificates \
-	&& openssl s_client -showcerts -connect proxy.golang.org:443 </dev/null 2>/dev/null|openssl x509 -outform PEM >  ${cert_location}/proxy.golang.crt \
-	&& openssl s_client -showcerts -connect sum.golang.org:443 </dev/null 2>/dev/null|openssl x509 -outform PEM >  ${cert_location}/sum.golang.crt \
+RUN apt --allow-releaseinfo-change update \
+	&& apt upgrade -y \
+	&& apt install -y --reinstall ca-certificates \
+	&& git config --global http.sslverify false \
+	&& export cert_location=/usr/local/share/ca-certificates \
+	&& openssl s_client -showcerts -connect proxy.golang.org:443 </dev/null 2>/dev/null \
+		| openssl x509 -outform PEM >  ${cert_location}/proxy.golang.crt \
+	&& openssl s_client -showcerts -connect sum.golang.org:443 </dev/null 2>/dev/null \
+		| openssl x509 -outform PEM >  ${cert_location}/sum.golang.crt \
+	&& openssl s_client -showcerts -connect gopkg.in:443 </dev/null 2>/dev/null \
+		| openssl x509 -outform PEM >  ${cert_location}/gopkg.in.crt \
 	&& update-ca-certificates
-RUN go install gotest.tools/gotestsum@latest \
-	&& go install github.com/alexec/junit2html@latest \
-	&& mkdir -p /root/.vim/contrib \
+RUN --mount=type=cache,target=/root/go/pkg \
+	&& go install -v -x -a gotest.tools/gotestsum@latest \
+	&& go install -v -x -a github.com/alexec/junit2html@latest \
+	&& go install -v -x -a github.com/go-delve/delve/cmd/dlv@latest
+RUN --mount=type=cache,target=/root/go/pkg \
+	mkdir -p /root/.vim/contrib \
+	&& golangci_version=$(curl --silent "https://api.github.com/repos/golangci/golangci-lint/releases/latest" | jq -r .tag_name) \
+	&& golangci_path=$(go env GOPATH)/bin \
 	&& curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
-		| sh -s -- -b $(go env GOPATH)/bin $(get-latest-version golangci/golangci-lint)
+		| sh -s -- -b ${golangci_path} ${golangci_version}
 
 # setup vim plugin infra
 RUN mkdir -p /root/.vim/autoload /src/ \
-	&& curl -fLo /root/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	&& curl -fLo /root/.vim/autoload/plug.vim \
+		--create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # setup vim
 COPY after/ /root/.vim/after/
 COPY vimrc /root/.vimrc
 RUN vim +PlugUpdate +qall
-
-# post install vimspector
-WORKDIR /root/.vim/plugged/vimspector/
-RUN ./install_gadget.py --verbose --force-enable-csharp --enable-python \
-	--enable-go --enable-bash --enable-c --enable-cpp --force-enable-java \
-	&& chmod -R u+rw ./ && true
 
 RUN mkdir -p /src/
 WORKDIR /src/

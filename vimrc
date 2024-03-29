@@ -90,7 +90,7 @@ let g:go_highlight_variable_declarations = 1
 
 " turn on the colors
 colorscheme slate
-hi Normal ctermbg=16 guibg=#000000
+" hi Normal ctermbg=16 guibg=#000000
 let g:airline_theme='simple'
 " }}}
 
