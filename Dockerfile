@@ -29,6 +29,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=aptcache \
 # install go support
 ENV PATH="${PATH}:/usr/local/go/bin"
 RUN --mount=type=cache,target=/root/.cache/ <<EOF
+	set -e
 	wget https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
 	tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
 	rm go1.22.1.linux-amd64.tar.gz
@@ -42,7 +43,7 @@ RUN --mount=type=cache,target=/root/.cache/ <<EOF
 	go install gotest.tools/gotestsum@latest
 EOF
 RUN --mount=type=cache,target=/root/.cache/ <<EOF
-	set -ex
+	set -e
 	mkdir -p /root/.vim/contrib
 	golangci_path=$(go env GOPATH)/bin
 	golangci_version=$(curl --silent "https://api.github.com/repos/"golangci/golangci-lint"/releases/latest" | jq -r .tag_name)
