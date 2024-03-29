@@ -65,6 +65,9 @@ Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'vim-airline/vim-airline-themes'
 
+" themes
+Plug 'junegunn/seoul256.vim'
+
 call plug#end()
 " }}}
 
