@@ -248,38 +248,6 @@ let g:OmniSharp_diagnostic_overrides = {
 
 " Vimspector {{{
 let g:vimspector_enable_mappings = 'HUMAN'
-let g:vimspector_adapters = {
-\    "delve": {
-\      "command": [
-\        "/root/go/bin/dlv",
-\        "dap",
-\        "--listen",
-\        "${listenOn}:${port}",
-\        "*${dlvFlags}"
-\      ],
-\      "port": "${port}",
-\      "tty": 1,
-\      "variables": {
-\        "dlvFlags": "",
-\        "listenOn": "127.0.0.1",
-\        "port": "${unusedLocalPort}"
-\      }
-\    },
-\}
-let g:vimspector_configurations = {
-\   "configurations": {
-\     "run": {
-\       "adapter": "delve",
-\       "filetypes": [ "go" ],
-\       "variables": {},
-\       "configuration": {
-\         "request": "launch",
-\         "program": "${fileDirname}",
-\         "mode": "debug"
-\       }
-\     }
-\   }
-\}
 " }}}
 
 " FZF {{{

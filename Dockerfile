@@ -4,6 +4,11 @@ FROM debian:latest AS base
 
 ARG cert_location=/usr/local/share/ca-certificates
 
+ENV PATH="${PATH}:/usr/local/go/bin:/root/go/bin"
+ENV GOSUMDB="off"
+ENV GOPROXY="direct"
+ENV GIT_SSL_NO_VERIFY=true
+
 # create a base build with apt caching enabled
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
 	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
@@ -11,8 +16,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
 	apt --allow-releaseinfo-change update \
 	&& apt upgrade -y \
-	&& apt install -y git libncurses6 python3 python-is-python3 pip jq\
-		curl wget ca-certificates openssl zsh ripgrep pip python3-dev --no-install-recommends \
+	&& apt install -y git libncurses6 python3 python-is-python3 pip jq openssh-client\
+		curl wget ca-certificates openssl zsh ripgrep pip python3-dev \
 	&& apt install -y --reinstall --no-install-recommends ca-certificates \
 	&& export cert_location=/usr/local/share/ca-certificates \
 	&& openssl s_client -showcerts -connect proxy.golang.org:443 </dev/null 2>/dev/null \
@@ -44,10 +49,6 @@ EOH
 # install go
 ADD https://go.dev/dl/go1.22.1.linux-amd64.tar.gz go1.22.1.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
-ENV PATH="${PATH}:/usr/local/go/bin:/root/go/bin"
-ENV GOSUMDB="off"
-ENV GOPROXY="direct"
-ENV GIT_SSL_NO_VERIFY=true
 
 ######################################################################################################################
 # build and install vim
