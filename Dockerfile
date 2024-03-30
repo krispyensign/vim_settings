@@ -11,8 +11,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
 	apt --allow-releaseinfo-change update \
 	&& apt upgrade -y \
-	&& apt install -y git libncurses6 python3 python-is-python3 jq\
-		curl wget ca-certificates openssl zsh ripgrep pip --no-install-recommends \
+	&& apt install -y git libncurses6 python3 python-is-python3 pip jq\
+		curl wget ca-certificates openssl zsh ripgrep pip python3-dev --no-install-recommends \
 	&& apt install -y --reinstall --no-install-recommends ca-certificates \
 	&& export cert_location=/usr/local/share/ca-certificates \
 	&& openssl s_client -showcerts -connect proxy.golang.org:443 </dev/null 2>/dev/null \
@@ -51,7 +51,7 @@ ENV GIT_SSL_NO_VERIFY=true
 
 ######################################################################################################################
 # build and install vim
-FROM base AS vimbuild
+FROM debian:latest AS vimbuild
 
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
 	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
@@ -61,7 +61,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 ADD --keep-git-dir=true https://github.com/vim/vim.git /vim
 WORKDIR vim
-RUN --mount=type=cache,target=/vim/objects/ ./configure --prefix=/usr/local --disable-gui --enable-python3interp \
+RUN ./configure --prefix=/usr/local --disable-gui --enable-python3interp \
 	&& make \
 	&& make install
 
@@ -74,9 +74,7 @@ RUN mkdir -p /root/.vim/plugged/
 WORKDIR /root/.vim/plugged/
 ADD --keep-git-dir=true https://github.com/puremourning/vimspector.git vimspector/
 WORKDIR /root/.vim/plugged/vimspector/
-RUN --mount=type=cache,target=/root/.cache/go-build \
-	--mount=type=cache,target=/root/.vim/plugged/vimspector/gadgets/linux/download/delve/pkg \
-	./install_gadget.py --verbose --enable-c --enable-cpp --enable-python --enable-bash
+RUN ./install_gadget.py --verbose --enable-c --enable-cpp --enable-python --enable-bash
 
 ######################################################################################################################
 # build devbox

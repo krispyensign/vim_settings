@@ -183,9 +183,6 @@ let g:airline#extensions#branch#format = 1
 
 let g:airline#extensions#fugitiveline#enabled = 1
 
-let g:airline#extensions#ycm#error_symbol = 'E:'
-let g:airline#extensions#ycm#warning_symbol = 'W:'
-
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
@@ -251,6 +248,38 @@ let g:OmniSharp_diagnostic_overrides = {
 
 " Vimspector {{{
 let g:vimspector_enable_mappings = 'HUMAN'
+let g:vimspector_adapters = {
+\    "delve": {
+\      "command": [
+\        "/root/go/bin/dlv",
+\        "dap",
+\        "--listen",
+\        "${listenOn}:${port}",
+\        "*${dlvFlags}"
+\      ],
+\      "port": "${port}",
+\      "tty": 1,
+\      "variables": {
+\        "dlvFlags": "",
+\        "listenOn": "127.0.0.1",
+\        "port": "${unusedLocalPort}"
+\      }
+\    },
+\}
+let g:vimspector_configurations = {
+\   "configurations": {
+\     "run": {
+\       "adapter": "delve",
+\       "filetypes": [ "go" ],
+\       "variables": {},
+\       "configuration": {
+\         "request": "launch",
+\         "program": "${fileDirname}",
+\         "mode": "debug"
+\       }
+\     }
+\   }
+\}
 " }}}
 
 " FZF {{{
