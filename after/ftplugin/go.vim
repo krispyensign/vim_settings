@@ -6,7 +6,7 @@ func! GoLint() abort
 endfunc
 
 func! GoRunTestifyTest() abort
-	let l:relpackage = './'..expand("%:h")..'/...'
+	let l:relpackage = ..expand("%:h")
 	let l:funcline = search('func \(Test\|Example\)', "bcnW")
 	let l:methline = search(') \(Test\|Example\)', 'bcnW')
 
@@ -22,7 +22,7 @@ func! GoRunTestifyTest() abort
 
 	let l:suitename = '^'..split(split(getline(l:funcline), " ")[1], "(")[0]..'$'
 	let l:testname = '^'..split(split(getline(l:methline), " ")[3], "(")[0]..'$'
-	let l:command = "go test -timeout 30s".." "..l:relpackage.." -run "..l:suitename..' -testify.m '..l:testname
+	let l:command = "go test -timeout 30s -run "..l:suitename..' -testify.m '..l:testname.." "..l:relpackage
 	echo l:command
 	cexpr! system(l:command)
 endfunc
