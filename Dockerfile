@@ -36,17 +36,34 @@ RUN ./install_gadget.py --verbose --enable-c --enable-cpp --enable-python --enab
 FROM debian:latest AS vimbox
 COPY --from=vimbuild /usr/local /usr/local/
 
-# create a base build with apt caching enabled
+# refresh certs and install everything
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
 	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	apt --allow-releaseinfo-change update \
-	&& apt upgrade -y \
-	&& apt install -y git libncurses6 python3 python-is-python3 pip \
-		libpython3-dev jq openssh-client make docker.io docker-compose \
-		curl wget ca-certificates openssl zsh ripgrep universal-ctags --no-install-recommends
+	apt update \
+	&& apt install -y --no-install-recommends \
+		git libncurses6 python3 python-is-python3 pip \
+		libpython3-dev jq openssh-client make \
+		curl wget ca-certificates openssl zsh ripgrep universal-ctags
 
+# add docker's official gpg key
+RUN install -m 0755 -d /etc/apt/keyrings \
+	&& curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc \
+	&& chmod a+r /etc/apt/keyrings/docker.asc
+
+# add the repository to apt sources
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# install docker ce
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+	--mount=type=cache,target=/var/lib/apt,sharing=locked \
+	apt update \
+	&& apt install -y --no-install-recommends \
+		docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # install oh my zsh
 ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
