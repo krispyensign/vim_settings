@@ -22,9 +22,7 @@ RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
 	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	apt update && apt install -y make gcc libtool-bin python3-dev libncurses-dev pip  --no-install-recommends \
-	&& apt install -y --reinstall --no-install-recommends ca-certificates \
-	&& update-ca-certificates
+	apt update && apt install -y make gcc libtool-bin python3-dev libncurses-dev pip --no-install-recommends
 
 # install vimspector gadgets
 RUN mkdir -p /root/.vim/plugged/
@@ -34,7 +32,7 @@ WORKDIR /root/.vim/plugged/vimspector/
 RUN ./install_gadget.py --verbose --enable-c --enable-cpp --enable-python --enable-bash
 
 ######################################################################################################################
-# build base box
+# build base vimbox
 FROM debian:latest AS vimbox
 COPY --from=vimbuild /usr/local /usr/local/
 
@@ -45,8 +43,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
 	apt --allow-releaseinfo-change update \
 	&& apt upgrade -y \
-	&& apt install -y git libncurses6 python3 python-is-python3 pip jq openssh-client\
-		curl wget ca-certificates openssl zsh ripgrep pip python3-dev universal-ctags --no-install-recommends
+	&& apt install -y git libncurses6 python3 python-is-python3 pip \
+		libpython3-dev jq openssh-client make docker.io docker-compose \
+		curl wget ca-certificates openssl zsh ripgrep universal-ctags --no-install-recommends
+
 
 # install oh my zsh
 ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
@@ -78,12 +78,15 @@ COPY --from=vimspectorbuild /root/.vim/plugged/vimspector/ /root/.vim/plugged/vi
 RUN vim +PlugUpdate +qall
 
 ######################################################################################################################
-# build devbox
-FROM vimbox AS final
+# build gobox
+FROM vimbox AS gobox
 
 ARG cert_location=/usr/local/share/ca-certificates
 ARG go_version=1.22.1
 
+# install go
+ADD https://go.dev/dl/go${go_version}.linux-amd64.tar.gz go${go_version}.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go${go_version}.linux-amd64.tar.gz
 ENV PATH="${PATH}:/usr/local/go/bin:/root/go/bin"
 ENV GOSUMDB="off"
 ENV GOPROXY="direct"
@@ -104,10 +107,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 		| openssl x509 -outform PEM >  ${cert_location}/gopkg.in.crt \
 	&& update-ca-certificates
 
-# install go
-ADD https://go.dev/dl/go${go_version}.linux-amd64.tar.gz go${go_version}.linux-amd64.tar.gz
-RUN tar -C /usr/local -xzf go${go_version}.linux-amd64.tar.gz
-
 # install go dev packages
 RUN --mount=type=cache,target=/root/go/pkg --mount=type=cache,target=/root/.cache/go-build \
 	go install -v -x -a gotest.tools/gotestsum@latest \
@@ -118,10 +117,4 @@ RUN --mount=type=cache,target=/root/go/pkg --mount=type=cache,target=/root/.cach
 	&& golangci_path=$(go env GOPATH)/bin \
 	&& curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
 		| sh -s -- -b ${golangci_path} ${golangci_version}
-
-# start using zsh
-RUN chsh -s $(which zsh)
-
-RUN mkdir -p /src/
-WORKDIR /src/
 
