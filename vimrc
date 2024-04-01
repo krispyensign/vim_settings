@@ -258,6 +258,7 @@ let g:fzf_action = {
 \	'ctrl-q': 'fill_quickfix'}
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
+" search for string by filetype
 command! -bang -nargs=* Rgl
 \	call fzf#vim#grep(
 \		'rg --column --line-number --no-heading --color=always --smart-case --type ' ..
@@ -266,12 +267,14 @@ command! -bang -nargs=* Rgl
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
 
+" search for string by file extension
 command! -bang -nargs=* Rgg
 \	call fzf#vim#grep(
-\		'rg --column --line-number --no-heading --color=always --smart-case --glob \\*.' ..
+\		'rg --column --line-number --no-heading --color=always --smart-case --glob \*.' ..
 \			expand('%:e') ..
 \			' -- ' ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
+
 " }}}
 

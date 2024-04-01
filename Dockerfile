@@ -100,16 +100,16 @@ FROM vimbox AS gobox
 
 ARG cert_location=/usr/local/share/ca-certificates
 ARG go_version=1.22.1
-
-# install go
-ADD https://go.dev/dl/go${go_version}.linux-amd64.tar.gz go${go_version}.linux-amd64.tar.gz
-RUN tar -C /usr/local -xzf go${go_version}.linux-amd64.tar.gz
 ENV PATH="${PATH}:/usr/local/go/bin:/root/go/bin"
 ENV GOSUMDB="off"
 ENV GOPROXY="direct"
 ENV GIT_SSL_NO_VERIFY=true
 
-# update certs
+# install go
+ADD https://go.dev/dl/go${go_version}.linux-amd64.tar.gz go${go_version}.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go${go_version}.linux-amd64.tar.gz
+
+# install go certs
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
 	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \

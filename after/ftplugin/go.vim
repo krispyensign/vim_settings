@@ -1,4 +1,11 @@
-let b:ale_disable_lsp = 1
+" search for ref by file extension
+command! -bang -nargs=* RgRef
+\	call fzf#vim#grep(
+\		'rg --column --line-number --no-heading --color=always --smart-case --glob --pcre2 \*.' ..
+\			expand('%:e') ..
+\			' -- ' ..
+\			shellescape('^(?!//).*' .. expand('<cword>') .. '.*$'),
+\		1, fzf#vim#with_preview(), <bang>0)
 
 func! GoLint() abort
 	let l:lintcommand = $HOME.."/go/bin/golangci-lint run --config "..$HOME.."/.golang-lint.yml | sed -e '/^[[:space:]]*$/d'"
