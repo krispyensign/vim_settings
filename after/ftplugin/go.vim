@@ -1,4 +1,10 @@
 " search for ref by file extension
+command! -bang -nargs=* RgRefDebug
+\	echo 'rg --column --line-number --no-heading --color=always --smart-case --glob --pcre2 \*.' ..
+\			expand('%:e') ..
+\			' -- ' ..
+\			shellescape('^(?!//).*' .. expand('<cword>') .. '.*$')
+
 command! -bang -nargs=* RgRef
 \	call fzf#vim#grep(
 \		'rg --column --line-number --no-heading --color=always --smart-case --glob --pcre2 \*.' ..
