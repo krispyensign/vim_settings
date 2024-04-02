@@ -206,6 +206,7 @@ let g:netrw_mousemaps = 0
 
 " ALE {{{
 let g:ale_warn_about_trailing_whitespace = 0
+let g:ale_disable_lsp = 1
 let g:ale_completion_enabled = 1
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
@@ -216,9 +217,11 @@ let g:ale_linters = {
 \	'cs': ['OmniSharp'],
 \	'go': ['golangci-lint', 'gofmt'],
 \}
-let g:ale_linters_ignore = {
-\	'go': ['gopls', 'govet'],
+let g:ale_fixers = {
+\	'*': ['remove_trailing_lines', 'trim_whitespace'],
+\	'go': ['gofmt', 'goimports'],
 \}
+let g:ale_fix_on_save = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
 let g:ale_go_golangci_lint_package = 1
 " }}}

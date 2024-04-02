@@ -8,13 +8,20 @@ command! -bang -nargs=* RgRef
 \		1, fzf#vim#with_preview(), <bang>0)
 
 " if ale isn't available then this can be used to populate the quick fix
+" instead
 func! GoLint() abort
 	let l:lintcommand = "golangci-lint run ./... | sed -e '/^[[:space:]]*$/d'"
 	cexpr! system(l:lintcommand)
 endfunc
 
+" ale doesn't seem to support test checking
+func! GoTestCheck() abort
+	let l:lintcommand = "go test -c ./... 2>&1 | grep ':' | grep -v '#'"
+	cexpr! system(l:lintcommand)
+endfunc
+
 func! GoRunTestifyTest() abort
-	let l:relpackage = ..expand("%:h")
+	let l:relpackage = expand("%:h")
 	let l:funcline = search('func \(Test\|Example\)', "bcnW")
 	let l:methline = search(') \(Test\|Example\)', 'bcnW')
 
