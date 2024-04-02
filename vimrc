@@ -211,7 +211,10 @@ let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
+\	'go': ['golangci-lint', 'gofmt'],
 \}
+let g:ale_go_golangci_lint_options = '--timeout 10m'
+let g:ale_go_golangci_lint_package = 1
 " }}}
 
 " OmniSharp {{{
