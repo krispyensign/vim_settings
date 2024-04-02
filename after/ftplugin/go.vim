@@ -1,10 +1,4 @@
 " search for ref by file extension
-command! -bang -nargs=* RgRefDebug
-\	echo 'rg --column --line-number --no-heading --color=always --smart-case --pcre2 --glob \*.' ..
-\			expand('%:e') ..
-\			' -- ' ..
-\			shellescape('^(?!//).*' .. expand('<cword>') .. '.*$')
-
 command! -bang -nargs=* RgRef
 \	call fzf#vim#grep(
 \		'rg --column --line-number --no-heading --color=always --smart-case --pcre2 --glob \*.' ..
@@ -13,8 +7,9 @@ command! -bang -nargs=* RgRef
 \			shellescape('^(?!//).*' .. expand('<cword>') .. '.*$'),
 \		1, fzf#vim#with_preview(), <bang>0)
 
+" if ale isn't available then this can be used to populate the quick fix
 func! GoLint() abort
-	let l:lintcommand = $HOME.."/go/bin/golangci-lint run --config "..$HOME.."/.golang-lint.yml | sed -e '/^[[:space:]]*$/d'"
+	let l:lintcommand = "golangci-lint run ./... | sed -e '/^[[:space:]]*$/d'"
 	cexpr! system(l:lintcommand)
 endfunc
 

@@ -102,17 +102,19 @@ endif
 
 " Custom Shortcuts {{{
 " Cheatsheet for randos
-" C-w N terminal Normal mode
-" C-w " " paste
-" C-w x switch files during diff this
-" C-w r rotate files
-" C-] jump to tag in ctags or follow link in help file
-" C-o jump back
-" C-x C-o omnifunc
-" C-x C-u completefunc
-" 1gd jump to local var
-" * search for whole word under cursor
-" # search for partial word under cursor
+" C-w N  =>terminal Normal mode
+" C-w "" =>paste terminal
+" C-r C-w =>paste command
+" [[  => jump to function header
+" C-w x =>switch files during diff this
+" C-w r =>rotate files
+" C-] =>jump to tag in ctags or follow link in help file
+" C-o =>jump back
+" C-x C-o =>omnifunc
+" C-x C-u =>completefunc
+" 1gd =>jump to local var
+" * =>search for whole word under cursor
+" # =>search for partial word under cursor
 
 " leader remap for ergonomic
 let mapleader = ' '
@@ -209,9 +211,13 @@ let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
+let g:ale_linters = {'go': []}
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
 \	'go': ['golangci-lint', 'gofmt'],
+\}
+let g:ale_linters_ignore = {
+\	'go': ['gopls', 'govet'],
 \}
 let g:ale_go_golangci_lint_options = '--timeout 10m'
 let g:ale_go_golangci_lint_package = 1
