@@ -1,6 +1,6 @@
 ######################################################################################################################
 # build and install vim
-FROM debian:latest AS vimbuild
+FROM debian:bookworm-slim AS vimbuild
 
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
 	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
@@ -16,7 +16,7 @@ RUN ./configure --prefix=/usr/local --disable-gui --enable-python3interp \
 
 ######################################################################################################################
 # build and install vimspector
-FROM debian:latest AS vimspectorbuild
+FROM debian:bookworm-slim AS vimspectorbuild
 
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
 	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
@@ -29,11 +29,11 @@ RUN mkdir -p /root/.vim/plugged/
 WORKDIR /root/.vim/plugged/
 ADD --keep-git-dir=true https://github.com/puremourning/vimspector.git vimspector/
 WORKDIR /root/.vim/plugged/vimspector/
-RUN ./install_gadget.py --verbose --enable-c --enable-cpp --enable-python --enable-bash
+RUN ./install_gadget.py --verbose --enable-python --enable-bash --enable-cpp --enable-c
 
 ######################################################################################################################
 # build base vimbox
-FROM debian:latest AS vimbox
+FROM debian:bookworm-slim AS vimbox
 COPY --from=vimbuild /usr/local /usr/local/
 
 # refresh certs and install everything
@@ -107,7 +107,8 @@ ENV GIT_SSL_NO_VERIFY=true
 
 # install go
 ADD https://go.dev/dl/go${go_version}.linux-amd64.tar.gz go${go_version}.linux-amd64.tar.gz
-RUN tar -C /usr/local -xzf go${go_version}.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go${go_version}.linux-amd64.tar.gz \
+	&& rm go${go_version}.linux-amd64.tar.gz
 
 # install go certs
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
