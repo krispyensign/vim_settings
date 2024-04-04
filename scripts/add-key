@@ -1,2 +1,2 @@
 #!/bin/bash
-echo IdentityFile ~/.ssh/$1 >> /etc/ssh/ssh_config
+echo IdentityFile $1 >> /etc/ssh/ssh_config
