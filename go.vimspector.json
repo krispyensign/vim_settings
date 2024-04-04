@@ -1,0 +1,32 @@
+{
+	"configurations": {
+		"Launch File": {
+			"adapter": "localdelve",
+			"filetypes": [ "go" ],
+			"variables": {},
+			"configuration": {
+				"request": "launch",
+				"mode": "debug",
+				"program": "${workspaceFolder}/main.go"
+			}
+		},
+		"Test Current File" : {
+			"adapter": "localdelve",
+			"filetypes": [ "go" ],
+			"variables": {},
+			"configuration": {
+				"request": "launch",
+				"mode": "test",
+				"host": "127.0.0.1",
+				"program": "${file}",
+				"env": {
+					"COMPONENT": "true"
+				},
+				"args": [],
+				"showLog": "true",
+				"buildFlags": "-ldflags='-X google.golang.org/protobuf/reflect/protoregistry.conflictPolicy=warn'",
+				"program": "${workspaceFolder}/main.go"
+			}
+		}
+	}
+}

@@ -29,49 +29,37 @@ RUN mkdir -p /root/.vim/plugged/
 WORKDIR /root/.vim/plugged/
 ADD --keep-git-dir=true https://github.com/puremourning/vimspector.git vimspector/
 WORKDIR /root/.vim/plugged/vimspector/
-RUN ./install_gadget.py --verbose --enable-python --enable-bash --enable-cpp --enable-c
+RUN ./install_gadget.py --verbose --enable-python --enable-bash
 
 ######################################################################################################################
 # build base vimbox
 FROM debian:bookworm-slim AS vimbox
+
+# copy everything over
 COPY --from=vimbuild /usr/local /usr/local/
+ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
+COPY after/ /root/.vim/after/
+COPY vimrc /root/.vimrc
+COPY --from=vimspectorbuild /root/.vim/plugged/vimspector/ /root/.vim/plugged/vimspector/
 
 # refresh certs and install everything
-RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
-	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	apt update \
+	rm -f /etc/apt/apt.conf.d/docker-clean \
+	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
+	&& apt update \
 	&& apt install -y --no-install-recommends \
 		git libncurses6 python3 python-is-python3 pip \
-		libpython3-dev jq openssh-client make \
-		curl wget ca-certificates openssl zsh ripgrep universal-ctags
+		libpython3.11 jq openssh-client make \
+		curl wget ca-certificates openssl zsh ripgrep universal-ctags \
+		docker.io \
+	&& sh install.sh --unatttended # install ohmyzsh \
+	&& echo 'set -o vi' >> /root/.zshrc # enable vi mode in zsh \
+	&& mkdir -p /root/.vim/autoload /src/ \
+	&& curl -fLo /root/.vim/autoload/plug.vim \
+		--create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
+	&& vim +PlugUpdate +qall
 
-# add docker's official gpg key
-RUN install -m 0755 -d /etc/apt/keyrings \
-	&& curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc \
-	&& chmod a+r /etc/apt/keyrings/docker.asc
-
-# add the repository to apt sources
-RUN echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-# install docker ce
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	apt update \
-	&& apt install -y --no-install-recommends \
-		docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# install oh my zsh
-ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
-RUN sh install.sh --unatttended
-
-# install fzf
-ADD https://github.com/junegunn/fzf.git /root/.fzf/
-RUN /root/.fzf/install
 
 # install helper scripts
 RUN <<EOH
@@ -82,17 +70,6 @@ RUN <<EOH
 	EOF
 	chmod +x /usr/local/bin/add-keys
 EOH
-
-# setup vim plugin infra
-RUN mkdir -p /root/.vim/autoload /src/ \
-	&& curl -fLo /root/.vim/autoload/plug.vim \
-		--create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# setup vim plugins
-COPY after/ /root/.vim/after/
-COPY vimrc /root/.vimrc
-COPY --from=vimspectorbuild /root/.vim/plugged/vimspector/ /root/.vim/plugged/vimspector/
-RUN vim +PlugUpdate +qall
 
 ######################################################################################################################
 # build gobox
@@ -111,11 +88,11 @@ RUN tar -C /usr/local -xzf go${go_version}.linux-amd64.tar.gz \
 	&& rm go${go_version}.linux-amd64.tar.gz
 
 # install go certs
-RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
-	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	apt --allow-releaseinfo-change update \
+	rm -f /etc/apt/apt.conf.d/docker-clean \
+	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
+	&& apt --allow-releaseinfo-change update \
 	&& apt install -y --reinstall --no-install-recommends ca-certificates \
 	&& openssl s_client -showcerts -connect proxy.golang.org:443 </dev/null 2>/dev/null \
 		| openssl x509 -outform PEM >  ${cert_location}/proxy.golang.crt \
@@ -136,3 +113,4 @@ RUN --mount=type=cache,target=/root/go/pkg --mount=type=cache,target=/root/.cach
 	&& curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
 		| sh -s -- -b ${golangci_path} ${golangci_version}
 
+ADD go.*.json /root/

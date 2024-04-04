@@ -59,6 +59,7 @@ Plug 'krispyensign/sesssion.vim'
 " git plugins
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'Eliot00/git-lens.vim'
 
 " supplemental theme plugins
 Plug 'luochen1990/rainbow'
@@ -97,7 +98,6 @@ let g:airline_theme='simple'
 " set color column to light grey
 if (exists('+colorcolumn'))
 	set colorcolumn=80,100,120
-	highlight ColorColumn ctermbg=9
 endif
 
 " Custom Shortcuts {{{
@@ -289,4 +289,3 @@ command! -bang -nargs=* Rgg
 \		1, fzf#vim#with_preview(), <bang>0)
 
 " }}}
-

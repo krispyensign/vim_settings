@@ -1,0 +1,20 @@
+{
+	"adapters": {
+		"localdelve": {
+			"command": [
+				"/root/go/bin/dlv",
+				"dap",
+				"--listen",
+				"${listenOn}:${port}",
+				"*${dlvFlags}"
+			],
+			"port": "${port}",
+			"tty": true,
+			"variables": {
+				"dlvFlags": "",
+				"listenOn": "127.0.0.1",
+				"port": "${unusedLocalPort}"
+			}
+		}
+	}
+}
