@@ -52,6 +52,7 @@ ARG python_version=3.11
 # copy everything over
 COPY --from=vimbuild /usr/local /usr/local/
 COPY scripts/ /root/bin/
+ENV PATH="${PATH}:/root/bin"
 ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
 
 # refresh certs and install everything
