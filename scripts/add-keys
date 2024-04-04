@@ -1,6 +1,0 @@
-#!/bin/bash
-ls ~/.ssh \
-| grep 'id' \
-| grep -v 'pub' \
-| sed 's%^%IdentityFile ~/.ssh/%' \
->> /etc/ssh/ssh_config
