@@ -31,6 +31,9 @@ set shell=/usr/bin/zsh
 au FileType vim,txt setlocal foldmethod=marker
 " }}}
 
+" TODO:
+" ctags autocompletion
+" ctags libraries
 " Plugins {{{
 command! PU PlugUpdate | PlugUpgrade
 filetype plugin indent on " allow filetype to be completely managed by vim
@@ -89,16 +92,22 @@ let g:go_highlight_types = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
 
-" turn on the colors
-colorscheme slate
-" hi Normal ctermbg=16 guibg=#000000
+" configure themes
+let g:seoul256_background = 235
 let g:airline_theme='simple'
-" }}}
 
-" set color column to light grey
+" turn on the colors
+try
+  colorscheme seoul256
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme default
+endtry
+
+" enable colorcolumn
 if (exists('+colorcolumn'))
 	set colorcolumn=80,100,120
 endif
+" }}}
 
 " Custom Shortcuts {{{
 " Cheatsheet for randos

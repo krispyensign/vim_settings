@@ -2,14 +2,24 @@
 # build and install vim
 FROM debian:bookworm-slim AS vimbuild
 
-RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
-	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	apt update && apt install -y make gcc libtool-bin python3-dev libncurses-dev --no-install-recommends
+	rm -f /etc/apt/apt.conf.d/docker-clean \
+	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
+	&& apt update \
+	&& apt install --no-install-recommends -y \
+		make gcc libtool-bin python3-dev libncurses-dev pkg-config autoconf automake \
+		python3-docutils libseccomp-dev libjansson-dev libyaml-dev libxml2-dev
 
-ADD --keep-git-dir=true https://github.com/vim/vim.git /vim
-WORKDIR vim
+ADD --keep-git-dir=true https://github.com/universal-ctags/ctags.git /ctags/
+WORKDIR /ctags
+RUN ./autogen.sh \
+	&& ./configure --prefix=/usr/local \
+	&& make \
+	&& make install
+
+ADD --keep-git-dir=true https://github.com/vim/vim.git /vim/
+WORKDIR /vim
 RUN ./configure --prefix=/usr/local --disable-gui --enable-python3interp \
 	&& make \
 	&& make install
@@ -18,11 +28,11 @@ RUN ./configure --prefix=/usr/local --disable-gui --enable-python3interp \
 # build and install vimspector
 FROM debian:bookworm-slim AS vimspectorbuild
 
-RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
-	echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	apt update && apt install -y make gcc libtool-bin python3-dev libncurses-dev pip --no-install-recommends
+	rm -f /etc/apt/apt.conf.d/docker-clean \
+	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
+	&& apt update && apt install -y make gcc libtool-bin python3-dev libncurses-dev pip --no-install-recommends
 
 # install vimspector gadgets
 RUN mkdir -p /root/.vim/plugged/
@@ -30,17 +40,19 @@ WORKDIR /root/.vim/plugged/
 ADD --keep-git-dir=true https://github.com/puremourning/vimspector.git vimspector/
 WORKDIR /root/.vim/plugged/vimspector/
 RUN ./install_gadget.py --verbose --enable-python --enable-bash
+ADD resources/go.gadgets.json gadgets/linux/.gadgets.d/go.json
+ADD resources/go.vimspector.json configurations/linux/go/default.json
 
 ######################################################################################################################
 # build base vimbox
 FROM debian:bookworm-slim AS vimbox
 
+ARG python_version=3.11
+
 # copy everything over
 COPY --from=vimbuild /usr/local /usr/local/
+COPY scripts/ /root/bin/
 ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
-COPY after/ /root/.vim/after/
-COPY vimrc /root/.vimrc
-COPY --from=vimspectorbuild /root/.vim/plugged/vimspector/ /root/.vim/plugged/vimspector/
 
 # refresh certs and install everything
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -50,26 +62,19 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	&& apt update \
 	&& apt install -y --no-install-recommends \
 		git libncurses6 python3 python-is-python3 pip \
-		libpython3.11 jq openssh-client make \
-		curl wget ca-certificates openssl zsh ripgrep universal-ctags \
-		docker.io \
-	&& sh install.sh --unatttended # install ohmyzsh \
-	&& echo 'set -o vi' >> /root/.zshrc # enable vi mode in zsh \
-	&& mkdir -p /root/.vim/autoload /src/ \
-	&& curl -fLo /root/.vim/autoload/plug.vim \
-		--create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
-	&& vim +PlugUpdate +qall
+		libpython${python_version} jq openssh-client make \
+		curl wget ca-certificates openssl zsh ripgrep \
+		docker.io python3-docutils libseccomp2 libjansson4 libxml2 libyaml-0-2 \
+	&& sh install.sh --unatttended \
+	&& echo 'set -o vi' >> /root/.zshrc \
+	&& mkdir -p /root/.vim/autoload /src/
 
-
-# install helper scripts
-RUN <<EOH
-	set -ex
-	cat <<-EOF > /usr/local/bin/add-keys
-		#!/bin/bash
-		ls ~/.ssh | grep 'id' | grep -v 'pub' | sed 's%^%IdentityFile ~/.ssh/%' >> /etc/ssh/ssh_config
-	EOF
-	chmod +x /usr/local/bin/add-keys
-EOH
+# setup vim
+ADD https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim /root/.vim/autoload/plug.vim
+COPY after/ /root/.vim/after/
+COPY vimrc /root/.vimrc
+COPY --from=vimspectorbuild /root/.vim/plugged/vimspector/ /root/.vim/plugged/vimspector/
+RUN vim +PlugUpdate +qall
 
 ######################################################################################################################
 # build gobox
@@ -112,5 +117,3 @@ RUN --mount=type=cache,target=/root/go/pkg --mount=type=cache,target=/root/.cach
 	&& golangci_path=$(go env GOPATH)/bin \
 	&& curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
 		| sh -s -- -b ${golangci_path} ${golangci_version}
-
-ADD go.*.json /root/
