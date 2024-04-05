@@ -24,7 +24,6 @@ set sessionoptions-=folds,buffers					" don't try to store buggy stuff in a sess
 set hlsearch										" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
 set completeopt=menuone,popup
-set shell=/usr/bin/zsh
 " }}}
 
 " General Language Settings {{{
@@ -41,7 +40,7 @@ filetype plugin indent on " allow filetype to be completely managed by vim
 call plug#begin('~/.vim/plugged')
 
 " general language plugins
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'dense-analysis/ale'
 Plug 'puremourning/vimspector'
 
@@ -98,9 +97,9 @@ let g:airline_theme='simple'
 
 " turn on the colors
 try
-  colorscheme seoul256
+	colorscheme seoul256
 catch /^Vim\%((\a\+)\)\=:E185/
-  colorscheme default
+	colorscheme default
 endtry
 
 " enable colorcolumn
@@ -193,6 +192,8 @@ let g:airline#extensions#branch#displayed_head_limit = 10
 let g:airline#extensions#branch#format = 1
 
 let g:airline#extensions#fugitiveline#enabled = 1
+
+let g:airline#extensions#tagbar#enabled = 0
 
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
