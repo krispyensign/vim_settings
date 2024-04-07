@@ -70,6 +70,17 @@ Plug 'vim-airline/vim-airline-themes'
 
 " themes
 Plug 'junegunn/seoul256.vim'
+Plug 'jsit/toast.vim'
+Plug 'wdhg/dragon-energy'
+Plug 'lucasprag/simpleblack'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'jalvesaq/southernlights'
+Plug 'kyoh86/momiji', { 'rtp': 'vim' }
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'sainnhe/everforest'
+Plug 'nanotech/jellybeans.vim'
+Plug 'sjl/badwolf'
+Plug 'jacoborus/tender.vim'
 
 call plug#end()
 " }}}
@@ -225,7 +236,7 @@ let g:ale_max_signs = 100
 let g:ale_linters = {'go': []}
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
-\	'go': ['golangci-lint', 'gofmt'],
+\	'go': ['golangci-lint', 'gofmt', 'gobuild'],
 \}
 let g:ale_fixers = {
 \	'*': ['remove_trailing_lines', 'trim_whitespace'],
