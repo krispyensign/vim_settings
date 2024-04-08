@@ -36,11 +36,15 @@ au FileType vim,txt setlocal foldmethod=marker
 " Plugins {{{
 command! PU PlugUpdate | PlugUpgrade
 filetype plugin indent on " allow filetype to be completely managed by vim
+filetype indent on
+set nobackup
+set nowritebackup
+set noswapfile
 
 call plug#begin('~/.vim/plugged')
 
 " general language plugins
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'majutsushi/tagbar'
 Plug 'dense-analysis/ale'
 Plug 'puremourning/vimspector'
 
@@ -204,8 +208,6 @@ let g:airline#extensions#branch#format = 1
 
 let g:airline#extensions#fugitiveline#enabled = 1
 
-let g:airline#extensions#tagbar#enabled = 0
-
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
@@ -228,12 +230,11 @@ let g:netrw_mousemaps = 0
 " ALE {{{
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_disable_lsp = 1
-let g:ale_completion_enabled = 1
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
-let g:ale_linters = {'go': []}
+" let g:ale_linters = {'go': []}
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
 \	'go': ['golangci-lint', 'gofmt', 'gobuild'],
@@ -308,5 +309,6 @@ command! -bang -nargs=* Rgg
 \			' -- ' ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
+
 
 " }}}
