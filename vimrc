@@ -112,7 +112,7 @@ let g:airline_theme='simple'
 
 " turn on the colors
 try
-	colorscheme seoul256
+	colorscheme toast
 catch /^Vim\%((\a\+)\)\=:E185/
 	colorscheme default
 endtry
@@ -135,6 +135,7 @@ endif
 " C-o =>jump back
 " C-x C-o =>omnifunc
 " C-x C-u =>completefunc
+" C-x C-] =>complete tags
 " 1gd =>jump to local var
 " * =>search for whole word under cursor
 " # =>search for partial word under cursor
@@ -152,7 +153,6 @@ nnoremap <silent> <leader>] :vertical resize -5<CR>
 nnoremap <silent> <leader>* :nohls<CR>
 
 " toggles
-nnoremap <leader>s :call ToggleGstatus()<CR>
 nnoremap <leader>n :15Lexplore<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
@@ -164,8 +164,10 @@ nnoremap <leader>RR :source $MYVIMRC<CR>
 
 " tags
 nnoremap <leader>tt :TagbarToggle<CR>
+inoremap <C-x><C-e> <C-O>:exec "Tags " .. expand("<cword>")<CR>
 
 " git
+nnoremap <leader>s :call ToggleGstatus()<CR>
 func! ToggleGstatus() abort
 	if CloseGstatus() == 1
 		return
@@ -291,6 +293,7 @@ let g:fzf_action = {
 \	'ctrl-v': 'vsplit',
 \	'ctrl-q': 'fill_quickfix'}
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+let g:fzf_layout = { 'down': '30%' }
 
 " search for string by filetype
 command! -bang -nargs=* Rgl
@@ -309,6 +312,5 @@ command! -bang -nargs=* Rgg
 \			' -- ' ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
-
 
 " }}}
