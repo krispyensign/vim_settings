@@ -164,7 +164,7 @@ nnoremap <leader>RR :source $MYVIMRC<CR>
 
 " tags
 nnoremap <leader>tt :TagbarToggle<CR>
-inoremap <C-x><C-e> <C-O>:exec "Tags " .. expand("<cword>")<CR>
+inoremap <C-x><C-j> <C-O>:call fzf#vim#tags(expand("<cword>"))<CR>
 
 " git
 nnoremap <leader>s :call ToggleGstatus()<CR>
@@ -287,13 +287,43 @@ let g:vimspector_enable_mappings = 'HUMAN'
 " }}}
 
 " FZF {{{
+" This is the default extra key bindings
 let g:fzf_action = {
-\	'ctrl-t': 'tab split',
-\	'ctrl-x': 'split',
-\	'ctrl-v': 'vsplit',
-\	'ctrl-q': 'fill_quickfix'}
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
-let g:fzf_layout = { 'down': '30%' }
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
+" let g:fzf_layout = { 'down': '30%' }
 
 " search for string by filetype
 command! -bang -nargs=* Rgl
