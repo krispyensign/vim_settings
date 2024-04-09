@@ -1,5 +1,5 @@
 #!/bin/bash -ex
 rm tags
-runtimedirs=$(cat $1/go.mod | grep 'v' | grep '/' | sed 's|// indirect||' | sed "s,^[[:space:]]*,$HOME/go/pkg/mod/," | sed 's/ /@/' | sed 's/[[:space:]]*$/\//')
+runtimedirs=$(cat go.mod | grep 'v' | grep '/' | sed 's|// indirect||' | sed "s,^[[:space:]]*,$HOME/go/pkg/mod/," | sed 's/ /@/' | sed 's/[[:space:]]*$/\//')
 rg --glob \*.go --files $runtimedirs | ctags --sort=yes --recurse=yes -L -
 rg --glob \*.go --files | ctags --append=yes --sort=yes --recurse=yes -L -
