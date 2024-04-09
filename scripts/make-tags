@@ -1,2 +1,0 @@
-#!/bin/sh
-rg --files | ctags --sort=yes --recurse=yes -L -
