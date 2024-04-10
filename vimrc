@@ -23,23 +23,23 @@ set shiftwidth=4									" shifts should also display as 4
 set sessionoptions-=folds,buffers					" don't try to store buggy stuff in a session
 set hlsearch										" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
-set completeopt=menuone,popup
+set completeopt=menuone,popup						" use popup instead of preview
+set showfulltag										" show tag context in popup
+set omnifunc=syntaxcomplete#Complete 				" enable omni complete
+set nobackup										" no swaps or backups
+set nowritebackup									" no swaps or backups
+set noswapfile										" no swaps or backups
+au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker folding
+filetype plugin indent on 							" allow filetype to be completely managed by vim
+filetype indent on									" vim filetype on
 " }}}
 
-" General Language Settings {{{
-au FileType vim,txt setlocal foldmethod=marker
-" }}}
 
 " TODO:
-" ctags autocompletion
-" ctags libraries
+" ctags with filename in popup
+" ctags auto regenerated
 " Plugins {{{
 command! PU PlugUpdate | PlugUpgrade
-filetype plugin indent on " allow filetype to be completely managed by vim
-filetype indent on
-set nobackup
-set nowritebackup
-set noswapfile
 
 call plug#begin('~/.vim/plugged')
 
