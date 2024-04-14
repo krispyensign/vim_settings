@@ -1,11 +1,11 @@
 " Top Level Settings {{{
 set nocompatible									" be iMproved, required
 syntax on											" enable syntax highlighting
+filetype plugin indent on 							" allow filetype to be completely managed by vim
 set encoding=utf8									" default encoding
 set nowrap											" no text wrap
 set number											" turn on numbering
 set foldenable										" turn on folding
-set foldmethod=indent								" make folds based per syntax
 set signcolumn=yes									" gutter enabled
 set backspace=indent,eol,start						" enable backspace key
 set guioptions=gm									" enable menu only
@@ -23,21 +23,22 @@ set shiftwidth=4									" shifts should also display as 4
 set sessionoptions-=folds,buffers					" don't try to store buggy stuff in a session
 set hlsearch										" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
-set completeopt=menuone,popup						" use popup instead of preview
+set completeopt=menuone,popup,noinsert,noselect		" use popup instead of preview
 set showfulltag										" show tag context in popup
-set omnifunc=syntaxcomplete#Complete 				" enable omni complete
 set nobackup										" no swaps or backups
 set nowritebackup									" no swaps or backups
 set noswapfile										" no swaps or backups
+set guifont=Menlo-Regular:h12						" make it stop hurting my eyes
 au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker folding
-filetype plugin indent on 							" allow filetype to be completely managed by vim
-filetype indent on									" vim filetype on
 " }}}
 
-
-" TODO:
-" ctags with filename in popup
+" {{{ TODO:
+" ctags with filename and type in popup
 " ctags auto regenerated
+" ctags completion with fzf
+" ctags completion with struct context
+" }}}
+
 " Plugins {{{
 command! PU PlugUpdate | PlugUpgrade
 
@@ -123,8 +124,7 @@ if (exists('+colorcolumn'))
 endif
 " }}}
 
-" Custom Shortcuts {{{
-" Cheatsheet for randos
+" {{{ Cheatsheet for randos
 " C-w N  =>terminal Normal mode
 " C-w "" =>paste terminal
 " C-r C-w =>paste command
@@ -139,6 +139,9 @@ endif
 " 1gd =>jump to local var
 " * =>search for whole word under cursor
 " # =>search for partial word under cursor
+" }}}
+
+" Custom Shortcuts {{{
 
 " leader remap for ergonomic
 let mapleader = ' '
@@ -157,16 +160,9 @@ nnoremap <leader>n :15Lexplore<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
 nnoremap <leader>i :set invlist<CR>
+" }}}
 
-" debug vimrc map
-nnoremap <leader>RS :source %<CR>
-nnoremap <leader>RR :source $MYVIMRC<CR>
-
-" tags
-nnoremap <leader>tt :TagbarToggle<CR>
-inoremap <C-x><C-j> <C-O>:call fzf#vim#tags(expand("<cword>"))<CR>
-
-" git
+" Fugitive {{{
 nnoremap <leader>s :call ToggleGstatus()<CR>
 func! ToggleGstatus() abort
 	if CloseGstatus() == 1
@@ -210,6 +206,10 @@ let g:airline#extensions#branch#format = 1
 
 let g:airline#extensions#fugitiveline#enabled = 1
 
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tagbar#searchmethod = 'scoped-stl'
+let g:airline#extensions#tagbar#max_filesize = 2048*1024
+
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
@@ -218,6 +218,7 @@ let g:airline_extensions = ['tabline', 'branch', 'fugitiveline', 'fzf',
 " }}}
 
 " Tagbar {{{
+nnoremap <leader>tt :TagbarToggle<CR>
 let g:tagbar_autoclose_netrw = 1
 " }}}
 
@@ -230,8 +231,9 @@ let g:netrw_mousemaps = 0
 " }}}
 
 " ALE {{{
+let g:ale_completion_enabled = 1
+set omnifunc=ale#completion#OmniFunc
 let g:ale_warn_about_trailing_whitespace = 0
-let g:ale_disable_lsp = 1
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
@@ -286,20 +288,58 @@ let g:OmniSharp_diagnostic_overrides = {
 let g:vimspector_enable_mappings = 'HUMAN'
 " }}}
 
+" Generic Tags {{{
+
+" FZF / tag completion
+inoremap <C-space> <Left><C-O>:call TagCompl()<CR>
+func! TagCompl() abort
+	let l:result = fzf#vim#tags(expand("<cword>"), {'sink':function('s:compl_tag')})
+endfunc
+
+func! s:compl_tag(line)
+	let fields = split(a:line, "\t")
+	let cleanedFields = []
+	for field in fields
+		let cleanedFields = add(cleanedFields, trim(field))
+	endfor
+	echo cleanedFields
+	let tagName = cleanedFields[0]
+	echo tagName
+	call setreg('0', tagName)
+	if len(trim(expand("<cword>"))) == 0
+		call feedkeys('"0p')
+	else
+		call feedkeys('viw"0p')
+	endif
+endfunc
+
+func! UpdateTags() abort
+	let job = job_start("echo " .. expand("%") .. "| ctags --append=yes --sort=yes --recurse=yes --extras=+qfr -L -")
+	echo job
+endfunc
+
+" }}}
+
 " FZF {{{
+" {{{2 s:build_quickfix_list
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
   copen
   cc
 endfunction
+" }}}2
 
+" {{{2 g:fzf_action
 let g:fzf_action = {
   \ 'ctrl-q': function('s:build_quickfix_list'),
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
+  \ 'ctrl-v': 'vsplit',
+\}
+" }}}2
 
+" {{{2 g:fzf_colors
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
@@ -314,11 +354,11 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+" }}}2
 
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
-" let g:fzf_layout = { 'down': '30%' }
+let g:fzf_layout = { 'down': '30%' }
 
+" {{{2 Rgl
 " search for string by filetype
 command! -bang -nargs=* Rgl
 \	call fzf#vim#grep(
@@ -327,7 +367,9 @@ command! -bang -nargs=* Rgl
 \			' -- ' ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
+" }}}2
 
+" {{{2 Rgg
 " search for string by file extension
 command! -bang -nargs=* Rgg
 \	call fzf#vim#grep(
@@ -336,5 +378,5 @@ command! -bang -nargs=* Rgg
 \			' -- ' ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
-
+" }}}2
 " }}}

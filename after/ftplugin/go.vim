@@ -1,22 +1,11 @@
 " search for ref by file extension
-command! -bang -nargs=* RgRef
+command! -bang -nargs=* GoRef
 \	call fzf#vim#grep(
 \		'rg --column --line-number --no-heading --color=always --smart-case --pcre2 --glob \*.' ..
 \			expand('%:e') ..
 \			' -- ' ..
 \			shellescape('^(?!//).*' .. expand('<cword>') .. '.*$'),
 \		1, fzf#vim#with_preview(), <bang>0)
-
-" if ale isn't available then this can be used to populate the quick fix
-func! GoLint() abort
-	let l:lintcommand = "golangci-lint run ./... | sed -e '/^[[:space:]]*$/d'"
-	cexpr! system(l:lintcommand)
-endfunc
-
-func! GoTestCheck() abort
-	let l:lintcommand = "go test -c ./... 2>&1 | grep ':' | grep -v '#'"
-	cexpr! system(l:lintcommand)
-endfunc
 
 func! GoRunTestifyTest() abort
 	let l:relpackage = expand("%:h")
@@ -38,4 +27,16 @@ func! GoRunTestifyTest() abort
 	let l:command = "go test -timeout 30s -run "..l:suitename..' -testify.m '..l:testname.." "..l:relpackage
 	echo l:command
 	cexpr! system(l:command)
+endfunc
+
+" if ale isn't available then this can be used to populate the quick fix
+func! GoLint() abort
+	let l:lintcommand = "golangci-lint run ./... | sed -e '/^[[:space:]]*$/d'"
+	cexpr! system(l:lintcommand)
+endfunc
+
+" if ale isn't available
+func! GoTestCheck() abort
+	let l:lintcommand = "go test -c ./... 2>&1 | grep ':' | grep -v '#'"
+	cexpr! system(l:lintcommand)
 endfunc
