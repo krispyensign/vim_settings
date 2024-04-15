@@ -1,14 +1,14 @@
-.PHONY: build
-build:
-	docker build -t gobox .
-	docker images | grep gobox | sed -E 's/[ ]+/,/g' | rev | cut -d',' -f1 | rev
-
 .PHONY: install
 install:
 	mkdir -p ${HOME}/.vim/ ${HOME}/.vim/autoload/
 	cp -fr after ${HOME}/.vim/after/
 	cp vimrc ${HOME}/.vimrc
 	cp scripts/* ${HOME}/bin/
+
+.PHONY: build
+build:
+	docker build -t gobox .
+	docker images | grep gobox | sed -E 's/[ ]+/,/g' | rev | cut -d',' -f1 | rev
 
 .PHONY: plugins
 plugins: install

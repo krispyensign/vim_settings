@@ -1,6 +1,7 @@
 *.swp
 *.swn
 *.swo
+ctags
 tags
 GPATH
 GRTAGS

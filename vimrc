@@ -48,6 +48,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'majutsushi/tagbar'
 Plug 'dense-analysis/ale'
 Plug 'puremourning/vimspector'
+Plug 'girishji/vimcomplete'
 
 " language specific plugins
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
@@ -231,21 +232,22 @@ let g:netrw_mousemaps = 0
 " }}}
 
 " ALE {{{
+inoremap <C-space> <C-X><C-O>
 let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
 set omnifunc=ale#completion#OmniFunc
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
-" let g:ale_linters = {'go': []}
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
-\	'go': ['golangci-lint', 'gofmt', 'gobuild'],
+\	'go': ['golangci-lint', 'gofmt', 'gobuild', 'gopls'],
 \}
 let g:ale_fixers = {
 \	'*': ['remove_trailing_lines', 'trim_whitespace'],
-\	'go': ['gofmt', 'goimports'],
+\	'go': ['gofmt', 'goimports', 'gopls'],
 \}
 let g:ale_fix_on_save = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
@@ -291,7 +293,7 @@ let g:vimspector_enable_mappings = 'HUMAN'
 " Generic Tags {{{
 
 " FZF / tag completion
-inoremap <C-space> <Left><C-O>:call TagCompl()<CR>
+" inoremap <C-space> <Left><C-O>:call TagCompl()<CR>
 func! TagCompl() abort
 	let l:result = fzf#vim#tags(expand("<cword>"), {'sink':function('s:compl_tag')})
 endfunc
@@ -302,6 +304,7 @@ func! s:compl_tag(line)
 	for field in fields
 		let cleanedFields = add(cleanedFields, trim(field))
 	endfor
+
 	echo cleanedFields
 	let tagName = cleanedFields[0]
 	echo tagName
