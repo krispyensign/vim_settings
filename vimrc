@@ -156,6 +156,7 @@ try
 	colorscheme desert
 	:highlight ColorColumn guibg=#4d4d4d
 	:highlight Folded guifg=DarkGray
+	:highlight NonText guibg=#333333
 catch /^Vim\%((\a\+)\)\=:E185/
 	colorscheme default
 endtry
