@@ -279,7 +279,9 @@ let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
 let g:ale_completion_delay = 5000
 set omnifunc=ale#completion#OmniFunc
+let g:ale_echo_msg_format='%linter%:%code: %%s'
 let g:ale_warn_about_trailing_whitespace = 0
+let g:ale_detail_to_floating_preview = 1
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
@@ -295,6 +297,7 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
 let g:ale_go_golangci_lint_package = 1
+let g:ale_yaml_yamllint_options = ''
 nnoremap <F12> :ALEGoToDefinition -split
 
 " }}}
