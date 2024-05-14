@@ -1,11 +1,10 @@
 " gomod.vim
 " ftplugin to handle go mod stuff
 
-
 " run go mod tidy and then rebuild tags with latest runtimes
 function! GoModRebuildRuntimeTags()
 	" filter the lines accordingly
-	exec !go mod tidy
+	exec "!go mod tidy"
 	let lines = readfile(trim(system('go env GOMOD')))
 	let filteredLines = []
 	for line in lines

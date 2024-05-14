@@ -74,19 +74,58 @@ Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'vim-airline/vim-airline-themes'
 
-" themes
+" {{{2 themes
+Plug 'mnishz/colorscheme-preview.vim'
+Plug 'xolox/vim-colorscheme-switcher'
+
+" {{{3 favorites
 Plug 'junegunn/seoul256.vim'
 Plug 'jsit/toast.vim'
+Plug 'vigoux/oak'
+Plug 'zacanger/angr.vim'
+Plug 'artanikin/vim-synthwave84'
+Plug 'sainnhe/everforest'
+Plug 'jacoborus/tender.vim'
+" }}}3
+
 Plug 'wdhg/dragon-energy'
 Plug 'lucasprag/simpleblack'
-Plug 'KeitaNakamura/neodark.vim'
-Plug 'jalvesaq/southernlights'
-Plug 'kyoh86/momiji', { 'rtp': 'vim' }
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'sainnhe/everforest'
 Plug 'nanotech/jellybeans.vim'
+Plug 'jalvesaq/southernlights'
+Plug 'NLKNguyen/papercolor-theme'
+
+Plug 'AhmedAbdulrahman/aylin.vim'
+
+Plug 'KeitaNakamura/neodark.vim'
+
+Plug 'yorickpeterse/happy_hacking.vim'
+
+"Plug 'tinted-theming/base16-vim'
+
 Plug 'sjl/badwolf'
-Plug 'jacoborus/tender.vim'
+"Plug 'axvr/raider.vim'
+Plug 'romainl/Apprentice'
+Plug 'srcery-colors/srcery-vim'
+Plug 'ajmwagar/vim-deus'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'embark-theme/vim'
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'crusoexia/vim-monokai'
+Plug 'AlessandroYorba/Alduin'
+Plug 'patstockwell/vim-monokai-tasty'
+Plug 'connorholyday/vim-snazzy'
+Plug 'danilo-augusto/vim-afterglow'
+Plug 'Everblush/everblush.vim'
+Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'AlessandroYorba/Sierra'
+Plug 'jeffkreeftmeijer/vim-dim'
+Plug 'nvimdev/oceanic-material'
+
+" broken
+"Plug 'kyoh86/momiji', { 'rtp': 'vim' }
+"Plug 'xero/miasma.nvim'
+" }}}2
 
 call plug#end()
 " }}}
@@ -109,12 +148,14 @@ let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
 
 " configure themes
-let g:seoul256_background = 235
+let g:seoul256_background = 234
 let g:airline_theme='simple'
 
 " turn on the colors
 try
-	colorscheme toast
+	colorscheme desert
+	:highlight ColorColumn guibg=#4d4d4d
+	:highlight Folded guifg=DarkGray
 catch /^Vim\%((\a\+)\)\=:E185/
 	colorscheme default
 endtry
@@ -235,6 +276,7 @@ let g:netrw_mousemaps = 0
 inoremap <C-space> <C-X><C-O>
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
+let g:ale_completion_delay = 5000
 set omnifunc=ale#completion#OmniFunc
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_open_list = 0
@@ -252,6 +294,8 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
 let g:ale_go_golangci_lint_package = 1
+nnoremap <F12> :ALEGoToDefinition -split
+
 " }}}
 
 " OmniSharp {{{

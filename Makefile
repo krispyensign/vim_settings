@@ -1,7 +1,7 @@
 .PHONY: install
 install:
-	mkdir -p ${HOME}/.vim/ ${HOME}/.vim/autoload/
-	cp -fr after ${HOME}/.vim/after/
+	mkdir -p ${HOME}/.vim/ ${HOME}/.vim/autoload/ ${HOME}/.vim/after/
+	cp -fr after/* ${HOME}/.vim/after/
 	cp vimrc ${HOME}/.vimrc
 	cp scripts/* ${HOME}/bin/
 
