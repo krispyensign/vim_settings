@@ -30,6 +30,8 @@ set nowritebackup									" no swaps or backups
 set noswapfile										" no swaps or backups
 set guifont=Menlo-Regular:h12						" make it stop hurting my eyes
 au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker folding
+set notermguicolors 								" disable 24bit
+set t_Co=256 										" use 256 colors for speed
 " }}}
 
 " {{{ TODO:
@@ -76,7 +78,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 " {{{2 themes
 Plug 'mnishz/colorscheme-preview.vim'
-Plug 'xolox/vim-colorscheme-switcher'
+Plug 'tinted-theming/base16-vim'
 
 " {{{3 favorites
 Plug 'junegunn/seoul256.vim'
@@ -88,41 +90,39 @@ Plug 'sainnhe/everforest'
 Plug 'jacoborus/tender.vim'
 " }}}3
 
-Plug 'wdhg/dragon-energy'
-Plug 'lucasprag/simpleblack'
-Plug 'nanotech/jellybeans.vim'
-Plug 'jalvesaq/southernlights'
-Plug 'NLKNguyen/papercolor-theme'
+" }}}3 dim
+" Plug 'axvr/raider.vim'
+" Plug 'romainl/Apprentice'
+" }}}3
 
-Plug 'AhmedAbdulrahman/aylin.vim'
+" Plug 'wdhg/dragon-energy'
+" Plug 'lucasprag/simpleblack'
+" Plug 'nanotech/jellybeans.vim'
+" Plug 'jalvesaq/southernlights'
+" Plug 'NLKNguyen/papercolor-theme'
+" Plug 'KeitaNakamura/neodark.vim'
+" Plug 'yorickpeterse/happy_hacking.vim'
 
-Plug 'KeitaNakamura/neodark.vim'
-
-Plug 'yorickpeterse/happy_hacking.vim'
-
-"Plug 'tinted-theming/base16-vim'
-
-Plug 'sjl/badwolf'
-"Plug 'axvr/raider.vim'
-Plug 'romainl/Apprentice'
-Plug 'srcery-colors/srcery-vim'
-Plug 'ajmwagar/vim-deus'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'embark-theme/vim'
-Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'ghifarit53/tokyonight-vim'
-Plug 'crusoexia/vim-monokai'
-Plug 'AlessandroYorba/Alduin'
-Plug 'patstockwell/vim-monokai-tasty'
-Plug 'connorholyday/vim-snazzy'
-Plug 'danilo-augusto/vim-afterglow'
-Plug 'Everblush/everblush.vim'
-Plug 'tyrannicaltoucan/vim-deep-space'
-Plug 'AlessandroYorba/Sierra'
-Plug 'jeffkreeftmeijer/vim-dim'
-Plug 'nvimdev/oceanic-material'
+" Plug 'sjl/badwolf'
+" Plug 'srcery-colors/srcery-vim'
+" Plug 'ajmwagar/vim-deus'
+" Plug 'drewtempelmeyer/palenight.vim'
+" Plug 'embark-theme/vim'
+" Plug 'kristijanhusak/vim-hybrid-material'
+" Plug 'ghifarit53/tokyonight-vim'
+" Plug 'crusoexia/vim-monokai'
+" Plug 'AlessandroYorba/Alduin'
+" Plug 'patstockwell/vim-monokai-tasty'
+" Plug 'connorholyday/vim-snazzy'
+" Plug 'danilo-augusto/vim-afterglow'
+" Plug 'Everblush/everblush.vim'
+" Plug 'tyrannicaltoucan/vim-deep-space'
+" Plug 'AlessandroYorba/Sierra'
+" Plug 'jeffkreeftmeijer/vim-dim'
+" Plug 'nvimdev/oceanic-material'
 
 " broken
+"Plug 'AhmedAbdulrahman/aylin.vim'
 "Plug 'kyoh86/momiji', { 'rtp': 'vim' }
 "Plug 'xero/miasma.nvim'
 " }}}2
@@ -132,8 +132,6 @@ call plug#end()
 
 " Colors {{{
 set background=dark					" dark mode
-set termguicolors					" enable 24 bit
-set t_ut=							" use current background color
 
 " enable built-in language highlighting
 let g:python_highlight_all = 1
@@ -149,18 +147,18 @@ let g:go_highlight_variable_declarations = 1
 
 " configure themes
 let g:seoul256_background = 234
-let g:airline_theme='simple'
+let g:airline_theme = 'simple'
 
 " turn on the colors
 try
 	colorscheme desert
-	:highlight ColorColumn guibg=#4d4d4d
-	:highlight Folded guifg=DarkGray
-	:highlight NonText guibg=#333333
-	:highlight Comment guifg=DarkGray
-	:highlight Type guifg=LightBlue
-	:highlight LineNr guifg=DarkGray
-
+	:highlight ColorColumn guibg=Black ctermbg=Black
+	:highlight Folded guifg=DarkGray ctermbg=DarkGray
+	:highlight NonText guibg=#222222
+	:highlight Normal guibg=#222222
+	:highlight Comment guifg=DarkGray ctermfg=DarkGray
+	:highlight Type guifg=LightBlue ctermfg=LightBlue
+	:highlight LineNr guifg=DarkGray ctermfg=DarkGray
 catch /^Vim\%((\a\+)\)\=:E185/
 	colorscheme default
 endtry
