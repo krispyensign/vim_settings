@@ -30,8 +30,6 @@ set nowritebackup									" no swaps or backups
 set noswapfile										" no swaps or backups
 set guifont=Menlo-Regular:h12						" make it stop hurting my eyes
 au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker folding
-set notermguicolors 								" disable 24bit
-set t_Co=256 										" use 256 colors for speed
 " }}}
 
 " {{{ TODO:
@@ -95,6 +93,8 @@ call plug#end()
 " }}}
 
 " Colors {{{
+set notermguicolors 								" disable 24bit
+set t_Co=256 										" use 256 colors for speed
 set background=dark					" dark mode
 
 " enable built-in language highlighting
