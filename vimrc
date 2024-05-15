@@ -1,4 +1,4 @@
-" Top Level Settings {{{
+" {{{1 Top Level Settings
 set nocompatible									" be iMproved, required
 syntax on											" enable syntax highlighting
 filetype plugin indent on 							" allow filetype to be completely managed by vim
@@ -30,27 +30,24 @@ set nowritebackup									" no swaps or backups
 set noswapfile										" no swaps or backups
 set guifont=Menlo-Regular:h12						" make it stop hurting my eyes
 au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker folding
-" }}}
 
-" {{{ TODO:
+" {{{1 TODO:
 " ctags with filename and type in popup
 " ctags auto regenerated
 " ctags completion with fzf
 " ctags completion with struct context
 " }}}
-
-" Plugins {{{
+" {{{1 Plugins
+" {{{2 setup
 command! PU PlugUpdate | PlugUpgrade
-
 call plug#begin('~/.vim/plugged')
 
-" general language plugins
+" {{{2 general language plugins
 Plug 'majutsushi/tagbar'
 Plug 'dense-analysis/ale'
 Plug 'puremourning/vimspector'
-Plug 'girishji/vimcomplete'
 
-" language specific plugins
+" {{{2 language specific plugins
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
@@ -58,46 +55,49 @@ Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax'
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 
-" navigation plugins
+" {{{2 navigation plugins
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'krispyensign/sesssion.vim'
 
-" git plugins
+" {{{2 git plugins
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'Eliot00/git-lens.vim'
 
-" supplemental theme plugins
+" {{{2 supplemental theme plugins
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'vim-airline/vim-airline-themes'
 
-" {{{2 themes
+" {{{2 theme tools
 Plug 'mnishz/colorscheme-preview.vim'
-Plug 'tinted-theming/base16-vim'
+Plug 'guns/xterm-color-table.vim'
 
-" {{{3 favorites
+" {{{2 themes
+Plug 'tinted-theming/base16-vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'jsit/toast.vim'
 Plug 'vigoux/oak'
 Plug 'zacanger/angr.vim'
 Plug 'artanikin/vim-synthwave84'
 Plug 'sainnhe/everforest'
-Plug 'jacoborus/tender.vim'
-" }}}3
-" }}}2
 
 call plug#end()
 " }}}
 
-" Colors {{{
+" {{{1 Colors
+" {{{2 color settings
 set notermguicolors 								" disable 24bit
 set t_Co=256 										" use 256 colors for speed
-set background=dark					" dark mode
+set background=dark									" dark mode
 
-" enable built-in language highlighting
+" {{{2 enable colorcolumn
+if (exists('+colorcolumn'))
+	set colorcolumn=80,100,120
+endif
+
+" {{{2 enable built-in language highlighting
 let g:python_highlight_all = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_operators = 1
@@ -109,28 +109,21 @@ let g:go_highlight_types = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
 
-" configure themes
+" {{{2 configure themes
 let g:seoul256_background = 234
 let g:airline_theme = 'simple'
 
-" turn on the colors
-try
+" {{{2 experiments
+func! TestColor()
 	colorscheme desert
-	:highlight ColorColumn guibg=Black ctermbg=Black
+	:highlight ColorColumn guibg=Black ctermbg=0
 	:highlight Folded guifg=DarkGray ctermbg=DarkGray
-	:highlight NonText guibg=#222222
-	:highlight Normal guibg=#222222
-	:highlight Comment guifg=DarkGray ctermfg=DarkGray
-	:highlight Type guifg=LightBlue ctermfg=LightBlue
-	:highlight LineNr guifg=DarkGray ctermfg=DarkGray
-catch /^Vim\%((\a\+)\)\=:E185/
-	colorscheme default
-endtry
-
-" enable colorcolumn
-if (exists('+colorcolumn'))
-	set colorcolumn=80,100,120
-endif
+	:highlight NonText guibg=Gray23 ctermbg=237
+	:highlight Normal guibg=Gray23 ctermbg=237
+	:highlight Comment guifg=Gray39 ctermfg=241
+	:highlight Type guifg=Green4 ctermfg=28
+	:highlight LineNr guifg=DarkGray
+endfunc
 
 function! SynStack()
   if !exists("*synstack")
@@ -143,9 +136,16 @@ function! SynGroup()
     let l:s = synID(line('.'), col('.'), 1)
     echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
 endfun
+
+" {{{2 turn on the colors
+try
+	colorscheme	angr
+catch /^Vim\%((\a\+)\)\=:E185/
+	colorscheme desert
+endtry
 " }}}
 
-" {{{ Cheatsheet for randos
+" {{{1 Cheatsheet for randos
 " C-w N  =>terminal Normal mode
 " C-w "" =>paste terminal
 " C-r C-w =>paste command
@@ -160,14 +160,12 @@ endfun
 " 1gd =>jump to local var
 " * =>search for whole word under cursor
 " # =>search for partial word under cursor
-" }}}
 
-" Custom Shortcuts {{{
-
+" {{{1 General Custom Shortcuts
 " leader remap for ergonomic
 let mapleader = ' '
 
-" navigation maps
+" {{{2 navigation maps
 nnoremap <silent> <leader><Up> :wincmd k<CR>
 nnoremap <silent> <leader><Down> :wincmd j<CR>
 nnoremap <silent> <leader><Left> :wincmd h<CR>
@@ -176,14 +174,13 @@ nnoremap <silent> <leader>[ :vertical resize +5<CR>
 nnoremap <silent> <leader>] :vertical resize -5<CR>
 nnoremap <silent> <leader>* :nohls<CR>
 
-" toggles
+" {{{2 toggles
 nnoremap <leader>n :15Lexplore<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
 nnoremap <leader>i :set invlist<CR>
-" }}}
 
-" Fugitive {{{
+" {{{1 Fugitive
 nnoremap <leader>s :call ToggleGstatus()<CR>
 func! ToggleGstatus() abort
 	if CloseGstatus() == 1
@@ -204,54 +201,52 @@ func! CloseGstatus() abort
 	endif
 	return 0
 endfun
-" }}}
 
-" PlantUML {{{
+" {{{1 Git-Lens
+let g:GIT_LENS_ENABLED = 1
+
+" {{{1 PlantUML
 let g:plantuml_set_makeprg = 0
-" }}}
 
-" Rainbow {{{
+" {{{1 Rainbow
 let g:rainbow_active = 1
-" }}}
 
-" Airline {{{
+" {{{1 Airline
+" {{{2 tabline
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
-
+" {{{2 branch
 let g:airline#extensions#branch#empty_message = ''
 let g:airline#extensions#branch#displayed_head_limit = 10
 let g:airline#extensions#branch#format = 1
-
+" {{{2 fugitive
 let g:airline#extensions#fugitiveline#enabled = 1
-
+" {{{2 tagbar
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tagbar#searchmethod = 'scoped-stl'
 let g:airline#extensions#tagbar#max_filesize = 2048*1024
-
+" {{{2 general
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
 let g:airline_highlighting_cache = 1
 let g:airline_extensions = ['tabline', 'branch', 'fugitiveline', 'fzf',
 \	'tagbar', 'virtualenv', 'whitespace', 'term', 'ale']
-" }}}
 
-" Tagbar {{{
+" {{{1 Tagbar
 nnoremap <leader>tt :TagbarToggle<CR>
 let g:tagbar_autoclose_netrw = 1
-" }}}
 
-" Netrw {{{
+" {{{1 Netrw
 let g:netrw_list_hide = '.*\.swp$,\.git/'
 let g:netrw_hide = 1
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_mousemaps = 0
-" }}}
 
-" ALE {{{
+" {{{1 ALE
 inoremap <C-space> <C-X><C-O>
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
@@ -278,9 +273,7 @@ let g:ale_go_golangci_lint_package = 1
 let g:ale_yaml_yamllint_options = ''
 nnoremap <F12> :ALEGoToDefinition -split
 
-" }}}
-
-" OmniSharp {{{
+" {{{1 OmniSharp
 let g:OmniSharp_selector_ui = ''       " Use vim - command line, quickfix etc.
 let g:OmniSharp_selector_findusages = 'fzf'
 let g:OmniSharp_server_use_net6 = 1
@@ -310,13 +303,11 @@ let g:OmniSharp_diagnostic_overrides = {
 \	'RCS1181': {'type': 'None'},
 \	'RCS1238': {'type': 'None'},
 \}
-" }}}
 
-" Vimspector {{{
+" {{{1 Vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
-" }}}
 
-" Generic Tags {{{
+" {{{1 Generic Tags
 
 " FZF / tag completion
 " inoremap <C-space> <Left><C-O>:call TagCompl()<CR>
@@ -347,9 +338,7 @@ func! UpdateTags() abort
 	echo job
 endfunc
 
-" }}}
-
-" FZF {{{
+" {{{1 FZF
 " {{{2 s:build_quickfix_list
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
@@ -357,7 +346,6 @@ function! s:build_quickfix_list(lines)
   copen
   cc
 endfunction
-" }}}2
 
 " {{{2 g:fzf_action
 let g:fzf_action = {
@@ -366,7 +354,6 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit',
 \}
-" }}}2
 
 " {{{2 g:fzf_colors
 let g:fzf_colors =
@@ -383,7 +370,6 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
-" }}}2
 
 let g:fzf_layout = { 'down': '30%' }
 
@@ -396,7 +382,6 @@ command! -bang -nargs=* Rgl
 \			' -- ' ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
-" }}}2
 
 " {{{2 Rgg
 " search for string by file extension
@@ -407,5 +392,3 @@ command! -bang -nargs=* Rgg
 \			' -- ' ..
 \			shellescape(<q-args>),
 \		1, fzf#vim#with_preview(), <bang>0)
-" }}}2
-" }}}
