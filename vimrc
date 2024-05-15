@@ -89,42 +89,6 @@ Plug 'artanikin/vim-synthwave84'
 Plug 'sainnhe/everforest'
 Plug 'jacoborus/tender.vim'
 " }}}3
-
-" }}}3 dim
-" Plug 'axvr/raider.vim'
-" Plug 'romainl/Apprentice'
-" }}}3
-
-" Plug 'wdhg/dragon-energy'
-" Plug 'lucasprag/simpleblack'
-" Plug 'nanotech/jellybeans.vim'
-" Plug 'jalvesaq/southernlights'
-" Plug 'NLKNguyen/papercolor-theme'
-" Plug 'KeitaNakamura/neodark.vim'
-" Plug 'yorickpeterse/happy_hacking.vim'
-
-" Plug 'sjl/badwolf'
-" Plug 'srcery-colors/srcery-vim'
-" Plug 'ajmwagar/vim-deus'
-" Plug 'drewtempelmeyer/palenight.vim'
-" Plug 'embark-theme/vim'
-" Plug 'kristijanhusak/vim-hybrid-material'
-" Plug 'ghifarit53/tokyonight-vim'
-" Plug 'crusoexia/vim-monokai'
-" Plug 'AlessandroYorba/Alduin'
-" Plug 'patstockwell/vim-monokai-tasty'
-" Plug 'connorholyday/vim-snazzy'
-" Plug 'danilo-augusto/vim-afterglow'
-" Plug 'Everblush/everblush.vim'
-" Plug 'tyrannicaltoucan/vim-deep-space'
-" Plug 'AlessandroYorba/Sierra'
-" Plug 'jeffkreeftmeijer/vim-dim'
-" Plug 'nvimdev/oceanic-material'
-
-" broken
-"Plug 'AhmedAbdulrahman/aylin.vim'
-"Plug 'kyoh86/momiji', { 'rtp': 'vim' }
-"Plug 'xero/miasma.nvim'
 " }}}2
 
 call plug#end()
