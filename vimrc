@@ -157,6 +157,10 @@ try
 	:highlight ColorColumn guibg=#4d4d4d
 	:highlight Folded guifg=DarkGray
 	:highlight NonText guibg=#333333
+	:highlight Comment guifg=DarkGray
+	:highlight Type guifg=LightBlue
+	:highlight LineNr guifg=DarkGray
+
 catch /^Vim\%((\a\+)\)\=:E185/
 	colorscheme default
 endtry
@@ -165,6 +169,18 @@ endtry
 if (exists('+colorcolumn'))
 	set colorcolumn=80,100,120
 endif
+
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun
 " }}}
 
 " {{{ Cheatsheet for randos
