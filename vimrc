@@ -39,8 +39,17 @@ au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker fold
 " }}}
 " {{{1 Plugins
 " {{{2 setup
-command! PU PlugUpdate | PlugUpgrade
+let data_dir = '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+command! PU PlugUpgrade | PlugUpdate
+
 call plug#begin('~/.vim/plugged')
+
+Plug 'junegunn/vim-plug'
 
 " {{{2 general language plugins
 Plug 'majutsushi/tagbar'
@@ -52,7 +61,7 @@ Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
-Plug 'aklt/plantuml-syntax'
+Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 
 " {{{2 navigation plugins

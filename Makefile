@@ -12,7 +12,6 @@ build:
 
 .PHONY: plugins
 plugins: install
-	wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O ${HOME}/.vim/autoload/plug.vim
 	vim +PlugUpdate +qall
 	cd ${HOME}/.vim/plugged/vimspector/ && ./install_gadget.py --verbose --enable-python --enable-bash
 	mkdir -p ${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/ ${HOME}/.vim/plugged/vimspector/configurations/linux/go/
