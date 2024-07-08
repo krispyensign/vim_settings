@@ -28,7 +28,6 @@ set showfulltag										" show tag context in popup
 set nobackup										" no swaps or backups
 set nowritebackup									" no swaps or backups
 set noswapfile										" no swaps or backups
-set guifont=Menlo-Regular:h12						" make it stop hurting my eyes
 au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker folding
 
 " {{{1 TODO:
@@ -188,6 +187,7 @@ nnoremap <leader>n :15Lexplore<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
 nnoremap <leader>i :set invlist<CR>
+nnoremap <leader>ff :set guifont=Menlo-Regular:h12
 
 " {{{1 Fugitive
 nnoremap <leader>s :call ToggleGstatus()<CR>
@@ -258,8 +258,15 @@ let g:netrw_mousemaps = 0
 " {{{1 ALE
 inoremap <C-space> <C-X><C-O>
 let g:ale_completion_enabled = 1
+let g:ale_python_auto_pipenv = 1
+let g:ale_python_pylsp_auto_pipenv = 1
+let g:ale_python_mypy_auto_pipenv = 1
+let g:ale_python_flake8_auto_pipenv = 1
+let g:ale_history_log_output = 1
+let g:ale_history_enabled = 1
+let g:ale_set_balloons = 1
 let g:ale_completion_autoimport = 1
-let g:ale_completion_delay = 5000
+let g:ale_completion_delay = 1000
 set omnifunc=ale#completion#OmniFunc
 let g:ale_echo_msg_format='%linter%:%code: %%s'
 let g:ale_warn_about_trailing_whitespace = 0
@@ -271,12 +278,17 @@ let g:ale_max_signs = 100
 let g:ale_linters = {
 \	'cs': ['OmniSharp'],
 \	'go': ['golangci-lint', 'gofmt', 'gobuild', 'gopls'],
+\	'python': ['flake8', 'mypy', 'pylsp', 'pycodestyle', 'pydocstyle', 'pylint', 'ruff'],
 \}
 let g:ale_fixers = {
 \	'*': ['remove_trailing_lines', 'trim_whitespace'],
 \	'go': ['gofmt', 'goimports', 'gopls'],
+\   'python': ['black', 'ruff', 'yapf'],
 \}
+let g:ale_disable_lsp = 0
+let b:ale_disable_lsp = 0
 let g:ale_fix_on_save = 1
+let g:ale_lsp_suggestions = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
 let g:ale_go_golangci_lint_package = 1
 let g:ale_yaml_yamllint_options = ''
