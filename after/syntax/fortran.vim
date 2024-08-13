@@ -19,6 +19,6 @@ hi def link usage PreCondit
 syn match fspec /.\+$/ contained
 hi def link fspec Special
 
+" match the call keyword as an operator
 syn keyword fcall call
 hi def link fcall Operator
-hi! def link fortranIntrinsic Operator
