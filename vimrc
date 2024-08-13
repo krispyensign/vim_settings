@@ -83,7 +83,6 @@ Plug 'mnishz/colorscheme-preview.vim'
 Plug 'guns/xterm-color-table.vim'
 
 " {{{2 themes
-Plug 'tinted-theming/base16-vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'jsit/toast.vim'
 Plug 'vigoux/oak'
@@ -116,7 +115,8 @@ let g:go_highlight_fields = 1
 let g:go_highlight_types = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
-
+let g:fortran_more_precise = 1
+let g:fortran_free_source = 1
 " {{{2 configure themes
 let g:seoul256_background = 234
 let g:airline_theme = 'simple'
