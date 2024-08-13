@@ -89,6 +89,7 @@ Plug 'vigoux/oak'
 Plug 'zacanger/angr.vim'
 Plug 'artanikin/vim-synthwave84'
 Plug 'sainnhe/everforest'
+Plug 'vim/colorschemes'
 
 call plug#end()
 " }}}
