@@ -145,6 +145,12 @@ function! SynGroup()
     echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
 endfun
 
+function! SynReset()
+	:syntax reset
+	:syntax off
+	:syntax on
+endfun
+
 " {{{2 turn on the colors
 try
 	colorscheme	angr
