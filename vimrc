@@ -90,6 +90,7 @@ Plug 'zacanger/angr.vim'
 Plug 'artanikin/vim-synthwave84'
 Plug 'sainnhe/everforest'
 Plug 'vim/colorschemes'
+Plug 'jaxbot/semantic-highlight.vim'
 
 call plug#end()
 " }}}
