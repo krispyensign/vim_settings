@@ -22,3 +22,8 @@ hi def link fspec Special
 " match the call keyword as an operator
 syn keyword fcall call
 hi def link fcall Operator
+
+syn keyword fortranKeyword implicit private public
+syn match fortranKeyword /type\ze\s\+::/
+syn match fortranKeyword /end type/
+syn match fortranType /type\ze(/
