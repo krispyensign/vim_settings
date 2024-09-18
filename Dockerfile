@@ -1,112 +1,92 @@
 ######################################################################################################################
-# build and install vim
-FROM debian:bookworm-slim AS vimbuild
+# base image
+FROM debian:unstable-slim AS base
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	rm -f /etc/apt/apt.conf.d/docker-clean \
-	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
-	&& apt update \
-	&& apt install --no-install-recommends -y \
-		make gcc libtool-bin python3-dev libncurses-dev pkg-config autoconf automake \
-		python3-docutils libseccomp-dev libjansson-dev libyaml-dev libxml2-dev
-
-ADD --keep-git-dir=true https://github.com/universal-ctags/ctags.git /ctags/
-WORKDIR /ctags
-RUN ./autogen.sh \
-	&& ./configure --prefix=/usr/local \
-	&& make \
-	&& make install
-
-ADD --keep-git-dir=true https://github.com/vim/vim.git /vim/
-WORKDIR /vim
-RUN ./configure --prefix=/usr/local --disable-gui --enable-python3interp \
-	&& make \
-	&& make install
-
-######################################################################################################################
-# build and install vimspector
-FROM debian:bookworm-slim AS vimspectorbuild
-
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	rm -f /etc/apt/apt.conf.d/docker-clean \
-	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
-	&& apt update && apt install -y make gcc libtool-bin python3-dev libncurses-dev pip --no-install-recommends
-
-# install vimspector gadgets
-RUN mkdir -p /root/.vim/plugged/
-WORKDIR /root/.vim/plugged/
-ADD --keep-git-dir=true https://github.com/puremourning/vimspector.git vimspector/
-WORKDIR /root/.vim/plugged/vimspector/
-RUN ./install_gadget.py --verbose --enable-python --enable-bash
-ADD resources/go.gadgets.json gadgets/linux/.gadgets.d/go.json
-ADD resources/go.vimspector.json configurations/linux/go/default.json
-
-######################################################################################################################
-# build base vimbox
-FROM debian:bookworm-slim AS vimbox
-
-ARG python_version=3.11
-
-# copy everything over
-COPY --from=vimbuild /usr/local /usr/local/
-COPY scripts/ /root/bin/
 ENV PATH="${PATH}:/root/bin"
-ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
 
-# refresh certs and install everything
+# install vim and python and other dev tools
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
 	rm -f /etc/apt/apt.conf.d/docker-clean \
 	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
 	&& apt update \
 	&& apt install -y --no-install-recommends \
-		git libncurses6 python3 python-is-python3 pip \
-		libpython${python_version} jq openssh-client make \
-		curl wget ca-certificates openssl zsh ripgrep \
-		docker.io python3-docutils libseccomp2 libjansson4 libxml2 libyaml-0-2 \
-	&& sh install.sh --unatttended \
+		python3-dev \
+		make \
+		gcc \
+		libtool-bin \
+		libncurses-dev \
+		pip \
+		python-is-python3 \
+		python3-docutils \
+		ca-certificates \
+		openssl \
+		curl \
+		wget \
+		openssh-client \
+		autoconf \
+		automake \
+		pkg-config \
+		manpages \
+		python3-setuptools \
+		git \
+		jq \
+		zsh \
+		ripgrep \
+		docker.io \
+		vim-gtk3
+
+# install ctags
+RUN git clone https://github.com/universal-ctags/ctags.git /ctags/ \
+	&& cd /ctags \
+	&& ./autogen.sh \
+	&& ./configure --prefix=/usr/local \
+	&& make \
+	&& make install \
+ 	&& cd .. \
+	&& rm -fr /ctags
+
+# install zsh
+RUN wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh \
+	&& sh install.sh --unattended \
 	&& echo 'set -o vi' >> /root/.zshrc \
 	&& mkdir -p /root/.vim/autoload /src/
 
-# setup vim
+# install vimspector
+RUN mkdir -p /root/.vim/plugged/ \
+	&& cd /root/.vim/plugged/ \
+	&& git clone https://github.com/puremourning/vimspector.git vimspector/ \
+	&& cd vimspector \
+	&& ./install_gadget.py --verbose --enable-python --enable-bash
+
+# add vim plug
 ADD https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim /root/.vim/autoload/plug.vim
-COPY after/ /root/.vim/after/
-COPY vimrc /root/.vimrc
-COPY --from=vimspectorbuild /root/.vim/plugged/vimspector/ /root/.vim/plugged/vimspector/
-RUN vim +PlugUpdate +qall
 
 ######################################################################################################################
-# build gobox
-FROM vimbox AS gobox
+# build gobox-base
+FROM base AS gobox
 
 ARG cert_location=/usr/local/share/ca-certificates
-ARG go_version=1.22.1
 ENV PATH="${PATH}:/usr/local/go/bin:/root/go/bin"
 ENV GOSUMDB="off"
 ENV GOPROXY="direct"
 ENV GIT_SSL_NO_VERIFY=true
 
-# install go
-ADD https://go.dev/dl/go${go_version}.linux-amd64.tar.gz go${go_version}.linux-amd64.tar.gz
-RUN tar -C /usr/local -xzf go${go_version}.linux-amd64.tar.gz \
-	&& rm go${go_version}.linux-amd64.tar.gz
-
-# install go certs
+# install latest go
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
 	rm -f /etc/apt/apt.conf.d/docker-clean \
 	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
-	&& apt --allow-releaseinfo-change update \
-	&& apt install -y --reinstall --no-install-recommends ca-certificates \
-	&& openssl s_client -showcerts -connect proxy.golang.org:443 </dev/null 2>/dev/null \
-		| openssl x509 -outform PEM >  ${cert_location}/proxy.golang.crt \
-	&& openssl s_client -showcerts -connect sum.golang.org:443 </dev/null 2>/dev/null \
-		| openssl x509 -outform PEM >  ${cert_location}/sum.golang.crt \
-	&& openssl s_client -showcerts -connect gopkg.in:443 </dev/null 2>/dev/null \
-		| openssl x509 -outform PEM >  ${cert_location}/gopkg.in.crt \
-	&& update-ca-certificates
+	&& apt update && apt install -y --no-install-recommends golang
+
+# install go certs
+RUN openssl s_client -showcerts -connect proxy.golang.org:443 </dev/null 2>/dev/null \
+ 		| openssl x509 -outform PEM >  ${cert_location}/proxy.golang.crt \
+ 	&& openssl s_client -showcerts -connect sum.golang.org:443 </dev/null 2>/dev/null \
+ 		| openssl x509 -outform PEM >  ${cert_location}/sum.golang.crt \
+ 	&& openssl s_client -showcerts -connect gopkg.in:443 </dev/null 2>/dev/null \
+ 		| openssl x509 -outform PEM >  ${cert_location}/gopkg.in.crt \
+ 	&& update-ca-certificates
 
 # install go dev packages
 RUN --mount=type=cache,target=/root/go/pkg --mount=type=cache,target=/root/.cache/go-build \
@@ -118,3 +98,7 @@ RUN --mount=type=cache,target=/root/go/pkg --mount=type=cache,target=/root/.cach
 	&& golangci_path=$(go env GOPATH)/bin \
 	&& curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
 		| sh -s -- -b ${golangci_path} ${golangci_version}
+
+# finalize vim installation
+ADD . /settings/
+RUN cd /settings/ && make install
