@@ -3,19 +3,20 @@
 IP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
 xhost +"$IP"
 
-alias gobox-stop='docker stop gobox && docker rm gobox'
-alias gobox-start='
+function gobox {
+	dname=$(basename "$(pwd)")
 	docker run \
-		--detach \
-		--name gobox \
-		--env DISPLAY="$IP":0 \
-		--workdir "/src/" \
-		-v /tmp/.X11-unix:/tmp/.X11-unix \
-		-v ".:/src/" \
-		-v "$HOME/.ssh:/root/.ssh" \
-		-v "$HOME/go:/root/go" \
-		-v "$HOME/.cache/go-build:/root/.cache/go-build" \
-		-v /var/run/docker.sock:/var/run/docker.sock \
-		--ulimit nofile=5000:5000 \
-		gobox tail -f /dev/null'
-alias govim='docker exec -it --env DISPLAY="$IP":0 gvim '
+			--detach \
+			--name gobox-"$dname" \
+			--env DISPLAY="$IP":0 \
+			--workdir "/src/" \
+			-v /tmp/.X11-unix:/tmp/.X11-unix \
+			-v ".:/src/" \
+			-v "$HOME/.ssh:/root/.ssh" \
+			-v "$HOME/go/pkg:/root/go/pkg" \
+			-v /var/run/docker.sock:/var/run/docker.sock \
+			--mount=type=volume,target=/root/go/bin \
+			--mount=type=volume,target=/root/.cache/go-build \
+			--ulimit nofile=5000:5000 \
+			gobox zsh -c "gvim $*; while pgrep -u root gvim > /dev/null; do sleep 1; done"
+}
