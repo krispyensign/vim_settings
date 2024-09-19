@@ -6,19 +6,28 @@ install:
 		${HOME}/.vim/autoload/ \
 		${HOME}/.vim/after/ \
 		${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/ \
-		${HOME}/.vim/plugged/vimspector/configurations/linux/go/
+		${HOME}/.vim/plugged/vimspector/configurations/linux/go/ \
+		${HOME}/.vim/plugged/vimspector/gadgets/macos/.gadgets.d/ \
+		${HOME}/.vim/plugged/vimspector/configurations/macos/go/
+	cp vimrc ${HOME}/.vimrc
+	cp -fr after/* ${HOME}/.vim/after/
+	cp scripts/* ${HOME}/bin/
+	cp vimbox ${HOME}/.vimbox
 	cp resources/go.gadgets.json ${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/go.json
 	cp resources/go.vimspector.json ${HOME}/.vim/plugged/vimspector/configurations/linux/go/default.json
-	cp -fr after/* ${HOME}/.vim/after/
-	cp vimrc ${HOME}/.vimrc
-	cp scripts/* ${HOME}/bin/
-	vim +PlugUpdate +qall
+	cp resources/go.gadgets.json ${HOME}/.vim/plugged/vimspector/gadgets/macos/.gadgets.d/go.json
+	cp resources/go.vimspector.json ${HOME}/.vim/plugged/vimspector/configurations/macos/go/default.json
+	@echo 'Remember to "source ~/.vimbox" when ready to use'
 
-.PHONY: gobox
-gobox:
+.PHONY: build-gobox
+build-gobox:
 	docker build --target gobox -t gobox .
 	docker images | grep gobox | sed -E 's/[ ]+/,/g' | rev | cut -d',' -f1 | rev
 
-.PHONY: vimspector
-vimspector: install
+.PHONY: install-plugins
+install-plugins: install
+	vim +PlugUpdate +qall
+
+.PHONY: install-vimspector
+install-vimspector: install
 	cd ${HOME}/.vim/plugged/vimspector/ && ./install_gadget.py --verbose --enable-python --enable-bash

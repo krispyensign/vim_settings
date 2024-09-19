@@ -1,6 +1,7 @@
 *.swp
 *.swn
 *.swo
+.DS_Store
 ctags
 tags
 GPATH
