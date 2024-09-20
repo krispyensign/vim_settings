@@ -30,6 +30,7 @@ set nowritebackup									" no swaps or backups
 set noswapfile										" no swaps or backups
 au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker folding
 
+
 " {{{1 TODO:
 " ctags with filename and type in popup
 " ctags auto regenerated
@@ -90,15 +91,13 @@ Plug 'zacanger/angr.vim'
 Plug 'artanikin/vim-synthwave84'
 Plug 'sainnhe/everforest'
 Plug 'vim/colorschemes'
-Plug 'jaxbot/semantic-highlight.vim'
 
 call plug#end()
 " }}}
 
 " {{{1 Colors
 " {{{2 color settings
-set notermguicolors 								" disable 24bit
-set t_Co=256 										" use 256 colors for speed
+set termguicolors 									" enable 24bit
 set background=dark									" dark mode
 
 " {{{2 enable colorcolumn
@@ -131,7 +130,7 @@ func! TestColor()
 	:highlight NonText guibg=Gray23 ctermbg=237
 	:highlight Normal guibg=Gray23 ctermbg=237
 	:highlight Comment guifg=Gray39 ctermfg=241
-	:highlight Type guifg=Green4 ctermfg=28
+	" :highlight Type guifg=Green4 ctermfg=28
 	:highlight LineNr guifg=DarkGray
 endfunc
 
@@ -300,6 +299,7 @@ let g:ale_lsp_suggestions = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
 let g:ale_go_golangci_lint_package = 1
 let g:ale_yaml_yamllint_options = ''
+
 nnoremap <F12> :ALEGoToDefinition -split
 
 " {{{1 OmniSharp

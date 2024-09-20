@@ -61,6 +61,8 @@ RUN cd ${HOME}/.vim/plugged/vimspector/ && ./install_gadget.py --verbose --enabl
 ADD https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim /root/.vim/autoload/plug.vim
 
 # default to zsh
+ENV SHELL=/usr/bin/zsh
+SHELL ["/usr/bin/zsh", "-c"]
 CMD ["/usr/bin/zsh"]
 
 ######################################################################################################################

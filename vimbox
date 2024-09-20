@@ -3,15 +3,31 @@
 IP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
 xhost +"$IP"
 
+function ggobox {
+	dname=$(basename "$(pwd)")
+	docker run \
+			--rm \
+			-v ".:/src/" \
+			-v "$HOME/.ssh:/root/.ssh" \
+			-v "$HOME/go/pkg:/root/go/pkg" \
+			-v /var/run/docker.sock:/var/run/docker.sock \
+			--workdir "/src/" \
+			--mount=type=volume,target=/root/go/bin \
+			--mount=type=volume,target=/root/.cache/go-build \
+			--ulimit nofile=10000:10000 \
+			--detach \
+			--name gobox-"$dname" \
+			--env DISPLAY="$IP":0 \
+			-v /tmp/.X11-unix:/tmp/.X11-unix \
+			gobox zsh -c "gvim $*; while pgrep -u root gvim > /dev/null; do sleep 1; done"
+}
+
 function gobox {
 	dname=$(basename "$(pwd)")
 	docker run \
-			--detach \
-			--rm \
+			--rm -it \
 			--name gobox-"$dname" \
-			--env DISPLAY="$IP":0 \
 			--workdir "/src/" \
-			-v /tmp/.X11-unix:/tmp/.X11-unix \
 			-v ".:/src/" \
 			-v "$HOME/.ssh:/root/.ssh" \
 			-v "$HOME/go/pkg:/root/go/pkg" \
@@ -19,5 +35,5 @@ function gobox {
 			--mount=type=volume,target=/root/go/bin \
 			--mount=type=volume,target=/root/.cache/go-build \
 			--ulimit nofile=10000:10000 \
-			gobox zsh -c "gvim $*; while pgrep -u root gvim > /dev/null; do sleep 1; done"
+			gobox vim $@
 }
