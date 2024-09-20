@@ -53,7 +53,7 @@ Plug 'junegunn/vim-plug'
 " {{{2 general language plugins
 Plug 'majutsushi/tagbar', { 'on' : 'TagbarToggle' }
 Plug 'dense-analysis/ale'
-Plug 'puremourning/vimspector'
+Plug 'puremourning/vimspector', { 'on': 'VimspectorBreakpoints' }
 
 " {{{2 language specific plugins
 Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
