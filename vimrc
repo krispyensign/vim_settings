@@ -30,7 +30,6 @@ set nowritebackup									" no swaps or backups
 set noswapfile										" no swaps or backups
 au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker folding
 
-
 " {{{1 TODO:
 " ctags with filename and type in popup
 " ctags auto regenerated
@@ -52,7 +51,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/vim-plug'
 
 " {{{2 general language plugins
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', { 'on' : 'TagbarToggle' }
 Plug 'dense-analysis/ale'
 Plug 'puremourning/vimspector'
 
@@ -63,6 +62,11 @@ Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
+Plug 'fatih/vim-go', { 'for' : 'go' }
+
+" {{{2 AI
+Plug 'github/copilot.vim', { 'on': 'Copilot' }
+Plug 'Exafunction/codeium.vim', { 'branch': 'main', 'on': 'Codeium' }
 
 " {{{2 navigation plugins
 Plug 'vim-airline/vim-airline'
@@ -82,6 +86,7 @@ Plug 'vim-airline/vim-airline-themes'
 " {{{2 theme tools
 Plug 'mnishz/colorscheme-preview.vim'
 Plug 'guns/xterm-color-table.vim'
+Plug 'vim-scripts/hexHighlight.vim'
 
 " {{{2 themes
 Plug 'junegunn/seoul256.vim'
@@ -90,6 +95,9 @@ Plug 'vigoux/oak'
 Plug 'zacanger/angr.vim'
 Plug 'artanikin/vim-synthwave84'
 Plug 'sainnhe/everforest'
+Plug 'christianrickert/vim-firefly'
+Plug 'timmajani/tokyonightnoir-vim'
+Plug 'm6vrm/gruber.vim'
 Plug 'vim/colorschemes'
 
 call plug#end()
@@ -118,9 +126,12 @@ let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
 let g:fortran_more_precise = 1
 let g:fortran_free_source = 1
+
 " {{{2 configure themes
 let g:seoul256_background = 234
 let g:airline_theme = 'simple'
+let g:tokyonight_style = 'night' " available: night, storm
+let g:tokyonight_enable_italic = 1
 
 " {{{2 experiments
 func! TestColor()
@@ -134,6 +145,7 @@ func! TestColor()
 	:highlight LineNr guifg=DarkGray
 endfunc
 
+" {{{2 syntax helpers
 function! SynStack()
   if !exists("*synstack")
     return
@@ -335,6 +347,9 @@ let g:OmniSharp_diagnostic_overrides = {
 
 " {{{1 Vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
+
+" {{{1 Vim-Go
+let g:go_gopls_enabled = 0	" disable vim-go gopls integration in favor of ale
 
 " {{{1 Generic Tags
 
