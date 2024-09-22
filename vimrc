@@ -36,7 +36,9 @@ au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker fold
 " ctags completion with fzf
 " ctags completion with struct context
 " }}}
+
 " {{{1 Plugins
+"
 " {{{2 setup
 let data_dir = '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -226,22 +228,27 @@ let g:GIT_LENS_ENABLED = 1
 let g:rainbow_active = 1
 
 " {{{1 Airline
+
 " {{{2 tabline
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+
 " {{{2 branch
 let g:airline#extensions#branch#empty_message = ''
 let g:airline#extensions#branch#displayed_head_limit = 10
 let g:airline#extensions#branch#format = 1
+
 " {{{2 fugitive
 let g:airline#extensions#fugitiveline#enabled = 1
+
 " {{{2 tagbar
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tagbar#searchmethod = 'scoped-stl'
 let g:airline#extensions#tagbar#max_filesize = 2048*1024
+
 " {{{2 general
 let g:airline_powerline_fonts = 0
 let g:airline_experimental = 1
