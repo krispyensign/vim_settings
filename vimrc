@@ -60,7 +60,6 @@ Plug 'hashivim/vim-terraform', { 'for' : 'terraform' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
-Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'fatih/vim-go', { 'for' : 'go' }
 
@@ -115,6 +114,7 @@ endif
 
 " {{{2 enable built-in language highlighting
 let g:python_highlight_all = 1
+
 let g:go_highlight_extra_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_functions = 1
@@ -124,6 +124,7 @@ let g:go_highlight_fields = 1
 let g:go_highlight_types = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
+
 let g:fortran_more_precise = 1
 let g:fortran_free_source = 1
 
@@ -133,36 +134,24 @@ let g:airline_theme = 'simple'
 let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_enable_italic = 1
 
-" {{{2 experiments
-func! TestColor()
-	colorscheme desert
-	:highlight ColorColumn guibg=Black ctermbg=0
-	:highlight Folded guifg=DarkGray ctermbg=DarkGray
-	:highlight NonText guibg=Gray23 ctermbg=237
-	:highlight Normal guibg=Gray23 ctermbg=237
-	:highlight Comment guifg=Gray39 ctermfg=241
-	" :highlight Type guifg=Green4 ctermfg=28
-	:highlight LineNr guifg=DarkGray
-endfunc
-
 " {{{2 syntax helpers
-function! SynStack()
+func! SynStack()
   if !exists("*synstack")
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
-function! SynGroup()
+func! SynGroup()
     let l:s = synID(line('.'), col('.'), 1)
     echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-endfun
+endfunc
 
-function! SynReset()
+func! SynReset()
 	:syntax reset
 	:syntax off
 	:syntax on
-endfun
+endfunc
 
 " {{{2 turn on the colors
 try
@@ -232,9 +221,6 @@ endfun
 
 " {{{1 Git-Lens
 let g:GIT_LENS_ENABLED = 1
-
-" {{{1 PlantUML
-let g:plantuml_set_makeprg = 0
 
 " {{{1 Rainbow
 let g:rainbow_active = 1
@@ -314,37 +300,6 @@ let g:ale_yaml_yamllint_options = ''
 
 nnoremap <F12> :ALEGoToDefinition -split
 
-" {{{1 OmniSharp
-let g:OmniSharp_selector_ui = ''       " Use vim - command line, quickfix etc.
-let g:OmniSharp_selector_findusages = 'fzf'
-let g:OmniSharp_server_use_net6 = 1
-let g:OmniSharp_server_stdio = 1
-let g:OmniSharp_server_use_mono = 0
-let g:OmniSharp_diagnostic_showid = 1
-" CA1304 : The behavior of 'string.ToLower()' could vary based on the current user's locale settings.
-" CA1305 : The behavior of 'string.Format(string, object)' could vary based on the current user's locale settings.
-" CS1118 : Mark local variable as const
-" IDE0010 : Populate switch
-" IDE0011 : Add braces to 'if' statement
-" IDE0058 : Expression value is never used
-" RCS1124 : Inline local variable
-" RCS1181 : Convert comment to documentation comment
-" RCS1238 : Avoid nested ?: operators
-" IDE0078 : Use pattern matching
-let g:OmniSharp_diagnostic_overrides = {
-\	'CA1304': {'type': 'None'},
-\	'CA1305': {'type': 'None'},
-\	'CS1118': {'type': 'None'},
-\	'IDE0008': {'type': 'None'},
-\	'IDE0010': {'type': 'None'},
-\	'IDE0011': {'type': 'None'},
-\	'IDE0058': {'type': 'None'},
-\	'IDE0078': {'type': 'None'},
-\	'RCS1124': {'type': 'None'},
-\	'RCS1181': {'type': 'None'},
-\	'RCS1238': {'type': 'None'},
-\}
-
 " {{{1 Vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
 
@@ -385,11 +340,11 @@ endfunc
 " {{{1 FZF
 " {{{2 s:build_quickfix_list
 " An action can be a reference to a function that processes selected lines
-function! s:build_quickfix_list(lines)
+func! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
   copen
   cc
-endfunction
+endfunc
 
 " {{{2 g:fzf_action
 let g:fzf_action = {
