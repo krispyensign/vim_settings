@@ -157,7 +157,7 @@ endfunc
 
 " {{{2 turn on the colors
 try
-	colorscheme	angr
+	colorscheme	tokyonight
 catch /^Vim\%((\a\+)\)\=:E185/
 	colorscheme desert
 endtry
