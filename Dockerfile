@@ -32,7 +32,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 		jq \
 		zsh \
 		ripgrep \
-		vim-gtk3 \
+		vim \
 		man-db \
 		less
 
@@ -43,9 +43,18 @@ RUN sh install.sh --unattended \
 	&& rm install.sh
 RUN chsh -s /usr/bin/zsh root
 
+# default to zsh
+ENV SHELL=/usr/bin/zsh
+SHELL ["/usr/bin/zsh", "-c"]
+CMD ["/usr/bin/zsh"]
+
+######################################################################################################################
+FROM base AS vimbox-setup
+
 # install ctags
 ADD https://github.com/universal-ctags/ctags.git /ctags/
 RUN cd /ctags \
+	&& ls -alh \
 	&& ./autogen.sh \
 	&& ./configure --prefix=/usr/local \
 	&& make \
@@ -57,13 +66,11 @@ VOLUME /ctags
 ADD https://github.com/puremourning/vimspector.git /root/.vim/plugged/vimspector/
 RUN cd ${HOME}/.vim/plugged/vimspector/ && ./install_gadget.py --verbose --enable-python --enable-bash
 
-# install vim-plug
-ADD https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim /root/.vim/autoload/plug.vim
-
-# default to zsh
-ENV SHELL=/usr/bin/zsh
-SHELL ["/usr/bin/zsh", "-c"]
-CMD ["/usr/bin/zsh"]
+# download plugins and run setups
+ADD vimrc /root/.vimrc
+RUN vim +PlugUpdate +qall
+ADD . /settings/
+RUN cd /settings/ && make install
 
 ######################################################################################################################
 FROM base AS gobox
@@ -109,8 +116,7 @@ RUN golangci_version=$(curl --silent "https://api.github.com/repos/golangci/gola
 
 VOLUME /root/go/bin /root/.cache/go-build
 
-# finalize vim installation
-ADD vimrc /root/.vimrc
-RUN vim +PlugUpdate +qall
-ADD . /settings/
-RUN cd /settings/ && make install
+COPY --from=vimbox-setup /root/.vimrc /root/.vimrc
+COPY --from=vimbox-setup /root/.vim /root/.vim
+COPY --from=vimbox-setup /usr/local/* /usr/local/*
+COPY --from=vimbox-setup /root/bin /root/bin

@@ -21,7 +21,7 @@ install:
 
 .PHONY: build-gobox
 build-gobox:
-	docker build --target gobox -t gobox .
+	DOCKER_BUILDKIT=1 docker build --target gobox -t gobox .
 	docker images | grep gobox | sed -E 's/[ ]+/,/g' | rev | cut -d',' -f1 | rev
 
 .PHONY: install-plugins
