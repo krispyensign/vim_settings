@@ -100,7 +100,6 @@ Plug 'm6vrm/gruber.vim'
 Plug 'vim/colorschemes'
 
 call plug#end()
-" }}}
 
 " {{{1 Colors
 " {{{2 color settings
