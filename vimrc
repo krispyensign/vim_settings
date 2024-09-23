@@ -35,10 +35,9 @@ au FileType vim,txt setlocal foldmethod=marker		" if vim then enable marker fold
 " ctags auto regenerated
 " ctags completion with fzf
 " ctags completion with struct context
-" }}}
 
 " {{{1 Plugins
-"
+
 " {{{2 setup
 let data_dir = '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -63,7 +62,6 @@ Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
-Plug 'fatih/vim-go', { 'for' : 'go' }
 
 " {{{2 AI
 Plug 'github/copilot.vim', { 'on': 'Copilot' }
@@ -266,6 +264,9 @@ let g:netrw_hide = 1
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_mousemaps = 0
+let g:netrw_browsex_viewer = 'lynx'
+let g:netrw_fastbrowse = 0
+let g:netrw_special_syntax = 1
 
 " {{{1 ALE
 inoremap <C-space> <C-X><C-O>
@@ -298,7 +299,6 @@ let g:ale_fixers = {
 \   'python': ['black', 'ruff', 'yapf'],
 \}
 let g:ale_disable_lsp = 0
-let b:ale_disable_lsp = 0
 let g:ale_fix_on_save = 1
 let g:ale_lsp_suggestions = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
@@ -310,8 +310,13 @@ nnoremap <F12> :ALEGoToDefinition -split
 " {{{1 Vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
 
-" {{{1 Vim-Go
-let g:go_gopls_enabled = 0	" disable vim-go gopls integration in favor of ale
+" {{{1 Codeium
+imap <script><silent><nowait><expr> <C-g> codeium#Accept()
+imap <script><silent><nowait><expr> <C-h> codeium#AcceptNextWord()
+imap <script><silent><nowait><expr> <C-j> codeium#AcceptNextLine()
+imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
+imap <C-,>   <Cmd>call codeium#CycleCompletions(-1)<CR>
+imap <C-x>   <Cmd>call codeium#Clear()<CR>
 
 " {{{1 Generic Tags
 
