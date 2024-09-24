@@ -1,3 +1,6 @@
+.PHONY: all
+all:
+
 .PHONY: install
 install:
 	mkdir -p \
