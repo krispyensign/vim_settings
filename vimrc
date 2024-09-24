@@ -158,7 +158,6 @@ try
 catch /^Vim\%((\a\+)\)\=:E185/
 	colorscheme desert
 endtry
-" }}}
 
 " {{{1 Cheatsheet for randos
 " C-w N  =>terminal Normal mode
@@ -263,7 +262,6 @@ let g:netrw_hide = 1
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_mousemaps = 0
-let g:netrw_browsex_viewer = 'lynx'
 let g:netrw_fastbrowse = 0
 let g:netrw_special_syntax = 1
 
