@@ -1,0 +1,267 @@
+; vim: ft=colortemplate fdm=marker cc=22,40,58 et ts=2 sw=2
+
+;;; Information {{{
+Full name:   evening arabica
+Short name:  arabica
+Description: This a color scheme based on evening.
+Author:      Original author Bram Moolenaar <Bram@vim.org>
+Maintainer:  Original maintainer Steven Vertigan <steven@vertigan.wattle.id.au>
+Website:     https://github.com/vim/colorschemes
+License:     Same as Vim
+
+Variant:    gui 256 16
+Background: dark
+;;; }}}
+
+;;; Color palette
+;; imaginaires
+Color: lightmagenta  #ffa0a0           217               magenta
+Color: blue          #0000ff           21                blue
+Color: cyan          #00ffff           51                cyan
+Color: yellow        #ffff00           226               darkyellow
+Color: white         #ffffff           231               white
+Color: black         #000000           16                black
+Color: green         #00ff00           46                green
+Color: magenta       #ff80ff           201               darkmagenta
+Color: red           #ff0000           196               red
+Color: lightyellow   #ffff60           227               yellow
+Color: darkblue      #00008b           18                darkblue
+Color: darkcyan      #008b8b           30                darkcyan
+Color: darkmagenta   #8b008b           90                darkmagenta
+Color: lightblue     #add8e6           153               lightblue
+Color: orange        #ffa500           214               darkred
+Color: seagreen      #2e8b57           29                darkgreen
+Color: lightgrey     #d3d3d3           252               gray
+Color: grey          #bebebe           250               gray
+Color: grey20		     #333333		       236               gray
+Color: grey30        #4d4d4d           239               darkgray
+Color: grey40        #666666           241               darkgray
+Color: grey60        #999999           246               darkgray
+Color: comment       #80a0ff           111               lightblue
+Color: darkred       #8b0000           88                darkred
+Color: espresso		   #211a00		       16       				 black
+
+Color: x_black       #000000           16                black
+Color: x_darkred     #cd0000           160               darkred
+Color: x_darkgreen   #00cd00           40                darkgreen
+Color: x_darkyellow  #cdcd00           184               darkyellow
+Color: x_darkblue_m  #0087ff           33                darkblue
+Color: x_darkmagenta #cd00cd           164               darkmagenta
+Color: x_darkcyan    #00cdcd           44                darkcyan
+Color: x_gray        #e5e5e5           254               gray
+Color: x_darkgray    #7f7f7f           244               darkgray
+Color: x_red         #ff0000           196               red
+Color: x_green       #00ff00           46                green
+Color: x_yellow      #ffff00           226               yellow
+Color: x_blue        #5c5cff           63                blue
+Color: x_magenta     #ff00ff           201               magenta
+Color: x_cyan        #00ffff           51                cyan
+Color: x_white       #ffffff           231               white
+
+
+;;; Terminal
+Term colors: x_black x_darkred x_darkgreen x_darkyellow x_darkblue_m x_darkmagenta x_darkcyan x_gray
+Term colors: x_darkgray x_red x_green x_yellow x_blue x_magenta x_cyan x_white
+
+
+VertSplit            -> StatusLineNC
+StatusLineTerm       -> StatusLine
+StatusLineTermNC     -> StatusLineNC
+TabLineFill          -> TabLine
+Terminal             -> Normal
+CursorColumn         -> CursorLine
+CursorIM             -> Cursor
+LineNrAbove          -> LineNr
+LineNrBelow          -> LineNr
+Debug                -> Special
+Added                -> String
+Removed              -> WarningMsg
+diffOnly             -> WarningMsg
+diffNoEOL            -> WarningMsg
+diffIsA              -> WarningMsg
+diffIdentical        -> WarningMsg
+diffDiffer           -> WarningMsg
+diffCommon           -> WarningMsg
+diffBDiffer          -> WarningMsg
+lCursor              -> Cursor
+CurSearch            -> Search
+CursorLineFold       -> CursorLine
+CursorLineSign       -> CursorLine
+Boolean              -> Constant
+Character            -> Constant
+Conditional          -> Statement
+Define               -> PreProc
+Delimiter            -> Special
+Exception            -> Statement
+Float                -> Constant
+Function             -> Identifier
+Include              -> PreProc
+Keyword              -> Statement
+Label                -> Statement
+Macro                -> PreProc
+Number               -> Constant
+Operator             -> Statement
+PreCondit            -> PreProc
+Repeat               -> Statement
+SpecialChar          -> Special
+SpecialComment       -> Special
+StorageClass         -> Type
+String               -> Constant
+Structure            -> Type
+Tag                  -> Special
+Typedef              -> Type
+MessageWindow        -> Pmenu
+PopupNotification    -> Todo
+
+
+
+;;; Chrome
+;;; Group            Foreground        Background        Attributes
+Variant: 8
+Normal               grey              black
+ColorColumn          grey              darkred
+CursorLine           none              none              underline
+CursorLineNr         yellow            none              bold
+EndOfBuffer          blue              none              bold
+StatusLine           grey              black             reverse,bold
+StatusLineNC         grey              black             reverse
+TabLineSel           grey              black             reverse,bold
+TabLine              grey              black             reverse
+Variant: 16
+Normal               white             black
+ColorColumn          white             darkred
+CursorLine           none              none              underline
+CursorLineNr         none              none              underline
+EndOfBuffer          lightblue         none
+StatusLine           black             white
+StatusLineNC         black             lightgrey
+TabLineSel           black             white
+TabLine              black             lightgrey
+Variant: gui 256
+Normal               white             espresso
+ColorColumn          none              grey30
+CursorLine           none              grey40
+CursorLineNr         yellow            grey40
+EndOfBuffer          lightblue         espresso
+StatusLine           espresso          white             bold
+StatusLineNC         lightgrey         espresso
+TabLineSel           espresso          white             bold
+TabLine              espresso          lightgrey
+
+Variant: 8
+Pmenu                black             darkcyan
+PmenuSbar            none              grey
+PmenuSel             black             grey
+PmenuThumb           none              black
+PmenuMatch           black             darkcyan          bold
+PmenuMatchSel        black             grey              bold
+QuickFixLine         grey              darkmagenta
+Error                red               grey              reverse
+ErrorMsg             grey              red
+LineNr               yellow            none
+Conceal              none              none
+FoldColumn           darkblue          none
+Folded               darkblue          grey
+IncSearch            seagreen          none              reverse
+MatchParen           none              darkcyan
+ModeMsg              none              none              bold
+MoreMsg              seagreen          none
+NonText              blue              none              bold
+Question             seagreen          none              bold
+Search               black             yellow
+SignColumn           darkcyan          none
+SpecialKey           darkcyan          none
+ToolbarButton        grey              black             reverse,bold
+ToolbarLine          none              none
+Visual               none              none              reverse
+VisualNOS            none              none              underline
+WarningMsg           darkred           none
+WildMenu             black             yellow
+debugBreakpoint      darkblue          darkred
+debugPC              darkblue          yellow
+Variant: 16
+PmenuMatch           white             grey30            bold
+PmenuMatchSel        black             grey              bold
+Folded               orange            grey30			       bold
+Variant: gui 256
+PmenuMatch           magenta           grey30
+PmenuMatchSel        darkmagenta       grey
+Folded               orange            espresso			     bold
+Variant: gui 256 16
+Pmenu                white             grey30
+PmenuSbar            none              none
+PmenuSel             black             grey
+PmenuThumb           none              white
+QuickFixLine         white             darkmagenta
+Cursor               black             green
+Error                red               white             reverse
+ErrorMsg             white             red
+LineNr               yellow            none
+Conceal              grey40            none
+FoldColumn           lightblue         none
+IncSearch            green             none              reverse
+MatchParen           none              darkcyan
+ModeMsg              none              none              bold
+MoreMsg              seagreen          none
+NonText              lightblue         espresso
+Question             green             none
+Search               black             yellow
+SignColumn           darkcyan          none
+SpecialKey           cyan              none
+ToolbarButton        none              grey60            bold
+ToolbarLine          none              none
+Visual               white             grey60
+VisualNOS            none              none              underline bold
+WarningMsg           red               none
+WildMenu             black             yellow            bold
+debugBreakpoint      darkblue          red
+debugPC              darkblue          blue
+
+Variant: 8
+SpellBad             darkred           yellow            reverse
+SpellCap             seagreen          none              reverse
+SpellLocal           darkcyan          none              reverse
+SpellRare            darkmagenta       yellow            reverse
+Variant: gui 256 16
+SpellBad             red               none              t=underline g=undercurl s=red
+SpellCap             green             none              t=underline g=undercurl s=green
+SpellLocal           cyan              none              t=underline g=undercurl s=cyan
+SpellRare            magenta           none              t=underline g=undercurl s=magenta
+
+
+;;; Syntax
+;;; Group            Foreground        Background        Attributes
+Variant: 8
+Directory            darkcyan          none
+Title                magenta           none
+Comment              darkblue          none              bold
+Constant             magenta           none
+Identifier           darkcyan          none
+Ignore               grey              none
+PreProc              magenta           none              bold
+Special              orange            none
+Statement            yellow            none              bold
+Todo                 yellow            blue              reverse
+Type                 seagreen          none              bold
+Underlined           none              none              underline
+Variant: gui 256 16
+Directory            cyan              none
+Title                magenta           none
+Comment              comment           none
+Constant             lightmagenta      none
+Identifier           cyan              none
+Ignore               espresso          none
+PreProc              magenta           none
+Special              orange            none
+Statement            lightyellow       none              bold
+Todo                 yellow            blue              reverse
+Type                 green             none              bold
+Underlined           comment           none              underline
+
+
+
+;;; "Standard" diff colors
+Include: _diff
+
+;;; No color support
+Include: _tcozero

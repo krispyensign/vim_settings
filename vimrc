@@ -155,9 +155,9 @@ endfunc
 
 " {{{2 turn on the colors
 try
-	colorscheme	evening
+	colorscheme	arabica
 catch /^Vim\%((\a\+)\)\=:E185/
-	colorscheme desert
+	colorscheme evening
 endtry
 
 " {{{1 Cheatsheet for randos
