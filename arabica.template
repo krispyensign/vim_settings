@@ -14,7 +14,7 @@ Background: dark
 ;;; }}}
 
 ;;; Color palette
-;; imaginaires
+;; Name              guicolor          256-color         16-color
 Color: lightmagenta  #ffa0a0           217               magenta
 Color: blue          #0000ff           21                blue
 Color: cyan          #00ffff           51                cyan
@@ -114,7 +114,6 @@ MessageWindow        -> Pmenu
 PopupNotification    -> Todo
 
 
-
 ;;; Chrome
 ;;; Group            Foreground        Background        Attributes
 Variant: 8
@@ -127,23 +126,22 @@ StatusLine           grey              black             reverse,bold
 StatusLineNC         grey              black             reverse
 TabLineSel           grey              black             reverse,bold
 TabLine              grey              black             reverse
+Variant: gui 256 16
+Normal               white             espresso
+EndOfBuffer          lightblue         espresso
+TabLine              espresso          lightgrey
+TabLineSel           espresso          white             bold
+StatusLine           espresso          white             bold
 Variant: 16
 ColorColumn          white             darkred
 CursorLine           none              none              underline
 CursorLineNr         none              none              underline
 StatusLineNC         black             lightgrey
-TabLineSel           black             white
 Variant: gui 256
 ColorColumn          none              grey30
 CursorLine           none              grey30
 CursorLineNr         yellow            grey30
 StatusLineNC         lightgrey         espresso
-TabLineSel           espresso          white             bold
-Variant: gui 256 16
-Normal               white             espresso
-EndOfBuffer          lightblue         espresso
-TabLine              espresso          lightgrey
-StatusLine           espresso          white             bold
 
 Variant: 8
 Pmenu                black             darkcyan
@@ -214,6 +212,8 @@ WildMenu             black             yellow            bold
 debugBreakpoint      darkblue          red
 debugPC              darkblue          blue
 
+;;; Spelling
+;;; Group            Foreground        Background        Attributes
 Variant: 8
 SpellBad             darkred           yellow            reverse
 SpellCap             seagreen          none              reverse
@@ -254,7 +254,6 @@ Statement            lightyellow       none              bold
 Todo                 yellow            blue              reverse
 Type                 green             none              bold
 Underlined           comment           none              underline
-
 
 
 ;;; "Standard" diff colors
