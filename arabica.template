@@ -39,7 +39,7 @@ Color: grey40        #666666           241               darkgray
 Color: grey60        #999999           246               darkgray
 Color: comment       #80a0ff           111               lightblue
 Color: darkred       #8b0000           88                darkred
-Color: espresso		   #201212		       16       				 black
+Color: espresso		   #2a1811		       16       				 black
 
 Color: x_black       #000000           16                black
 Color: x_darkred     #cd0000           160               darkred
