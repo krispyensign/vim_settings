@@ -86,6 +86,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'mnishz/colorscheme-preview.vim'
 Plug 'guns/xterm-color-table.vim'
 Plug 'vim-scripts/hexHighlight.vim'
+Plug 'lifepillar/vim-colortemplate'
 
 " {{{2 themes
 Plug 'junegunn/seoul256.vim'
@@ -154,7 +155,7 @@ endfunc
 
 " {{{2 turn on the colors
 try
-	colorscheme	tokyonight
+	colorscheme	evening
 catch /^Vim\%((\a\+)\)\=:E185/
 	colorscheme desert
 endtry
