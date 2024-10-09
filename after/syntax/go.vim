@@ -1,8 +1,16 @@
+hi clear goParamType
 hi def link goParamType Type
-hi def link goFunctionReturn Special
+
+hi clear goFunctionReturn
+
+hi clear goFunctionCall
 hi def link goFunctionCall Function
+
+hi clear goImportString
 hi def link goImportString Include
-hi def link goField Special
+
+hi clear goField
+hi def link goField Identifier
 
 let s:white_space = '\s\+'
 let s:bol = '^'
