@@ -28,15 +28,3 @@ func! GoRunTestifyTest() abort
 	echo l:command
 	cexpr! system(l:command)
 endfunc
-
-" if ale isn't available then this can be used to populate the quick fix
-func! GoLint() abort
-	let l:lintcommand = "golangci-lint run ./... | sed -e '/^[[:space:]]*$/d'"
-	cexpr! system(l:lintcommand)
-endfunc
-
-" if ale isn't available
-func! GoTestCheck() abort
-	let l:lintcommand = "go test -c ./... 2>&1 | grep ':' | grep -v '#'"
-	cexpr! system(l:lintcommand)
-endfunc
