@@ -297,6 +297,9 @@ let g:ale_fixers = {
 \	'go': ['gofmt', 'goimports', 'gopls'],
 \   'python': ['black', 'ruff', 'yapf'],
 \}
+let g:ale_linters_ignore = {
+\ 'cs' : ['csc', 'mcsc'],
+\}
 let g:ale_disable_lsp = 0
 let g:ale_fix_on_save = 1
 let g:ale_lsp_suggestions = 1
