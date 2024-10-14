@@ -20,15 +20,16 @@ let s:start_match = '\zs'
 let s:end_match = '\ze'
 let s:any = '.*'
 
-let propA = "'" .. s:identifier .. s:end_match .. ':' .. "'"
+" example asdf:  int32,
+let propA = "'" .. s:identifier .. s:end_match .. ':' .. s:white_space .. "'"
 exec 'syn match goFieldPropA ' .. propA
 hi def link goFieldPropA Identifier
-
-let propB = "'" .. s:bol .. s:white_space .. s:identifier .. s:end_match .. s:any .. '[^,]' .. s:eol .. "'"
-exec 'syn match goFieldPropB ' .. propB
-hi def link goFieldPropB Identifier
-
-let propC = "'" .. s:bol .. s:white_space .. s:identifier .. s:any ..
-			\ s:start_match .. s:identifier .. s:end_match .. s:any .. '[^,]' .. s:eol .. "'"
-exec 'syn match goFieldPropC ' .. propC
-hi def link goFieldPropC Identifier
+"
+" let propB = "'" .. s:bol .. s:white_space .. s:identifier .. s:end_match .. s:any .. '[^,]' .. s:eol .. "'"
+" exec 'syn match goFieldPropB ' .. propB
+" hi def link goFieldPropB Identifier
+"
+" let propC = "'" .. s:bol .. s:white_space .. s:identifier .. s:any ..
+" 			\ s:start_match .. s:identifier .. s:end_match .. s:any .. '[^,]' .. s:eol .. "'"
+" exec 'syn match goFieldPropC ' .. propC
+" hi def link goFieldPropC Identifier

@@ -288,7 +288,6 @@ let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
 let g:ale_linters = {
-\	'cs': ['OmniSharp'],
 \	'go': ['golangci-lint', 'gofmt', 'gobuild', 'gopls'],
 \	'python': ['flake8', 'mypy', 'pylsp', 'pycodestyle', 'pydocstyle', 'pylint', 'ruff'],
 \}
@@ -316,6 +315,15 @@ imap <script><silent><nowait><expr> <C-j> codeium#AcceptNextLine()
 imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
 imap <C-,>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 imap <C-x>   <Cmd>call codeium#Clear()<CR>
+
+" {{{1 OmniSharp
+let g:OmniSharp_selector_ui = ''       " Use vim - command line, quickfix etc.
+let g:OmniSharp_selector_findusages = 'fzf'
+let g:OmniSharp_server_use_net6 = 1
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_server_use_mono = 0
+let g:OmniSharp_diagnostic_showid = 1
+
 
 " {{{1 Generic Tags
 
