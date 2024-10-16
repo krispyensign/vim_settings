@@ -288,7 +288,7 @@ let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
 let g:ale_linters = {
-\	'cs': ['OmniSharp']
+\	'cs': ['OmniSharp'],
 \	'go': ['golangci-lint', 'gofmt', 'gobuild', 'gopls'],
 \	'python': ['flake8', 'mypy', 'pylsp', 'pycodestyle', 'pydocstyle', 'pylint', 'ruff'],
 \}
