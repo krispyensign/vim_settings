@@ -309,9 +309,8 @@ let g:ale_linters = {
 \	'python': ['flake8', 'mypy', 'pylsp', 'pycodestyle', 'pydocstyle', 'pylint', 'ruff'],
 \}
 
-" }}} OmniSharp
+" {{{1 OmniSharp
 let g:OmniSharp_server_stdio = 1
-let g:OmniSharp_highlighting = 3
 
 let g:OmniSharp_selector_ui = 'fzf'
 let g:OmniSharp_selector_ui_options = '--reverse --multi --ansi'
