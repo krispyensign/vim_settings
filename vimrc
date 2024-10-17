@@ -311,7 +311,6 @@ let g:ale_linters = {
 
 " {{{1 OmniSharp
 let g:OmniSharp_server_stdio = 1
-
 let g:OmniSharp_selector_ui = 'fzf'
 let g:OmniSharp_selector_ui_options = '--reverse --multi --ansi'
 let g:OmniSharp_selector_ui_map = {
@@ -336,7 +335,6 @@ let g:OmniSharp_highlight_groups = {
     \ 'Keyword': 'Keyword',
 \}
 
-
 " {{{1 Vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
 
@@ -348,10 +346,7 @@ imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
 imap <C-,>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 imap <C-x>   <Cmd>call codeium#Clear()<CR>
 
-
-
 " {{{1 Generic Tags
-
 " FZF / tag completion
 " inoremap <C-space> <Left><C-O>:call TagCompl()<CR>
 func! TagCompl() abort
