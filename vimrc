@@ -275,12 +275,12 @@ inoremap <C-space> <C-X><C-O>
 nnoremap <F12> :ALEGoToDefinition -split
 set omnifunc=ale#completion#OmniFunc
 " {{{2 completion and fixing
-let g:ale_completion_enabled = 1 " enable ale completion
+let g:ale_completion_enabled = 1 	" enable ale completion
 let g:ale_completion_autoimport = 1 " allow ale to auto import if needed
-let g:ale_completion_delay = 1000 " delay some before running completion
-let g:ale_lsp_suggestions = 1 " allow lsp suggestion
-let g:ale_disable_lsp = 0 " always enable lsp
-let g:ale_fix_on_save = 1 " attempt to run fixers on save
+let g:ale_completion_delay = 1000 	" delay some before running completion
+let g:ale_lsp_suggestions = 1 		" allow lsp suggestion
+let g:ale_disable_lsp = 0 			" always enable lsp
+let g:ale_fix_on_save = 1 			" attempt to run fixers on save
 
 " {{{2 logging
 let g:ale_history_log_output = 1
@@ -288,14 +288,14 @@ let g:ale_history_enabled = 1
 
 " {{{2 error behavior
 let g:ale_echo_msg_format='%linter%:%code: %%s' " show linter and code error so they can be fixed or silenced
-let g:ale_warn_about_trailing_whitespace = 0 " do not annoy with whitespace warnings as these get fixed by formatter
-let g:ale_max_signs = 100 " displays only so many error signs to improve performance slightly
-let g:ale_set_highlights = 0  " disable squiggles that interfere with syntax highlighting
-let g:ale_virtualtext_cursor = 'current' " only show error for current line
+let g:ale_warn_about_trailing_whitespace = 0 	" do not annoy with whitespace warnings as these get fixed by formatter
+let g:ale_max_signs = 100 						" displays only so many error signs to improve performance slightly
+let g:ale_set_highlights = 0  					" disable squiggles that interfere with syntax highlighting
+let g:ale_virtualtext_cursor = 'current' 		" only show error for current line
 
 " {{{2 ale behavior
-let g:ale_detail_to_floating_preview = 1 " use floating preview of details
-let g:ale_set_balloons = 1 " use balloons for hover information
+let g:ale_detail_to_floating_preview = 1 	" use floating preview of details
+let g:ale_set_balloons = 1 					" use balloons for hover information
 
 " {{{2 language
 let g:ale_python_auto_pipenv = 1
