@@ -62,7 +62,6 @@ Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
-Plug 'OmniSharp/omnisharp-vim'
 
 " {{{2 AI
 Plug 'github/copilot.vim', { 'on': 'Copilot' }
