@@ -310,6 +310,8 @@ let g:ale_linters = {
 
 " }}} OmniSharp
 let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_highlighting = 0
+
 let g:OmniSharp_selector_ui = 'fzf'
 let g:OmniSharp_selector_ui_options = '--reverse --multi --ansi'
 let g:OmniSharp_selector_ui_map = {
