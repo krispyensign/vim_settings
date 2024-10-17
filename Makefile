@@ -14,7 +14,7 @@ install:
 		${HOME}/.vim/plugged/vimspector/configurations/macos/go/
 	cp vimrc ${HOME}/.vimrc
 	cp -fr after/* ${HOME}/.vim/after/
-	cp scripts/* ${HOME}/.vim/bin/
+	cp scripts/ ${HOME}/.vim/scripts/
 	cp resources/go.gadgets.json ${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/go.json
 	cp resources/go.vimspector.json ${HOME}/.vim/plugged/vimspector/configurations/linux/go/default.json
 	cp resources/go.gadgets.json ${HOME}/.vim/plugged/vimspector/gadgets/macos/.gadgets.d/go.json
