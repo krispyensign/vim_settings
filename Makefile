@@ -8,13 +8,16 @@ install:
 		${HOME}/.vim/ \
 		${HOME}/.vim/autoload/ \
 		${HOME}/.vim/after/ \
+		${HOME}/.vim/scripts/ \
+		${HOME}/.vim/colors/ \
 		${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/ \
 		${HOME}/.vim/plugged/vimspector/configurations/linux/go/ \
 		${HOME}/.vim/plugged/vimspector/gadgets/macos/.gadgets.d/ \
 		${HOME}/.vim/plugged/vimspector/configurations/macos/go/
 	cp vimrc ${HOME}/.vimrc
 	cp -fr after/* ${HOME}/.vim/after/
-	cp -fr scripts/ ${HOME}/.vim/scripts/
+	cp -fr scripts/* ${HOME}/.vim/scripts/
+	cp -fr colors/* ${HOME}/.vim/colors/
 	cp resources/go.gadgets.json ${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/go.json
 	cp resources/go.vimspector.json ${HOME}/.vim/plugged/vimspector/configurations/linux/go/default.json
 	cp resources/go.gadgets.json ${HOME}/.vim/plugged/vimspector/gadgets/macos/.gadgets.d/go.json

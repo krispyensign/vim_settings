@@ -2,6 +2,7 @@ hi clear goParamType
 hi def link goParamType Type
 
 hi clear goFunctionReturn
+hi clear goParamName
 
 hi clear goFunctionCall
 hi def link goFunctionCall Function
