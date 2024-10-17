@@ -279,6 +279,7 @@ let g:ale_python_flake8_auto_pipenv = 1
 let g:ale_history_log_output = 1
 let g:ale_history_enabled = 1
 let g:ale_set_balloons = 1
+let g:ale_set_highlights = 0
 let g:ale_completion_autoimport = 1
 let g:ale_completion_delay = 1000
 let g:ale_echo_msg_format='%linter%:%code: %%s'
@@ -310,7 +311,7 @@ let g:ale_linters = {
 
 " }}} OmniSharp
 let g:OmniSharp_server_stdio = 1
-let g:OmniSharp_highlighting = 0
+let g:OmniSharp_highlighting = 3
 
 let g:OmniSharp_selector_ui = 'fzf'
 let g:OmniSharp_selector_ui_options = '--reverse --multi --ansi'
@@ -331,6 +332,11 @@ let g:OmniSharp_diagnostic_exclude_paths = [
     \ '\.nuget\\',
     \ '\<AssemblyInfo\.cs\>'
     \]
+
+let g:OmniSharp_highlight_groups = {
+    \ 'Keyword': 'Keyword',
+\}
+
 
 " {{{1 Vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
