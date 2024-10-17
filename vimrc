@@ -269,6 +269,8 @@ let g:netrw_special_syntax = 1
 
 " {{{1 ALE
 inoremap <C-space> <C-X><C-O>
+nnoremap <F12> :ALEGoToDefinition -split
+set omnifunc=ale#completion#OmniFunc
 let g:ale_completion_enabled = 1
 let g:ale_python_auto_pipenv = 1
 let g:ale_python_pylsp_auto_pipenv = 1
@@ -279,7 +281,6 @@ let g:ale_history_enabled = 1
 let g:ale_set_balloons = 1
 let g:ale_completion_autoimport = 1
 let g:ale_completion_delay = 1000
-set omnifunc=ale#completion#OmniFunc
 let g:ale_echo_msg_format='%linter%:%code: %%s'
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_detail_to_floating_preview = 1
@@ -287,27 +288,44 @@ let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 let g:ale_virtualtext_cursor = 'current'
 let g:ale_max_signs = 100
-let g:ale_linters = {
-\	'cs': ['OmniSharp'],
-\	'go': ['golangci-lint', 'gofmt', 'gobuild', 'gopls'],
-\	'python': ['flake8', 'mypy', 'pylsp', 'pycodestyle', 'pydocstyle', 'pylint', 'ruff'],
-\}
-let g:ale_fixers = {
-\	'*': ['remove_trailing_lines', 'trim_whitespace'],
-\	'go': ['gofmt', 'goimports', 'gopls'],
-\   'python': ['black', 'ruff', 'yapf'],
-\}
-let g:ale_linters_ignore = {
-\ 'cs' : ['csc', 'mcsc'],
-\}
 let g:ale_disable_lsp = 0
 let g:ale_fix_on_save = 1
 let g:ale_lsp_suggestions = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
 let g:ale_go_golangci_lint_package = 1
 let g:ale_yaml_yamllint_options = ''
+let g:ale_linters_ignore = {
+\ 'cs' : ['csc', 'mcsc'],
+\}
+let g:ale_fixers = {
+\	'*': ['remove_trailing_lines', 'trim_whitespace'],
+\	'go': ['gofmt', 'goimports', 'gopls'],
+\   'python': ['black', 'ruff', 'yapf'],
+\}
+" {{{2 OmniSharp linter
+func! GetOmniSharpProjectRoot(buffer) abort
+	let l:cs_project_root = ale#path#FindNearestDirectory(a:buffer, '.git')
+	if empty(l:cs_project_root)
+		let l:cs_project_root = ale#path#FindNearestFile(a:buffer, 'omnisharp.json')
+	endif
 
-nnoremap <F12> :ALEGoToDefinition -split
+	return l:cs_project_root
+endfunc
+
+call ale#linter#Define('cs', {
+\	'name': 'omnisharp',
+\   'lsp': 'stdio',
+\	'executable': 'OmniSharp',
+\	'command': '/usr/local/share/omnisharp/6.0/OmniSharp',
+\   'project_root': function('GetOmniSharpProjectRoot'),
+\	'language': 'csharp',
+\ })
+" }}}2
+let g:ale_linters = {
+\	'cs': ['omnisharp'],
+\	'go': ['golangci-lint', 'gofmt', 'gobuild', 'gopls'],
+\	'python': ['flake8', 'mypy', 'pylsp', 'pycodestyle', 'pydocstyle', 'pylint', 'ruff'],
+\}
 
 " {{{1 Vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -320,13 +338,6 @@ imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
 imap <C-,>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 imap <C-x>   <Cmd>call codeium#Clear()<CR>
 
-" {{{1 OmniSharp
-let g:OmniSharp_selector_ui = ''       " Use vim - command line, quickfix etc.
-let g:OmniSharp_selector_findusages = 'fzf'
-let g:OmniSharp_server_use_net6 = 1
-let g:OmniSharp_server_stdio = 1
-let g:OmniSharp_server_use_mono = 0
-let g:OmniSharp_diagnostic_showid = 1
 
 
 " {{{1 Generic Tags
