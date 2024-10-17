@@ -62,6 +62,7 @@ Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'preservim/vim-markdown', { 'for' : ['markdown', 'vim-plug'] }
 Plug 'vito-c/jq.vim', { 'for' : 'jq' }
 Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
+Plug 'OmniSharp/omnisharp-vim'
 
 " {{{2 AI
 Plug 'github/copilot.vim', { 'on': 'Copilot' }
@@ -301,30 +302,33 @@ let g:ale_fixers = {
 \	'go': ['gofmt', 'goimports', 'gopls'],
 \   'python': ['black', 'ruff', 'yapf'],
 \}
-" {{{2 OmniSharp linter
-func! GetOmniSharpProjectRoot(buffer) abort
-	let l:cs_project_root = ale#path#FindNearestDirectory(a:buffer, '.git')
-	if empty(l:cs_project_root)
-		let l:cs_project_root = ale#path#FindNearestFile(a:buffer, 'omnisharp.json')
-	endif
-
-	return l:cs_project_root
-endfunc
-
-call ale#linter#Define('cs', {
-\	'name': 'omnisharp',
-\   'lsp': 'stdio',
-\	'executable': 'OmniSharp',
-\	'command': '/usr/local/share/omnisharp/6.0/OmniSharp',
-\   'project_root': function('GetOmniSharpProjectRoot'),
-\	'language': 'csharp',
-\ })
-" }}}2
 let g:ale_linters = {
 \	'cs': ['omnisharp'],
 \	'go': ['golangci-lint', 'gofmt', 'gobuild', 'gopls'],
 \	'python': ['flake8', 'mypy', 'pylsp', 'pycodestyle', 'pydocstyle', 'pylint', 'ruff'],
 \}
+
+" }}} OmniSharp
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_selector_ui = 'fzf'
+let g:OmniSharp_selector_ui_options = '--reverse --multi --ansi'
+let g:OmniSharp_selector_ui_map = {
+			\	'ctrl-t': 'tab split',
+			\	'ctrl-x': 'split',
+			\	'ctrl-v': 'vsplit',
+			\}
+let g:OmniSharp_server_use_mono = 0
+let g:OmniSharp_server_use_net6 = 1
+let g:OmniSharp_server_start_server = 1
+let g:OmniSharp_loglevel = 'debug'
+let g:OmniSharp_diagnostic_listen = 2
+let g:OmniSharp_diagnostic_showid = 1
+let g:OmniSharp_diagnostic_exclude_paths = [
+    \ 'obj\\',
+    \ '[Tt]emp\\',
+    \ '\.nuget\\',
+    \ '\<AssemblyInfo\.cs\>'
+    \]
 
 " {{{1 Vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
