@@ -1,29 +1,51 @@
-" matches xxxxx%yyyyy and xxxxx%yyyyy(_)
-syn match memberAccess /\w\+%\w\+/ contains=structName,accessor,fmethod
-syn match structName /\w\+\ze%/ contained nextgroup=accessor
-syn match accessor /%/ contained nextgroup=fident,fmethod
-syn match fident /\w\+/ contained
-syn match fmethod /\w\+\ze(/
-hi def link structName Structure
-hi def link accessor Operator
-hi def link fident Identifier
-hi def link fmethod Function
-
+" add operators to list
+syn match fortranOperator '%'
 syn match fortranOperator '::'
 syn match fortranOperator ','
 
-" matches use xxxxx
-syn region usage start=/use/ end=/$/ contains=usage,fspec
-syn keyword usage use nextgroup=fspec
-hi def link usage PreCondit
-syn match fspec /.\+$/ contained
-hi def link fspec Special
+" real is a type and not a special
+syn keyword fortranType real
 
-" match the call keyword as an operator
-syn keyword fcall call
-hi def link fcall Operator
+" matches xxxx(_)
+syn match afterFortranFunction /\w\+\ze(/
 
-syn keyword fortranKeyword implicit private public
+" match type end-type keywords
 syn match fortranKeyword /type\ze\s\+::/
 syn match fortranKeyword /end type/
+syn keyword fortranKeyword endtype
 syn match fortranType /type\ze(/
+
+" matches xxxxx%yyyyy and xxxxx%yyyyy(_)
+syn match afterFortranMemberAccessSpec /%\w\+/ contains=fortranOperator,afterFortranIdentifier,afterFortranFunction
+syn match afterFortranIdentifier /\w\+/ contained
+
+" matches use xxxxx
+syn match afterFortranUsageSpec /use\s\+\w\+/ contains=afterFortranUse,afterFortranUsage
+syn keyword afterFortranUse use nextgroup=afterFortranUsage
+syn match afterFortranUsage /.\+$/ contained
+
+" matches implicit xxxxx
+syn match afterFortranImplicitSpec /use\s\+\w\+/ contains=afterFortranUse,afterFortranImplicitMode
+syn keyword afterFortranImplicit implicit nextgroup=afterFortranImplicitMode
+syn match afterFortranImplicitMode /.\+$/ contained
+
+" matches xxxx =
+syn match afterFortranAssignmentSpec /\s\+\w\+\s\+=/ contains=fortranOperator,afterFortranAssignmentVar
+syn match afterFortranAssignmentVar /\w\+/ contained
+
+" reassign call keyword to keywords
+hi clear fortranCall
+hi def link fortranCall Keyword
+
+" reassign unit header
+hi clear fortranUnitHeader
+hi def link fortranUnitHeader Keyword
+
+" add after script custom links
+hi def link afterFortranIdentifier Identifier
+hi def link afterFortranFunction Function
+hi def link afterFortranUse PreCondit
+hi def link afterFortranUsage Special
+hi def link afterFortranAssignmentVar Special
+hi def link afterFortranImplicitMode Special
+hi def link afterFortranImplicit PreCondit
