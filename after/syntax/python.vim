@@ -1,53 +1,64 @@
-syn keyword	pyThis 			self in containedin=ALL
-hi def link pyThis 			Special
+" TODO: remove duplicate highlighting rules
 
-syn match	pyClass 	 	"\(def \)\|\.\@<!\<[A-Z_]\+[a-zA-Z0-9_]*\>"
-hi def link pyClass 		Type
+syn keyword afterPyThis self containedin=ALL
+hi def link afterPyThis Special
 
-syn match	pyConst 	 	"\(def \)\|\.\@<!\<[A-Z_]\+[A-Z0-9_]*\>"
-hi def link pyConst			Special
+syn match afterPyClass "\(def \)\|\.\@<!\<[A-Z]\+[a-zA-Z0-9_]*\>"
+hi def link afterPyClass Type
 
-syn match	pyFuncCall 		"\(def \)\|\.\@<!\<[a-z0-9_]\+[a-zA-Z0-9_]*\ze\((\)"
-hi def link pyFuncCall 		Function
+syn match afterPyConst "\(def \)\|\.\@<!\<[A-Z_]\+[A-Z0-9_]*\>"
+hi def link afterPyConst Identifier
 
-syn match	pyClassCall 	"\(def \)\|\.\@<!\<[A-Z0-9_]\+[a-zA-Z0-9_]*\ze\((\)"
-hi def link pyClassCall 	Function
+" TODO: highlights incorrectly __init__ removed leading underscore for now
+syn match afterPyFuncCall "\(def \)\|\.\@<!\<[a-z0-9]\+[a-zA-Z0-9_]*\ze\((\)"
+hi def link afterPyFuncCall Function
 
-syn match 	pyProperty 		"\.\<[a-zA-Z0-9_]\+"
-hi def link pyProperty 		Identifier
+" TODO: highlights incorrectly __init__ removed leading underscore for now
+syn match afterPyClassCall "\(def \)\|\.\@<!\<[A-Z0-9]\+[a-zA-Z0-9_]*\ze\((\)"
+hi def link afterPyClassCall Typedef
 
-syn match 	pyMethodCall 	"\.\<[a-zA-Z0-9_]\+\ze\((\)"
-hi def link pyMethodCall 	Function
+syn match afterPyProperty "\.\<[a-zA-Z0-9_]\+"
+hi def link afterPyProperty Identifier
+
+syn match afterPyMethodCall "\.\<[a-zA-Z0-9_]\+\ze\((\)"
+hi def link afterPyMethodCall Function
 
 " improve builtin object highlighting
-syn keyword pyBuiltinObj 	__debug__ __doc__ __file__ __name__ __package__ __loader__
-syn keyword pyBuiltinObj 	__spec__ __cached__ __annotations__
-hi def link pyBuiltinObj 	Special
+syn keyword afterPyBuiltinObj __debug__ __doc__ __file__ __name__ __package__ __loader__
+syn keyword afterPyBuiltinObj __spec__ __cached__ __annotations__
+hi def link afterPyBuiltinObj Special
 
-syn keyword pyClassStatement 	class nextgroup=pyClassDef skipwhite
-hi def link pyClassStatement 	Statement
+" improve builtin types highlighting
+syn keyword afterPyBuiltinType float int str bool list tuple set dict
+hi def link afterPyBuiltinType Type
 
-syn match   pyClassDef			"\h\w*" display contained
-hi def link pyClassDef 			Typedef
+" improve builtin c types highlighting
+syn keyword afterPyBuiltinCTypes c_int c_double c_float c_char c_byte c_bool
+hi def link afterPyBuiltinCTypes Type
 
-syn keyword pyFuncStatement 	def nextgroup=pyFuncDef skipwhite
-hi def link pyFuncStatement 	Statement
+syn keyword afterPyClassStatement class nextgroup=pyClassDef skipwhite
+hi def link afterPyClassStatement Structure
 
-syn match   pyFuncDef			"\h\w*" display contained
-hi def link pyFuncDef 			Function
+syn match afterPyClassDef "\h\w*" display contained
+hi def link afterPyClassDef Typedef
 
-syn match pyMathOperator 			"\%([~!^&|/%+-]\|\%(class\s*\)\@<!<<\|<=>\|<=\|\%(<\|\<class\s\+\u\w*\s*\)\@<!<[^<]\@=\|===\|==\|=\~\|>>\|>=\|=\@<!>\|\.\.\.\|\.\.\|::\)"
-hi def link pyMathOperator 			Operator
+syn keyword afterPyFuncStatement def nextgroup=pyFuncDef skipwhite
+hi def link afterPyFuncStatement Keyword
 
-syn match pythonBitwiseOperator 	"\%(-=\|/=\|\*\*=\|\*=\|&&=\|&=\|&&\|||=\||=\|||\|%=\|+=\|!\~\|!=\)"
-hi def link pyBitwiseOperator 		Operator
+syn match afterPyFuncDef "\h\w*" display contained
+hi def link afterPyFuncDef Function
 
-syn match pythonAssignmentOperator 	"\%(=\)"
-hi def link pyAssignmentOperator 	Operator
+syn match afterPyMathOperator "\%([~!^&|/%+-]\|\%(class\s*\)\@<!<<\|<=>\|<=\|\%(<\|\<class\s\+\u\w*\s*\)\@<!<[^<]\@=\|===\|==\|=\~\|>>\|>=\|=\@<!>\|\.\.\.\|\.\.\|::\)"
+hi def link afterPyMathOperator Operator
 
-syn match pythonWalrusOperator 		"\%(:=\)"
-hi def link pyWalrusOperator 		Operator
+syn match afterPythonBitwiseOperator "\%(-=\|/=\|\*\*=\|\*=\|&&=\|&=\|&&\|||=\||=\|||\|%=\|+=\|!\~\|!=\)"
+hi def link afterPyBitwiseOperator Operator
 
-syn match pythonStarOperator 		"\%(\*\|\*\*\)"
-hi def link pyStarOperator 			Operator
+syn match afterPythonAssignmentOperator 	"\%(=\)"
+hi def link afterPyAssignmentOperator 	Operator
 
+syn match afterPythonWalrusOperator 		"\%(:=\)"
+hi def link afterPyWalrusOperator 		Operator
+
+syn match afterPythonStarOperator 		"\%(\*\|\*\*\)"
+hi def link afterPyStarOperator 			Operator

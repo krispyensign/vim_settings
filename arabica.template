@@ -92,7 +92,7 @@ PopupNotification    -> Todo
 Comment              -> Comment
 
 Constant             -> Constant
-String               -> String
+String               -> Constant
 Character            -> Constant
 Number               -> Constant
 Boolean              -> Constant
@@ -248,7 +248,6 @@ Directory            darkcyan          none
 Title                magenta           none
 Comment              darkblue          none              bold
 Constant             magenta           none
-String               green             none
 Identifier           darkcyan          none
 Ignore               grey              none
 PreProc              magenta           none              bold
@@ -265,7 +264,6 @@ Directory            cyan              none
 Title                magenta           none
 Comment              comment           none
 Constant             lightmagenta      none
-String               green             none
 Identifier           cyan              none
 Ignore               espresso          none
 PreProc              magenta           none
