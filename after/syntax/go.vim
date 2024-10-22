@@ -1,7 +1,6 @@
 hi clear goParamType
 hi def link goParamType Type
 
-hi clear goFunctionReturn
 hi clear goParamName
 
 hi clear goFunctionCall
@@ -21,9 +20,8 @@ let s:start_match = '\zs'
 let s:end_match = '\ze'
 let s:any = '.*'
 
-" example asdf:  int32,
-let propA = "'" .. s:identifier .. s:end_match .. ':' .. s:white_space .. "'"
-exec 'syn match goFieldPropA ' .. propA
+" example asdf:  int32,   matches `asdf: `
+syn match goFieldPropA /\h\H\*\ze:\s\+/
 hi def link goFieldPropA Identifier
 "
 " let propB = "'" .. s:bol .. s:white_space .. s:identifier .. s:end_match .. s:any .. '[^,]' .. s:eol .. "'"

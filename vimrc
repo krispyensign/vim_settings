@@ -341,6 +341,9 @@ let g:OmniSharp_diagnostic_exclude_paths = [
     \]
 let g:OmniSharp_highlight_groups = {
     \ 'Keyword': 'Keyword',
+	\ 'LocalName': 'Special',
+	\ 'ParameterName': 'None',
+	\ 'FieldName': 'None',
 \}
 
 " {{{1 Vimspector
