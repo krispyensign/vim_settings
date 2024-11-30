@@ -301,6 +301,7 @@ let g:ale_set_balloons = 1 					" use balloons for hover information
 let g:ale_python_auto_pipenv = 1
 let g:ale_python_pylsp_auto_pipenv = 1
 let g:ale_python_mypy_auto_pipenv = 1
+let g:ale_python_mypy_options = '--strict'
 let g:ale_python_flake8_auto_pipenv = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
 let g:ale_go_golangci_lint_package = 1
