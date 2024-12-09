@@ -33,7 +33,11 @@ install-vimspector: install
 		${HOME}/.vim/plugged/vimspector/configurations/linux/go/ \
 		${HOME}/.vim/plugged/vimspector/gadgets/macos/.gadgets.d/ \
 		${HOME}/.vim/plugged/vimspector/configurations/macos/go/
-	cd ${HOME}/.vim/plugged/vimspector/ && ./install_gadget.py --verbose --enable-python --enable-bash
+	cd ${HOME}/.vim/plugged/vimspector/ \
+		&& python install_gadget.py \
+			--verbose \
+			--enable-python \
+			--enable-bash
 	cp resources/go.gadgets.json ${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/go.json
 	cp resources/go.vimspector.json ${HOME}/.vim/plugged/vimspector/configurations/linux/go/default.json
 	cp resources/go.gadgets.json ${HOME}/.vim/plugged/vimspector/gadgets/macos/.gadgets.d/go.json
