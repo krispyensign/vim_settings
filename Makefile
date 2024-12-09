@@ -9,11 +9,7 @@ install:
 		${HOME}/.vim/autoload/ \
 		${HOME}/.vim/after/ \
 		${HOME}/.vim/scripts/ \
-		${HOME}/.vim/colors/ \
-		${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/ \
-		${HOME}/.vim/plugged/vimspector/configurations/linux/go/ \
-		${HOME}/.vim/plugged/vimspector/gadgets/macos/.gadgets.d/ \
-		${HOME}/.vim/plugged/vimspector/configurations/macos/go/
+		${HOME}/.vim/colors/
 	cp vimrc ${HOME}/.vimrc
 	cp -fr after/* ${HOME}/.vim/after/
 	cp -fr scripts/* ${HOME}/.vim/scripts/
@@ -32,6 +28,11 @@ install-plugins: install
 
 .PHONY: install-vimspector
 install-vimspector: install
+	mkdir -p \
+		${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/ \
+		${HOME}/.vim/plugged/vimspector/configurations/linux/go/ \
+		${HOME}/.vim/plugged/vimspector/gadgets/macos/.gadgets.d/ \
+		${HOME}/.vim/plugged/vimspector/configurations/macos/go/
 	cd ${HOME}/.vim/plugged/vimspector/ && ./install_gadget.py --verbose --enable-python --enable-bash
 	cp resources/go.gadgets.json ${HOME}/.vim/plugged/vimspector/gadgets/linux/.gadgets.d/go.json
 	cp resources/go.vimspector.json ${HOME}/.vim/plugged/vimspector/configurations/linux/go/default.json
