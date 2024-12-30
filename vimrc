@@ -271,9 +271,9 @@ let g:netrw_fastbrowse = 0
 let g:netrw_special_syntax = 1
 
 " {{{1 ALE
+set omnifunc=ale#completion#OmniFunc
 inoremap <C-space> <C-X><C-O>
 nnoremap <F12> :ALEGoToDefinition -split
-set omnifunc=ale#completion#OmniFunc
 " {{{2 completion and fixing
 let g:ale_completion_enabled = 1 	" enable ale completion
 let g:ale_completion_autoimport = 1 " allow ale to auto import if needed
@@ -356,7 +356,7 @@ imap <script><silent><nowait><expr> <C-h> codeium#AcceptNextWord()
 imap <script><silent><nowait><expr> <C-j> codeium#AcceptNextLine()
 imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
 imap <C-,>   <Cmd>call codeium#CycleCompletions(-1)<CR>
-imap <C-x>   <Cmd>call codeium#Clear()<CR>
+imap <C-X>   <Cmd>call codeium#Clear()<CR>
 
 " {{{1 Generic Tags
 " FZF / tag completion
