@@ -23,7 +23,6 @@ set shiftwidth=4									" shifts should also display as 4
 set sessionoptions-=folds,buffers					" don't try to store buggy stuff in a session
 set hlsearch										" enable highlighting during search
 set listchars=eol:⏎,tab:▸\ ,trail:␠,nbsp:⎵,space:.	" set whitespace chars
-set completeopt=menuone,popup,noinsert,noselect		" use popup instead of preview
 set showfulltag										" show tag context in popup
 set nobackup										" no swaps or backups
 set nowritebackup									" no swaps or backups
@@ -65,7 +64,6 @@ Plug 'jackielii/vim-gomod', { 'for' : ['gomod', 'gosum'] }
 Plug 'OmniSharp/omnisharp-vim'
 
 " {{{2 AI
-Plug 'github/copilot.vim', { 'on': 'Copilot' }
 Plug 'Exafunction/codeium.vim', { 'branch': 'main', 'on': 'Codeium' }
 
 " {{{2 navigation plugins
@@ -272,12 +270,14 @@ let g:netrw_special_syntax = 1
 
 " {{{1 ALE
 set omnifunc=ale#completion#OmniFunc
+set completeopt=menu,menuone,preview,popup,noselect,noinsert
 inoremap <C-space> <C-X><C-O>
 nnoremap <F12> :ALEGoToDefinition -split
 " {{{2 completion and fixing
+
 let g:ale_completion_enabled = 1 	" enable ale completion
 let g:ale_completion_autoimport = 1 " allow ale to auto import if needed
-let g:ale_completion_delay = 1000 	" delay some before running completion
+let g:ale_completion_delay = 200 	" delay some before running completion
 let g:ale_lsp_suggestions = 1 		" allow lsp suggestion
 let g:ale_disable_lsp = 0 			" always enable lsp
 let g:ale_fix_on_save = 1 			" attempt to run fixers on save
@@ -351,12 +351,9 @@ let g:OmniSharp_highlight_groups = {
 let g:vimspector_enable_mappings = 'HUMAN'
 
 " {{{1 Codeium
+let g:codeium_disable_bindings = 1
 imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-imap <script><silent><nowait><expr> <C-h> codeium#AcceptNextWord()
-imap <script><silent><nowait><expr> <C-j> codeium#AcceptNextLine()
-imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
-imap <C-,>   <Cmd>call codeium#CycleCompletions(-1)<CR>
-imap <C-X>   <Cmd>call codeium#Clear()<CR>
+let g:codeium_no_map_tab = 1
 
 " {{{1 Generic Tags
 " FZF / tag completion
