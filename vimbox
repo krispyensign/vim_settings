@@ -1,8 +1,12 @@
 #!/bin/bash
 
+vimbox_setup() {
+	mkdir -p "$HOME/go/pkg"
+	xhost +"local:podman@"
+}
+
 vimbox() {
 	dname=$(basename "$(pwd)")
-	mkdir -p "$HOME/go/pkg"
 	podman run \
 			-e DISPLAY \
 			--net host \

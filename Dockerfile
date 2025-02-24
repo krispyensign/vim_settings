@@ -16,6 +16,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	&& apt install -y --no-install-recommends \
 		python3-dev \
 		python3-setuptools \
+		openssh-client\
 		make \
 		universal-ctags \
 		python-is-python3 \
