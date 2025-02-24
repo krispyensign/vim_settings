@@ -15,13 +15,6 @@ install:
 	cp -fr scripts/* ${HOME}/.vim/scripts/
 	cp -fr colors/* ${HOME}/.vim/colors/
 
-.PHONY: build-gobox
-build-gobox:
-	DOCKER_BUILDKIT=1 docker build --target gobox -t gobox .
-	docker images | grep gobox | sed -E 's/[ ]+/,/g' | rev | cut -d',' -f1 | rev
-	cp vimbox ${HOME}/.vim/vimbox
-	@echo 'Remember to "source ~/.vim/vimbox" when ready to use'
-
 .PHONY: install-plugins
 install-plugins: install
 	vim +PlugUpdate +qall

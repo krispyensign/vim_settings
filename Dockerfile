@@ -1,79 +1,4 @@
-######################################################################################################################
-FROM debian:unstable-slim AS base
-
-ENV PATH="${PATH}:/root/bin"
-
-# install vim and python and other dev tools
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	rm -f /etc/apt/apt.conf.d/docker-clean \
-	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
-	&& apt update \
-	&& apt install -y --no-install-recommends \
-		python3-dev \
-		make \
-		gcc \
-		libtool-bin \
-		libncurses-dev \
-		pip \
-		python-is-python3 \
-		python3-docutils \
-		ca-certificates \
-		openssl \
-		curl \
-		wget \
-		openssh-client \
-		autoconf \
-		automake \
-		pkg-config \
-		manpages \
-		python3-setuptools \
-		git \
-		jq \
-		zsh \
-		ripgrep \
-		vim \
-		man-db \
-		less
-
-# install zsh
-ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
-RUN sh install.sh --unattended \
-	&& echo 'set -o vi' >> /root/.zshrc \
-	&& rm install.sh
-RUN chsh -s /usr/bin/zsh root
-
-# default to zsh
-ENV SHELL=/usr/bin/zsh
-SHELL ["/usr/bin/zsh", "-c"]
-CMD ["/usr/bin/zsh"]
-
-######################################################################################################################
-FROM base AS vimbox-setup
-
-# install ctags
-ADD https://github.com/universal-ctags/ctags.git /ctags/
-RUN cd /ctags \
-	&& ls -alh \
-	&& ./autogen.sh \
-	&& ./configure --prefix=/usr/local \
-	&& make \
-	&& make install
-
-VOLUME /ctags
-
-# install vimspector
-ADD https://github.com/puremourning/vimspector.git /root/.vim/plugged/vimspector/
-RUN cd ${HOME}/.vim/plugged/vimspector/ && ./install_gadget.py --verbose --enable-python --enable-bash
-
-# download plugins and run setups
-ADD vimrc /root/.vimrc
-RUN vim +PlugUpdate +qall
-ADD . /settings/
-RUN cd /settings/ && make install
-
-######################################################################################################################
-FROM base AS gobox
+FROM debian:unstable-slim
 
 ARG cert_location=/usr/local/share/ca-certificates
 ENV PATH="${PATH}:/usr/local/go/bin:/root/go/bin"
@@ -81,13 +6,33 @@ ENV GOSUMDB="off"
 ENV GOPROXY="direct"
 ENV GIT_SSL_NO_VERIFY=true
 
-# install latest go
+# install vim and python and other dev tools
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
 	rm -f /etc/apt/apt.conf.d/docker-clean \
 	&& echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
 	&& apt update \
-	&& apt install -y --no-install-recommends golang
+	&& apt upgrade -y \
+	&& apt install -y --no-install-recommends \
+		python3-dev \
+		python3-setuptools \
+		make \
+		universal-ctags \
+		python-is-python3 \
+		python3-docutils \
+		curl \
+		wget \
+		git \
+		jq \
+		zsh \
+		ripgrep \
+		vim-gtk3 \
+		man-db \
+		less \
+		alire \
+		gfortran \
+		golang \
+		chicken-bin
 
 # install go certs
 RUN openssl s_client -showcerts -connect proxy.golang.org:443 </dev/null 2>/dev/null \
@@ -104,6 +49,8 @@ RUN openssl s_client -showcerts -connect proxy.golang.org:443 </dev/null 2>/dev/
  		| openssl x509 -outform PEM >  ${cert_location}/mvdan.cc.crt \
  	&& update-ca-certificates
 
+VOLUME /root/go/bin /root/.cache/go-build
+
 # install go dev packages
 RUN go install -v -x -a gotest.tools/gotestsum@latest
 RUN go install -v -x -a github.com/alexec/junit2html@latest
@@ -114,9 +61,20 @@ RUN golangci_version=$(curl --silent "https://api.github.com/repos/golangci/gola
 	&& curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
 		| sh -s -- -b ${golangci_path} ${golangci_version}
 
-VOLUME /root/go/bin /root/.cache/go-build
+# install uv
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-COPY --from=vimbox-setup /root/.vimrc /root/.vimrc
-COPY --from=vimbox-setup /root/.vim /root/.vim
-COPY --from=vimbox-setup /usr/local/* /usr/local/*
-COPY --from=vimbox-setup /root/bin /root/bin
+# install zsh
+ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
+RUN sh install.sh --unattended \
+	&& echo 'set -o vi' >> /root/.zshrc \
+	&& rm install.sh
+
+# install all the plugins
+ADD . /settings/
+WORKDIR /settings/
+RUN make install install-plugins install-vimspector
+
+WORKDIR /root/
+ENTRYPOINT ["/usr/bin/zsh"]
+CMD ["--login"]

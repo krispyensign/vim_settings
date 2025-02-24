@@ -1,17 +1,19 @@
 #!/bin/bash
 
-function gobox {
+vimbox() {
 	dname=$(basename "$(pwd)")
-	docker run \
+	mkdir -p "$HOME/go/pkg"
+	podman run \
+			-e DISPLAY \
+			--net host \
 			--rm -it \
-			--name gobox-"$dname" \
+			--name vimbox-"$dname" \
 			--workdir "/src/" \
 			-v ".:/src/" \
 			-v "$HOME/.ssh:/root/.ssh" \
 			-v "$HOME/go/pkg:/root/go/pkg" \
-			-v /var/run/docker.sock:/var/run/docker.sock \
 			--mount=type=volume,target=/root/go/bin \
 			--mount=type=volume,target=/root/.cache/go-build \
 			--ulimit nofile=10000:10000 \
-			gobox vim $@
+			workspace-local:latest $@
 }
