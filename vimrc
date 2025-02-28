@@ -316,7 +316,7 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \	'cs': ['omnisharp'],
 \	'go': ['golangci-lint', 'gofmt', 'gobuild', 'gopls'],
-\	'python': ['flake8', 'mypy', 'pylsp', 'pycodestyle', 'pydocstyle', 'pylint', 'ruff'],
+\	'python': ['mypy', 'pylsp', 'ruff'],
 \}
 
 " {{{1 OmniSharp
