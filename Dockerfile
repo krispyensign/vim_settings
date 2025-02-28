@@ -65,6 +65,13 @@ RUN golangci_version=$(curl --silent "https://api.github.com/repos/golangci/gola
 # install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
+# install ada_language_server
+ARG BASE=https://github.com/AdaCore/ada_language_server/releases/download/
+ARG ARCH=linux-x64
+ARG VERSION=26.0.202502240
+ADD ${BASE}${VERSION}/als-${VERSION}-${ARCH}.tar.gz als.tar.gz
+RUN tar --strip-components=5 -C /usr/local/bin -xvzf als.tar.gz
+
 # install zsh
 ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh install.sh
 RUN sh install.sh --unattended \
