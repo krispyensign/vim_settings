@@ -196,7 +196,7 @@ nnoremap <leader>n :15Lexplore<CR>
 nnoremap <leader>p :pclose<CR>
 nnoremap <leader>h :helpclose<CR>
 nnoremap <leader>i :set invlist<CR>
-nnoremap <leader>ff :set guifont=Menlo-Regular:h12
+nnoremap <leader>ff :set guifont=Menlo-Regular:h10
 
 " {{{1 Fugitive
 nnoremap <leader>s :call ToggleGstatus()<CR>

@@ -5,7 +5,7 @@ vimbox_setup() {
 	xhost +"local:podman@"
 }
 
-vimbox() {
+vrun() {
 	dname=$(basename "$(pwd)")
 	podman run \
 			-e DISPLAY \
@@ -19,5 +19,5 @@ vimbox() {
 			--mount=type=volume,target=/root/go/bin \
 			--mount=type=volume,target=/root/.cache/go-build \
 			--ulimit nofile=10000:10000 \
-			workspace-local:latest $@
+			workspace-local:latest "$@"
 }
