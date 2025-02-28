@@ -298,11 +298,11 @@ let g:ale_detail_to_floating_preview = 1 	" use floating preview of details
 let g:ale_set_balloons = 1 					" use balloons for hover information
 
 " {{{2 language
-let g:ale_python_auto_pipenv = 1
-let g:ale_python_pylsp_auto_pipenv = 1
-let g:ale_python_mypy_auto_pipenv = 1
+let g:ale_python_auto_uv = 1
+let g:ale_python_pylsp_auto_uv = 1
+let g:ale_python_ruff_uv = 1
+let g:ale_python_mypy_auto_uv = 1
 let g:ale_python_mypy_options = '--strict'
-let g:ale_python_flake8_auto_pipenv = 1
 let g:ale_go_golangci_lint_options = '--timeout 10m'
 let g:ale_go_golangci_lint_package = 1
 let g:ale_linters_ignore = {
@@ -311,7 +311,7 @@ let g:ale_linters_ignore = {
 let g:ale_fixers = {
 \	'*': ['remove_trailing_lines', 'trim_whitespace'],
 \	'go': ['gofmt', 'goimports', 'gopls'],
-\   'python': ['black', 'ruff', 'yapf'],
+\   'python': ['ruff'],
 \}
 let g:ale_linters = {
 \	'cs': ['omnisharp'],
