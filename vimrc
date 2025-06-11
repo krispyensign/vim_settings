@@ -317,6 +317,7 @@ let g:ale_linters = {
 \	'cs': ['omnisharp'],
 \	'go': ['golangci-lint', 'gofmt', 'gobuild', 'gopls'],
 \	'python': ['mypy', 'pylsp', 'ruff'],
+\   'ada': ['adals'],
 \}
 
 " {{{1 OmniSharp
