@@ -86,6 +86,7 @@ Plug 'mnishz/colorscheme-preview.vim'
 Plug 'guns/xterm-color-table.vim'
 Plug 'vim-scripts/hexHighlight.vim'
 Plug 'lifepillar/vim-colortemplate'
+Plug 'jaxbot/semantic-highlight.vim'
 
 " {{{2 themes
 Plug 'junegunn/seoul256.vim'
@@ -130,11 +131,27 @@ let g:go_highlight_variable_declarations = 1
 let g:fortran_more_precise = 1
 let g:fortran_free_source = 1
 
+" {{{3 ada
+let g:ada_standard_types = 1
+
 " {{{2 configure themes
 let g:seoul256_background = 234
 let g:airline_theme = 'simple'
 let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_enable_italic = 1
+
+" {{{2 semantic highlighting overrides
+let g:semanticBlacklistOverride = {
+\    'ada': [
+\        'procedure', 'begin', 'is', 'end', 'function', 'return', 'constant',
+\        'if', 'then', 'raise', 'type', 'record', 'with', 'pragma', 'use',
+\        'renames', 'package', 'Float', 'String', 'Program_Error', 'for',
+\        'declare', 'loop', 'in', 'array', 'range', 'with', 'private',
+\        'protected', 'and', 'in', 'out', 'of', 'True', 'False', 'body', 'use'
+\    ]
+\}
+
+let g:semanticEnableFileTypes = ['ada']
 
 " {{{2 syntax helpers
 func! SynStack()
