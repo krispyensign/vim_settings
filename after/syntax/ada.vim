@@ -25,6 +25,10 @@ hi def link afterAdaSimpleDefOf Type
 syn match afterAdaSimpleDef /:\@<=\s\+\w\+\ze;/ contains=adaOperator
 hi def link afterAdaSimpleDef Type
 
+" matches : xxxx :=
+syn match afterAdaSimpleDef /:\@<=\s\+\w\+\s\+\ze:=/ contains=adaOperator
+hi def link afterAdaSimpleDef Type
+
 " matches : (zzzz.)+ xxxx;
 syn match afterAdaSimpleDef /\(:\s\+\(\w\+\.\)\+\)\@<=\w\+\ze;/ contains=adaOperator
 hi def link afterAdaSimpleDef Type
